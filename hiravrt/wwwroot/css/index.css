@@ -1,0 +1,25 @@
+﻿section#first {
+    grid-column: 1;
+}
+
+section#second {
+    grid-column: 3;
+}
+
+section#third {
+    grid-column: 5;
+}
+
+section#fourth {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    grid-column: span 3;
+    grid-row: 2;
+}
+
+section#fifth {
+    grid-column: 5;
+    grid-row: 2;
+}

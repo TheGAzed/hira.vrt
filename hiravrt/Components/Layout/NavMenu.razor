@@ -1,0 +1,43 @@
+﻿@using hiravrt.Controllers
+
+@inject NavigationManager nm
+@inject MainController mc
+
+@{
+    bool isHome = nm.Uri.EndsWith("/");
+    if (isHome) {
+        <header id="major">
+            <a id="majorlogo" href="@mc.HomeC.Home()">
+                <img id="mainlogo" src="img/logo_one.svg" alt="HIRA.VRT logo">
+            </a>
+
+            <a id="majortitle" href="@mc.HomeC.Home()">
+                <h1>HIRA.VRT</h1>
+            </a>
+
+            <nav id="major">
+                <a class="NAVIGATION" href="@mc.HomeC.Home()">HOME</a>
+                <a class="NAVIGATION" href="@mc.SettingsC.Settings()">SETTINGS</a>
+                <a class="NAVIGATION" href="@mc.HomeC.About()">ABOUT</a>
+                <a class="NAVIGATION" href="@mc.HomeC.Contact()">CONTACT</a>
+            </nav>
+        </header>
+    } else {
+        <header id="minor">
+            <a id="minorlogo" href="@mc.HomeC.Home()">
+                <img id="sublogo" src="img/logo_one.svg" alt="HIRA.VRT logo">
+            </a>
+            <a id="minortitle" href="@mc.HomeC.Home()">
+                <h1>HIRA.VRT</h1>
+            </a>
+
+            <nav id="minor">
+                <a class="NAVIGATION" href="@mc.HomeC.Home()">HOME</a>
+                <a class="NAVIGATION" href="@mc.SettingsC.Settings()">SETTINGS</a>
+                <a class="NAVIGATION" href="@mc.HomeC.About()">ABOUT</a>
+                <a class="NAVIGATION" href="@mc.HomeC.Contact()">CONTACT</a>
+            </nav>
+        </header>
+    }
+}
+

@@ -1,0 +1,46 @@
+﻿@using hiravrt.Controllers
+
+@page "/"
+
+<PageTitle>Home</PageTitle>
+@rendermode InteractiveServer
+
+@inject MainController mc
+
+<link rel="stylesheet" href="css/index.css" />
+
+<article id="GAMEMODE" class="PAGE">
+	<h2 class="SUBTITLE">PICK A GAME MODE</h2>
+	<section id="first">
+		<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
+			<img class="GAMEMODE" src="img/game/either-or-mode.svg" alt="HIRA.VRT gamemode with either or choice" />
+		</a>
+	</section>
+
+	<section id="second">
+		<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
+			<img class="GAMEMODE" src="img/game/pick-one-mode.svg" alt="HIRA.VRT gamemode with four answers to pick">
+		</a>
+	</section>
+
+	<section id="third">
+		<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
+			<img class="GAMEMODE" src="img/game/keyboard-mode.svg" alt="HIRA.VRT gamemode with keyboard guessing">
+		</a>
+	</section>
+</article>
+
+<article id="ABOUT" class="PAGE">
+	<h2 class="SUBTITLE">ABOUT US</h2>
+	<section id="fourth">
+		<p>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, minus tenetur, dolores repellat dignissimos voluptatibus deserunt quis dolor illo molestiae, illum expedita distinctio officiis est quaerat ipsa ipsum atque sapiente?
+			Quibusdam deleniti ipsa nostrum iusto, pariatur maxime voluptas perferendis explicabo nobis cupiditate non quae error ipsum similique fuga! Non esse repellendus a et, at voluptate est tenetur. Sunt, possimus pariatur.
+			Iure ea praesentium cumque aliquid blanditiis odio sit tempore voluptatibus, consequuntur libero! Quibusdam asperiores exercitationem harum necessitatibus, aut officia dolore sapiente dolorem molestias impedit modi quos. Nostrum ad necessitatibus consectetur?
+		</p>
+		<a onclick="location.href='assets/html/about.html'" class="CONFIRM" id="readmorebutton">READ MORE</a>
+	</section>
+	<section id="fifth">
+		<img id="sublogo" src="img/logo_two.svg" alt="HIRA.VRT secondary logo">
+	</section>
+</article>

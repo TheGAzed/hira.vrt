@@ -1,0 +1,81 @@
+﻿@page "/eitheror"
+
+@using hiravrt.Controllers
+@using hiravrt.Models.Game
+
+@rendermode InteractiveServer
+@inject MainController mc
+
+<PageTitle>EitherOr</PageTitle>
+
+@code {
+	static int baseColor = 0x1B1B1B;
+	static (int, int)[] color = new[] { (baseColor, baseColor), (baseColor, baseColor) };
+	static string romanjiType = "";
+}
+
+@{
+	async Task checkClick(char syllable) {
+		int i = mc.GameC.EitherOrModel.CorrectIndex;
+		color[i] = mc.GameC.LookUp.Color(syllable);
+		if (mc.GameC.EitherOrModel.IsCorrect(syllable)) {
+			romanjiType += "-correct";
+		} else {
+			romanjiType += "-wrong";
+		}
+
+		await Task.Delay(1500);
+
+		mc.GameC.UpdateModel(mc.GameC.EitherOrModel, syllable);
+
+		color[i] = (baseColor, baseColor);
+		romanjiType = "";
+	}
+	async Task checkKey(KeyboardEventArgs e) {
+		switch (e.Key) {
+			case "ArrowLeft":
+			case "a": {
+				await checkClick(mc.GameC.EitherOrModel.Guesses[0]);
+				break;
+			}
+			case "ArrowRight":
+			case "d": {
+				int i = mc.GameC.EitherOrModel.CorrectIndex;
+				await checkClick(mc.GameC.EitherOrModel.Guesses[1]);
+				break;
+			}
+		}
+	}
+}
+
+<link rel="stylesheet" href="css/game/EitherOr.css" />
+
+@if (mc.SettingsC.Guesses.Count < mc.GameC.EitherOrModel.MinGuessCount) {
+	<article class="PAGE">
+		<h2>ERROR: FEW SYLLABLES TO PLAY GAME</h2>
+		<h2>GO TO SETTINGS TO INCREASE SYLLABLE COUNT</h2>
+	</article>
+} else {
+	<article class="PAGE">
+		<h2 id="score">@mc.SettingsC.Guesses.Count</h2>
+		<section id="first">
+			<style>
+				a#firstpick {
+					background: linear-gradient(45deg, #@color[0].Item1.ToString("x") 0%, #@color[0].Item2.ToString("x") 100%);
+				}
+
+				a#secondpick {
+					background: linear-gradient(45deg, #@color[1].Item1.ToString("x") 0%, #@color[1].Item2.ToString("x") 100%);
+				}
+			</style>
+			<a id="firstpick" @onclick="async () => await checkClick(mc.GameC.EitherOrModel.Guesses[0])" @onkeydown="checkKey" @onkeydown:preventDefault>
+				<p lang="ja" id="firstguess">@mc.GameC.EitherOrModel.Guesses[0]</p>
+			</a>
+
+			<a id="secondpick" @onclick="async () => await checkClick(mc.GameC.EitherOrModel.Guesses[1])" @onkeydown="checkKey" @onkeydown:preventDefault>
+				<p lang="ja" id="secondguess">@mc.GameC.EitherOrModel.Guesses[1]</p>
+			</a>
+			<p id="romanji@(romanjiType)">@mc.GameC.LookUp.Latin(mc.GameC.EitherOrModel.CurrentGuess)</p>
+		</section>
+	</article>
+}
