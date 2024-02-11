@@ -8,15 +8,15 @@ namespace hiravrt.Models.Game {
 
 		public KeyboardModel(LookUp lookUp) : base(lookUp) {}
 
-		public override bool IsCorrect(char syllable) {
+		public override bool IsCorrect(string syllable) {
 			return CurrentGuessLatin.CompareTo(GuessLatin.ToString() + syllable) == 0;
 		}
 
-		public bool IsValid(char syllable) {
+		public bool IsValid(string syllable) {
 			return CurrentGuessLatin.StartsWith(GuessLatin.ToString() + syllable);
 		}
 
-		public override void NextMove(char syllable) {
+		public override void NextMove(string syllable) {
 			if (!IsValid(syllable)) {
 				WrongGuesses.Add(CurrentGuess);
 			} else if (IsCorrect(syllable)) {
@@ -39,7 +39,7 @@ namespace hiravrt.Models.Game {
 		}
 
 		protected override void NextGuess() {
-			char temp = CurrentGuess;
+			string temp = CurrentGuess;
 			FirstGuess();
 		}
 

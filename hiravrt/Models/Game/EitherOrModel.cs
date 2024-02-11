@@ -5,17 +5,17 @@ namespace hiravrt.Models.Game
 {
 	public class EitherOrModel : GameModel
 	{
-		public char[] Guesses { get; set; } = new char[2];
+		public string[] Guesses { get; set; } = new string[2];
 		public int CorrectIndex { get; set; } = default;
 
 		public EitherOrModel(LookUp lookUp) : base(lookUp) { }
 
-		public override bool IsCorrect(char syllable) {
-			return CurrentGuess == syllable;
+		public override bool IsCorrect(string syllable) {
+			return CurrentGuess.Equals(syllable);
 		}
 
 		protected override void NextGuess() {
-			Random random = new Random();
+			Random random = new();
 			RemainingGuesses.Remove(Guesses[1 - CorrectIndex]);
 
 			int size = RemainingGuesses.Count;
@@ -29,7 +29,7 @@ namespace hiravrt.Models.Game
 			CurrentGuess = Guesses[j];
 		}
 
-		public override void NextMove(char syllable) {
+		public override void NextMove(string syllable) {
 			if (IsCorrect(syllable)) {
 				CorrectGuesses.Add(syllable);
 				Score += LookUp.Points(syllable);
@@ -43,7 +43,7 @@ namespace hiravrt.Models.Game
 		protected override void FirstGuess() {
 			if (RemainingGuesses.Count < MinGuessCount) { return; }
 
-			Random random = new Random();
+			Random random = new();
 			int size = RemainingGuesses.Count;
 
 			int i = random.Next(size);
@@ -61,7 +61,7 @@ namespace hiravrt.Models.Game
 		}
 
 		public override void Reset() {
-			Guesses = new char[2];
+			Guesses = new string[2];
 			CorrectIndex = default;
 			base.Reset();
 		}

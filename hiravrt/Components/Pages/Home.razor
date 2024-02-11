@@ -10,24 +10,27 @@
 <link rel="stylesheet" href="css/index.css" />
 
 <article id="GAMEMODE" class="PAGE">
-	<h2 class="SUBTITLE">PICK A GAME MODE</h2>
+	<h2 class="SUBTITLE">PICK A GAMEMODE</h2>
 	<section id="first">
-		<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
+		<a class="GAMEMODE" href="@mc.GameC.EitherOr()" title="Either Or Gamemode">
 			<img class="GAMEMODE" src="img/game/either-or-mode.svg" alt="HIRA.VRT gamemode with either or choice" />
 		</a>
 	</section>
+	@{
+		/*
+			<section id="second">
+				<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
+					<img class="GAMEMODE" src="img/game/pick-one-mode.svg" alt="HIRA.VRT gamemode with four answers to pick">
+				</a>
+			</section>
 
-	<section id="second">
-		<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
-			<img class="GAMEMODE" src="img/game/pick-one-mode.svg" alt="HIRA.VRT gamemode with four answers to pick">
-		</a>
-	</section>
-
-	<section id="third">
-		<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
-			<img class="GAMEMODE" src="img/game/keyboard-mode.svg" alt="HIRA.VRT gamemode with keyboard guessing">
-		</a>
-	</section>
+			<section id="third">
+				<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
+					<img class="GAMEMODE" src="img/game/keyboard-mode.svg" alt="HIRA.VRT gamemode with keyboard guessing">
+				</a>
+			</section>
+		 */
+	}
 </article>
 
 <article id="ABOUT" class="PAGE">

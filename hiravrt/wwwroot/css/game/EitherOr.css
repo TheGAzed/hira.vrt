@@ -86,7 +86,7 @@ a#secondpick:hover {
 
 p#firstguess, p#secondguess {
     text-align: center;
-    font-size: 15em;
+    font-size: 9em;
     cursor: pointer;
     user-select: none;
 }

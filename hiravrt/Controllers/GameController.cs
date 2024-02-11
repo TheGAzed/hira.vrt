@@ -16,7 +16,7 @@ namespace hiravrt.Controllers {
 		public string PickFour() => "/pickfour";
 		public string Keyboard() => "/keyboard";
 
-		public void UpdateModel(GameModel model, char syllable) {
+		public void UpdateModel(GameModel model, string syllable) {
 			model.NextMove(syllable);
 		}
 	}

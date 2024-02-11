@@ -3,6 +3,7 @@
 namespace hiravrt.Controllers {
 	public class HomeController {
 		public string Home() => "/";
+		public string Github() => "https://github.com/TheGAzed/hira.vrt";
 		public string About() => "/about";
 		public string Contact() => "/contact";
 		public string Privacy() => "/privacy";
