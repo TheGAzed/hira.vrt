@@ -24,7 +24,7 @@ a.NAVIGATION:first-child {
 a.CONFIRM {
 	all: unset;
 	display: grid;
-	height: 3.5em;
+	min-height: 3.5em;
 	width: 10em;
 	cursor: pointer;
 	background-color: #1B1B1B;
@@ -107,6 +107,7 @@ a#minorlogo {
 	justify-content: center;
 	cursor: pointer;
 	width: 50%;
+	outline: none;
 }
 
 a#majortitle {

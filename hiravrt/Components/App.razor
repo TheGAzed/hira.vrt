@@ -3,24 +3,15 @@
 @inject MainController mc
 @inject NavigationManager nm
 
-@{
-	bool isHome = nm.Uri.EndsWith("/");
-	string htmlId = "";
-	if (isHome) {
-		htmlId = "major";
-	} else {
-		htmlId = "minor";
-	}
-}
 <!DOCTYPE html>
-<html lang="en" id="@htmlId">
+<html lang="en">
 	<head>
 		<meta charset="utf-16" />
 		<meta charset="SHIFT_JIS">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title> - HIRA.VRT</title>
 		<link rel="stylesheet" href="css/defaults.css" />
-		<link rel="stylesheet" href="css/components.css" />
+		<link rel="stylesheet" href="css/page.css" />
 	</head>
 
 	<body>
@@ -28,7 +19,7 @@
 
 		<footer>
 			<div class="FOOTERINFO">
-				<a class="FOOTERLINKS" href="@mc.HomeC.Github()" target="_blank">GITHUB</a>
+				<a class="FOOTERLINKS" href="@mc.HomeC.Github()" target="_blank" title="LINK TO GITHUB PROJECT">GITHUB</a>
 					<small class="FOOTERDIVIDER">|</small>
 				<a class="FOOTERLINKS" href="@mc.HomeC.Privacy()">PRIVACY POLICY</a>
 					<small class="FOOTERDIVIDER">|</small>

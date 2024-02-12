@@ -1,80 +1,85 @@
 ﻿@font-face {
-    font-family: 'Roboto-Regular';
-    src: url(../font/roboto/Roboto-Regular.ttf);
+	font-family: 'Roboto-Regular';
+	src: url(../font/roboto/Roboto-Regular.ttf);
 }
 
 * {
-    font-family: 'Roboto-Regular';
+	font-family: 'Roboto-Regular';
 }
 
 hgroup {
-    display: flex;
-    flex-direction: column;
-    grid-column-start: 1;
-    grid-column-end: -1;
-    margin-bottom: 1em;
-    margin-top: 1em;
+	display: flex;
+	flex-direction: column;
+	grid-column-start: 1;
+	grid-column-end: -1;
+	margin-bottom: 1em;
+	margin-top: 1em;
 }
 
 h1, h2, h3, h4, p {
-    all: unset;
-    color: #D9D9D9;
-    grid-column-start: 1;
-    grid-column-end: -1;
+	all: unset;
+	color: #D9D9D9;
+	grid-column-start: 1;
+	grid-column-end: -1;
 }
 
 h1 {
-    align-self: self-end;
-    font-size: 2.5em;
-    font-weight: bold;
-    cursor: pointer;
+	align-self: self-end;
+	font-size: 2.5em;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 h2 {
-    font-weight: bold;
-    font-size: 2em;
+	font-weight: bold;
+	font-size: 2em;
 }
 
 h3 {
-    font-size: 1.5em;
-    font-weight: 400;
+	font-size: 1.5em;
+	font-weight: 400;
 }
 
 h4 {
-    font-size: 1em;
-    font-weight: 300;
+	font-size: 1em;
+	font-weight: 300;
 }
 
 p {
-    text-align: justify;
-    text-overflow: ellipsis;
-    font-size: 1em;
-    white-space: nowrap;
-    overflow: hidden;
-    height: fit-content;
-    width: 100%;
-    text-wrap: wrap;
+	text-align: justify;
+	text-overflow: ellipsis;
+	font-size: 1em;
+	white-space: nowrap;
+	overflow: hidden;
+	height: fit-content;
+	width: 100%;
+	text-wrap: wrap;
+}
+
+html {
+	min-height: 100%;
+	display: grid;
 }
 
 main {
-    height: inherit;
+	height: -webkit-fill-available;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #D9D9D9;
-    justify-content: space-between;
+	margin: 0;
+	padding: 0;
+	background-color: #D9D9D9;
+	justify-content: space-between;
 
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+	display: flex;
+	flex-direction: column;
+	min-height: inherit;
 }
 
 footer {
-    display: flex;
-    flex-direction: column;
-    background-color: #1B1B1B;
-    justify-content: space-evenly;
-    min-height: 3em;
+	display: flex;
+	flex-direction: column;
+	background-color: #1B1B1B;
+	justify-content: space-evenly;
+	min-height: 3em;
 }

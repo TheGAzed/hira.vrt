@@ -10,6 +10,8 @@ section#first, section#second {
 span#external-media {
 	display: flex;
 	grid-template-columns: repeat(3, 1fr);
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
 
 a.external-media-button {
@@ -32,4 +34,10 @@ a.external-media-button:hover {
 
 a.external-media-button:active {
 	transform: scale(0.95);
+}
+
+img.external-media-button-icon {
+	height: inherit;
+	width: auto;
+
 }
