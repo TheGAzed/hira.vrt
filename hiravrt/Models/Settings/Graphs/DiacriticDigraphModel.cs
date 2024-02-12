@@ -3,6 +3,14 @@
 namespace hiravrt.Models.Settings.Graphs
 {
 	public class DiacriticDigraphModel(SettingsController controller) : GraphModel(5, 3, controller) {
+		protected override void ConsonantsToggleState() {
+			IEnumerable<ToggleState> distinct = RowToggle.Distinct();
+
+			if (distinct.Count() == 1) {
+				ConsonantsToggle = distinct.First();
+			}
+		}
+
 		protected override ToggleState[] SetColToggle(int columns) {
 			return Enumerable.Repeat(ToggleState.OFF, columns).ToArray();
 		}

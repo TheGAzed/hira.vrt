@@ -25,6 +25,7 @@ namespace hiravrt.Models.Settings.Graphs
 		public int Columns { get; }
 		public ToggleState[] RowToggle { get; set; } = [];
 		public ToggleState[] ColToggle { get; set; } = [];
+		public ToggleState ConsonantsToggle { get; set; }
 
 		public GraphModel(int rows, int columns, SettingsController controller)
 		{
@@ -38,6 +39,8 @@ namespace hiravrt.Models.Settings.Graphs
 
 			Graphs = SetGraphs(rows, columns);
 			Guesses = SetGuesses(rows * columns);
+
+			ConsonantsToggleState();
 		}
 
 		abstract protected Graph[,] SetGraphs(int rows, int columns);
@@ -52,13 +55,12 @@ namespace hiravrt.Models.Settings.Graphs
 			RowToggle[row] = (ToggleState)(-(int)RowToggle[row]);
 
 			ToggleState toggle = RowToggle[row];
-			for (int col = 0; col < Columns; col++)
-			{
+			for (int col = 0; col < Columns; col++) {
 				if (Graphs[row, col].Toggle == 0) continue;
-				if (Graphs[row, col].Toggle != toggle)
-				{
+				if (Graphs[row, col].Toggle != toggle) {
 					Toggle(row, col);
 					ColToggleState(col);
+					ConsonantsToggleState();
 				}
 			}
 			NotifyController();
@@ -78,6 +80,7 @@ namespace hiravrt.Models.Settings.Graphs
 				{
 					Toggle(row, col);
 					RowToggleState(row);
+					ConsonantsToggleState();
 				}
 			}
 			NotifyController();
@@ -93,6 +96,7 @@ namespace hiravrt.Models.Settings.Graphs
 
 			RowToggleState(row);
 			ColToggleState(col);
+			ConsonantsToggleState();
 
 			NotifyController();
 		}
@@ -125,6 +129,8 @@ namespace hiravrt.Models.Settings.Graphs
 			else ColToggle[column] = ToggleState.ON;
 		}
 
+		protected abstract void ConsonantsToggleState();
+
 		private void Toggle(int row, int col) {
 			Graphs[row, col].Toggle = (ToggleState)(-(int)Graphs[row, col].Toggle);
 
@@ -133,8 +139,7 @@ namespace hiravrt.Models.Settings.Graphs
 			else Guesses.Remove(temp);
 		}
 
-		private void NotifyController()
-		{
+		private void NotifyController() {
 			Controller.Notify();
 		}
 	}

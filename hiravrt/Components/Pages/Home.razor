@@ -10,7 +10,10 @@
 <link rel="stylesheet" href="css/index.css" />
 
 <article id="GAMEMODE" class="PAGE">
-	<h2 class="SUBTITLE">PICK A GAMEMODE</h2>
+	<hgroup>
+        <h2 class="SUBTITLE">PICK A GAMEMODE</h2>
+    </hgroup>
+
 	<section id="first">
 		<a class="GAMEMODE" href="@mc.GameC.EitherOr()" title="Either Or Gamemode">
 			<img class="GAMEMODE" src="img/game/either-or-mode.svg" alt="HIRA.VRT gamemode with either or choice" />
@@ -34,14 +37,15 @@
 </article>
 
 <article id="ABOUT" class="PAGE">
-	<h2 class="SUBTITLE">ABOUT US</h2>
+	<hgroup>
+        <h2>ABOUT HIRA.VRT</h2>
+    </hgroup>
+	
 	<section id="fourth">
 		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, minus tenetur, dolores repellat dignissimos voluptatibus deserunt quis dolor illo molestiae, illum expedita distinctio officiis est quaerat ipsa ipsum atque sapiente?
-			Quibusdam deleniti ipsa nostrum iusto, pariatur maxime voluptas perferendis explicabo nobis cupiditate non quae error ipsum similique fuga! Non esse repellendus a et, at voluptate est tenetur. Sunt, possimus pariatur.
-			Iure ea praesentium cumque aliquid blanditiis odio sit tempore voluptatibus, consequuntur libero! Quibusdam asperiores exercitationem harum necessitatibus, aut officia dolore sapiente dolorem molestias impedit modi quos. Nostrum ad necessitatibus consectetur?
+			HIRA.VRT began as a university bachelor thesis with the aim of creating an interactive web applications for learning Japanese hiragana syllabary. The main idea behind its creation was to make learning hiragana characters easier and accessible to a broader spectrum of users. The application itself was designed using Microsoft's Blazor framework in order to improve the user experience. It is designed for people who want to learn the characters through a quiz game, where the user must correctly guess from a set of randomly picked hiragana syllables. This form of learning aims to enhance the learning experience through replayability and the human desire for improvement.
 		</p>
-		<a onclick="location.href='assets/html/about.html'" class="CONFIRM" id="readmorebutton">READ MORE</a>
+		<a href="@mc.HomeC.About()" class="CONFIRM" id="readmorebutton">READ MORE</a>
 	</section>
 	<section id="fifth">
 		<img id="sublogo" src="img/logo_two.svg" alt="HIRA.VRT secondary logo">

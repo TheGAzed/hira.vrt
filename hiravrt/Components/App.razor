@@ -1,9 +1,19 @@
 ﻿@using hiravrt.Controllers
 
 @inject MainController mc
+@inject NavigationManager nm
 
+@{
+	bool isHome = nm.Uri.EndsWith("/");
+	string htmlId = "";
+	if (isHome) {
+		htmlId = "major";
+	} else {
+		htmlId = "minor";
+	}
+}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="@htmlId">
 	<head>
 		<meta charset="utf-16" />
 		<meta charset="SHIFT_JIS">

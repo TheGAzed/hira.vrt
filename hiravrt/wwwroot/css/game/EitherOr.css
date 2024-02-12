@@ -91,7 +91,7 @@ p#firstguess, p#secondguess {
     user-select: none;
 }
 
-h2#score {
+h3#score {
     grid-column: 3;
     justify-self: center;
 }

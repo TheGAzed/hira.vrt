@@ -1,0 +1,35 @@
+﻿a.NAVIGATION:nth-child(3) {
+	background-color: #D9D9D9;
+	color: #1B1B1B;
+}
+
+section#first, section#second {
+	grid-column: span 5;
+}
+
+span#external-media {
+	display: flex;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+a.external-media-button {
+	all: unset;
+	cursor: pointer;
+	padding: 1em;
+	width: 1.5em;
+	height: 1.5em;
+	justify-self: center;
+	border-radius: 0.25em;
+	border: 0.188em solid #1B1B1B;
+	margin-right: 0.5em;
+}
+
+a.external-media-button:hover {
+	border-color: #D9D9D9;
+	filter: invert(94%) sepia(0%) saturate(47%) hue-rotate(215deg) brightness(93%) contrast(95%);
+	background-color: #D9D9D9;
+}
+
+a.external-media-button:active {
+	transform: scale(0.95);
+}

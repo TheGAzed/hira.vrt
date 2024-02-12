@@ -1,1037 +1,5 @@
-﻿@page "/settings"
-
-@using hiravrt.Controllers
-@using hiravrt.Models.Game
-@using hiravrt.Models.Settings.Graphs
-
-@rendermode InteractiveServer
-@inject MainController mc
-
-<PageTitle>Settings</PageTitle>
-
-@{
-	Dictionary<ToggleState, string> keyValuePairs = new() {
-		{ ToggleState.ON, "on" }, { ToggleState.OFF, "off" }, { ToggleState.UNSET, "empty" },
-	};
-
-	string getToggle(int row, int col) {
-		ToggleState result = mc.SettingsC.GetCurrentGraph().Graphs[row, col].Toggle;
+﻿@page "/settings"@using hiravrt.Controllers@using hiravrt.Models.Game@using hiravrt.Models.Settings.Graphs@rendermode InteractiveServer@inject MainController mc<PageTitle>Settings</PageTitle>@{
+	Dictionary<ToggleState, string> keyValuePairs = new() {		{ ToggleState.ON, "on" }, { ToggleState.OFF, "off" }, { ToggleState.UNSET, "empty" },	};	string getToggle(int row, int col) {		ToggleState result = mc.SettingsC.GetCurrentGraph().Graphs[row, col].Toggle;		return keyValuePairs[result];	}	string getToggleRow(int row) {		ToggleState result = mc.SettingsC.GetCurrentGraph().RowToggle[row];		return keyValuePairs[result];	}	string getToggleCol(int col) {		ToggleState result = mc.SettingsC.GetCurrentGraph().ColToggle[col];		return keyValuePairs[result];	}	string getToggleConsonants() {
+		ToggleState result = mc.SettingsC.GetCurrentGraph().ConsonantsToggle;
 		return keyValuePairs[result];
-	}
-
-	string getToggleRow(int row) {
-		ToggleState result = mc.SettingsC.GetCurrentGraph().RowToggle[row];
-		return keyValuePairs[result];
-	}
-
-	string getToggleCol(int col) {
-		ToggleState result = mc.SettingsC.GetCurrentGraph().ColToggle[col];
-		return keyValuePairs[result];
-	}
-
-	string getToggleDiacritic() {
-		if (mc.SettingsC.IsDiacritic()) {
-			return "off";
-		}
-
-		return "on";
-	}
-}
-
-<link rel="stylesheet" href="css/pages/Settings.css" />
-@{
-	/*
-	<article class="PAGE">
-	<h2 id="title">HIRAGANA GRID</h2>
-	<h3>SYLLABLE COUNT: @mc.SettingsC.Guesses.Count</h3>
-	<section id="first">
-		<table id="toggle">
-			<tbody>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-column-@getToggleCol(1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(1)">A</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-column-@getToggleCol(2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(2)">I</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-column-@getToggleCol(3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(3)">U</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-column-@getToggleCol(4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(4)">E</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-column-@getToggleCol(5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(5)">O</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(0)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(0)">&#x25b7;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(0, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(0, 1)">&#x3042;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(0, 2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(0, 2)">&#x3044;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(0, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(0, 3)">&#x3046;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(0, 4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(0, 4)">&#x3048;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(0, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(0, 5)">&#x304a;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(1)">K</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(1, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(1, 1)">&#x304b;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(1, 2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(1, 2)">&#x304d;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(1, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(1, 3)">&#x304f;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(1, 4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(1, 4)">&#x3051;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(1, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(1, 5)">&#x3053;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(2)">S</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(2, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(2, 1)">&#x3055;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(2, 2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(2, 2)">&#x3057;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(2, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(2, 3)">&#x3059;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(2, 4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(2, 4)">&#x305b;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(2, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(2, 5)">&#x305d;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(3)">T</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(3, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(3, 1)">&#x305f;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(3, 2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(3, 2)">&#x3061;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(3, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(3, 3)">&#x3064;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(3, 4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(3, 4)">&#x3066;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(3, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(3, 5)">&#x3068;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(4)">N</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(4, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(4, 1)">&#x306a;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(4, 2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(4, 2)">&#x306b;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(4, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(4, 3)">&#x306c;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(4, 4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(4, 4)">&#x306d;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(4, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(4, 5)">&#x306e;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(5)">H</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(5, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(5, 1)">&#x306f;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(5, 2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(5, 2)">&#x3072;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(5, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(5, 3)">&#x3075;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(5, 4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(5, 4)">&#x3078;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(5, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(5, 5)">&#x307b;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(6)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(6)">M</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(6, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(6, 1)">&#x307e;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(6, 2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(6, 2)">&#x307f;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(6, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(6, 3)">&#x3080;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(6, 4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(6, 4)">&#x3081;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(6, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(6, 5)">&#x3082;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(7)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(7)">Y</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(7, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(7, 1)">&#x3084;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(7, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(7, 3)">&#x3086;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(7, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(7, 5)">&#x3088;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(8)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(8)">R</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(8, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(8, 1)">&#x3089;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(8, 2)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(8, 2)">&#x308a;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(8, 3)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(8, 3)">&#x308b;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(8, 4)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(8, 4)">&#x308c;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(8, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(8, 5)">&#x308d;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(9)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(9)">W</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(9, 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(9, 1)">&#x308f;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(9, 5)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(9, 5)">&#x3092;</a>
-					</td>
-				</tr>
-				<tr class="hirarow">
-					<td class="hiradata">
-						<a class="toggle-button-@getToggle(10, 0)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(10, 0)">&#x3093;</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-row-@getToggleRow(10)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(10)">N</a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-					<td class="hiradata">
-						<a class="toggle-button-empty"></a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</section>
-</article>
-	 */
-}
-
-<article class="PAGE">
-	<h2 id="title">HIRAGANA GRID</h2>
-	<h3>SYLLABLE COUNT: @mc.SettingsC.Guesses.Count</h3>
-	@switch (mc.SettingsC.CurrGraphState) {
-		case GraphState.MONOGRAPH : {
-			<section id="first">
-				<nav id="graphs">
-					<a class="GRAPH-ON">MONOGRAPHS</a>
-					<a class="GRAPH-OFF" @onclick="() => mc.SettingsC.NextGraph()">DIGRAPHS</a>
-				</nav>
-				<table id="toggle">
-					@{
-						string[] columnLatin = { "A", "I", "U", "E", "O" };
-						string[] firstRowLatin = { "K", "S", "T", "N", "H"};
-						string[] secondRowLatin = { "M", "Y", "R", "W", "N" };
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-empty"></a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">
-									&#x25b2;
-								</a>
-							</td>
-
-
-							@for (int i = 0; i < columnLatin.Length; i++) {
-								int x = i;
-								<td class="hiradata">
-									<a class="toggle-button-column-@getToggleCol(x + 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(x + 1)">
-										@columnLatin[x]
-									</a>
-								</td>
-							}
-						</tr>
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-empty"></a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-empty"></a>
-							</td>
-
-
-							@for (int i = 1; i < mc.SettingsC.GetCurrentGraph().Columns; i++) {
-								int x = i;
-								string kana = mc.SettingsC.GetCurrentGraph().Graphs[0, x].Kana;
-								<td class="hiradata">
-									<a class="toggle-button-@getToggle(0, x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(0, x)">
-										@kana
-									</a>
-								</td>
-							}
-						</tr>
-					}
-					@for (int i = 0; i < firstRowLatin.Length; i++) {
-						int x = i;
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								@if (mc.SettingsC.GetCurrentGraph().Graphs[x + 1, 0].Toggle == ToggleState.UNSET) {
-									<a class="toggle-button-empty"></a>
-								} else {
-									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, 0].Kana;
-									<a class="toggle-button-@getToggle(x + 1, 0)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, 0)">
-										@kana
-									</a>
-								}
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-row-@getToggleRow(x + 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x + 1)">
-									@firstRowLatin[x]
-								</a>
-							</td>
-
-							@for (int j = 1; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-								int y = j;
-
-								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, y].Kana;
-								<td class="hiradata">
-									<a class="toggle-button-@getToggle(x + 1, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, y)">
-										@kana
-									</a>
-								</td>
-							}
-						</tr>
-					}
-					<tr class="hirarow">
-						@for (int i = 0; i < columnLatin.Length; i++) {
-							<td class="hiradata">
-								<a class="toggle-button-empty"></a>
-							</td>
-						}
-					</tr>
-					@for (int i = 0; i < secondRowLatin.Length; i++) {
-						int x = i + firstRowLatin.Length;
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								@if (mc.SettingsC.GetCurrentGraph().Graphs[x + 1, 0].Toggle == ToggleState.UNSET) {
-									<a class="toggle-button-empty"></a>
-								} else {
-									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, 0].Kana;
-									<a class="toggle-button-@getToggle(x + 1, 0)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, 0)">
-										@kana
-									</a>
-								}
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-row-@getToggleRow(x + 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x + 1)">
-									@secondRowLatin[i]
-								</a>
-							</td>
-
-							@for (int j = 1; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-								int y = j;
-
-								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, y].Kana;
-								<td class="hiradata">
-									<a class="toggle-button-@getToggle(x + 1, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, y)">
-										@kana
-									</a>
-								</td>
-							}
-						</tr>
-					}
-				</table>
-			</section>
-			break;
-		}
-		case GraphState.DIGRAPH : {
-			<section id="first">
-				<nav id="graphs">
-					<a class="GRAPH-OFF" @onclick="() => mc.SettingsC.NextGraph()">MONOGRAPHS</a>
-					<a class="GRAPH-ON">DIGRAPHS</a>
-				</nav>
-				<table id="toggle">
-					@{
-						string[] columnLatin = { "YA", "YU", "YO" };
-						string[] rowLatin = { "K", "S", "T", "N", "H", "M", "R" };
-						string[] firstRowLatin = { "K", "S", "T", "N", "H" };
-						string   secondRowLatin = "M";
-						string   thirdRowLatin = "R";
-
-						<tr class="hirarow">
-
-							<td class="hiradata">
-								<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">
-									&#x25b2;
-								</a>
-							</td>
-
-							@for (int i = 0; i < columnLatin.Length; i++) {
-								int y = i;
-
-								<td class="hiradata">
-									<a class="toggle-button-column-@getToggleCol(y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(y)">
-										@columnLatin[y]
-									</a>
-								</td>
-							}
-						</tr>
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-empty"></a>
-							</td>
-
-							@for (int i = 1; i < columnLatin.Length; i++) {
-								<td class="hiradata">
-									<a class="toggle-button-empty"></a>
-								</td>
-							}
-						</tr>
-
-						for (int i = 0; i < firstRowLatin.Length; i++) {
-							int x = i;
-
-							<tr class="hirarow">
-								<td class="hiradata">
-									<a class="toggle-button-row-@getToggleRow(x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x)">
-										@firstRowLatin[x]
-									</a>
-								</td>
-
-								@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-									int y = j;
-
-									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;
-									<td class="hiradata">
-										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
-											@kana
-											</a>
-									</td>
-								}
-							</tr>
-						}
-
-						<tr class="hirarow">
-							@for (int i = 0; i < columnLatin.Length; i++) {
-								<td class="hiradata">
-									<a class="toggle-button-empty"></a>
-								</td>
-							}
-						</tr>
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-row-@getToggleRow(firstRowLatin.Length)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(firstRowLatin.Length)">
-									@secondRowLatin
-								</a>
-							</td>
-
-							@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-								int y = j;
-
-								string kana = mc.SettingsC.GetCurrentGraph().Graphs[firstRowLatin.Length, y].Kana;
-								<td class="hiradata">
-									<a class="toggle-button-@getToggle(firstRowLatin.Length, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(firstRowLatin.Length, y)">
-										@kana
-									</a>
-								</td>
-							}
-						</tr>
-
-						<tr class="hirarow">
-							@for (int i = 0; i < columnLatin.Length; i++) {
-								<td class="hiradata">
-									<a class="toggle-button-empty"></a>
-								</td>
-							}
-						</tr>
-
-						int last = firstRowLatin.Length + secondRowLatin.Length;
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-row-@getToggleRow(last)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(last)">
-									@thirdRowLatin
-								</a>
-							</td>
-
-							@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-								int y = j;
-
-								string kana = mc.SettingsC.GetCurrentGraph().Graphs[last, y].Kana;
-								<td class="hiradata">
-									<a class="toggle-button-@getToggle(last, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(last, y)">
-										@kana
-									</a>
-								</td>
-							}
-						</tr>
-
-						for (int i = 0; i < 2; i++) {
-							<tr class="hirarow">
-								@for (int j = 0; j < columnLatin.Length; j++) {
-									<td class="hiradata">
-										<a class="toggle-button-empty"></a>
-									</td>
-								}
-							</tr>
-						}
-					}
-				</table>
-			</section>
-			break;
-		}
-		case GraphState.DIACRITIC_MONOGRAPG : {
-			<section id="first">
-				<nav id="graphs">
-					<a class="GRAPH-ON">MONOGRAPHS</a>
-					<a class="GRAPH-OFF" @onclick="() => mc.SettingsC.NextGraph()">DIGRAPHS</a>
-				</nav>
-				<table id="toggle">
-					<tr class="toggle">
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">
-								&#x25b2;
-							</a>
-						</td>
-						@{
-							string[] colLatin = { "A", "I", "U", "E", "O" };
-						}
-						@for (int i = 0; i < colLatin.Length; i++) {
-							int y = i;
-							<td class="hiradata">
-								<a class="toggle-button-column-@getToggleCol(y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(y)">@colLatin[y]</a>
-							</td>
-						}
-					</tr>
-					<tr class="hirarow">
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3042;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3044;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3046;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3048;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x304a;</a>
-						</td>
-					</tr>
-					@{
-						string[] firstRowLatin = { "G", "Z", "D" }, secondRowLatin = { "B", "P" };
-					}
-					@for (int i = 0; i < firstRowLatin.Length; i++) {
-						int x = i;
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-empty"></a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-row-@getToggleRow(x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x)">
-									@firstRowLatin[x]
-								</a>
-							</td>
-
-							@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-								int y = j;
-
-								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;
-								<td class="hiradata">
-									<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
-										@kana
-									</a>
-								</td>
-							}
-						</tr>
-					}
-					
-					<tr class="hirarow">
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-row-unset">N</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x306a;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x306b;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x306c;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x306d;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x306e;</a>
-						</td>
-					</tr>
-
-					@for (int i = 0; i < secondRowLatin.Length; i++) {
-						int x = i;
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-empty"></a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-row-@getToggleRow(x + firstRowLatin.Length)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x + firstRowLatin.Length)">
-									@secondRowLatin[x]
-								</a>
-							</td>
-
-							@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-								int y = j;
-
-								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + firstRowLatin.Length, y].Kana;
-								<td class="hiradata">
-									<a class="toggle-button-@getToggle(x + firstRowLatin.Length, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + firstRowLatin.Length, y)">
-										@kana
-									</a>
-								</td>
-							}
-						</tr>
-					}
-					<tr class="hirarow">
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-row-unset">M</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x307e;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x307f;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3080;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3081;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3082;</a>
-						</td>
-					</tr>
-					<tr class="hirarow">
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-row-unset">Y</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3084;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3086;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3088;</a>
-						</td>
-					</tr>
-					<tr class="hirarow">
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-row-unset">R</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3089;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x308a;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x308b;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x308c;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x308d;</a>
-						</td>
-					</tr>
-					<tr class="hirarow">
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-row-unset">W</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x308f;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3090;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3091;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3092;</a>
-						</td>
-					</tr>
-					<tr class="hirarow">
-						<td class="hiradata">
-							<a class="toggle-button-unset">&#x3093;</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-row-unset">N</a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-						<td class="hiradata">
-							<a class="toggle-button-empty"></a>
-						</td>
-					</tr>
-				</table>
-			</section>
-			break;
-		}
-		case GraphState.DIACRITIC_DIGRAPH : {
-			<section id="first">
-				<nav id="graphs">
-					<a class="GRAPH-OFF" @onclick="() => mc.SettingsC.NextGraph()">MONOGRAPHS</a>
-					<a class="GRAPH-ON">DIGRAPHS</a>
-				</nav>
-				<table id="toggle">
-					@{
-						string[] columnLatin = { "YA", "YU", "YO" };
-						string[] firstRowLatin = { "G", "Z", "D" };
-						string[] secondRowLatin  = { "B", "P" };
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">
-									&#x25b2;
-								</a>
-							</td>
-
-							@for (int i = 0; i < columnLatin.Length; i++) {
-								int y = i;
-
-								<td class="hiradata">
-									<a class="toggle-button-column-@getToggleCol(y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(y)">
-										@columnLatin[y]
-									</a>
-								</td>
-							}
-						</tr>
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-empty"></a>
-							</td>
-
-							@for (int i = 1; i < columnLatin.Length; i++) {
-								<td class="hiradata">
-									<a class="toggle-button-empty"></a>
-								</td>
-							}
-						</tr>
-
-						for (int i = 0; i < firstRowLatin.Length; i++) {
-							int x = i;
-
-							<tr class="hirarow">
-								<td class="hiradata">
-									<a class="toggle-button-row-@getToggleRow(x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x)">
-										@firstRowLatin[x]
-									</a>
-								</td>
-
-								@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-									int y = j;
-
-									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;
-									<td class="hiradata">
-										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
-											@kana
-										</a>
-									</td>
-								}
-							</tr>
-						}
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-row-unset">N</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x306b;&#x3083;
-								</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x306b;&#x3085;
-								</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x306b;&#x3087;
-								</a>
-							</td>
-						</tr>
-
-						for (int i = 0; i < secondRowLatin.Length; i++) {
-							int x = i + firstRowLatin.Length;
-
-							<tr class="hirarow">
-								<td class="hiradata">
-									<a class="toggle-button-row-@getToggleRow(x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x)">
-										@secondRowLatin[i]
-									</a>
-								</td>
-
-								@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {
-									int y = j;
-
-									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;
-									<td class="hiradata">
-										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
-											@kana
-										</a>
-									</td>
-								}
-							</tr>
-						}
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-row-unset">M</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x307f;&#x3083;
-								</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x307f;&#x3085;
-								</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x307f;&#x3087;
-								</a>
-							</td>
-						</tr>
-
-						<tr class="hirarow">
-							@for (int i = 0; i < columnLatin.Length; i++) {
-								<td class="hiradata">
-									<a class="toggle-button-empty"></a>
-								</td>
-							}
-						</tr>
-
-						<tr class="hirarow">
-							<td class="hiradata">
-								<a class="toggle-button-row-unset">R</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x308a;&#x3083;
-								</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x308a;&#x3085;
-								</a>
-							</td>
-
-							<td class="hiradata">
-								<a class="toggle-button-unset">
-									&#x308a;&#x3087;
-								</a>
-							</td>
-						</tr>
-
-						for (int i = 0; i < 2; i++) {
-							<tr class="hirarow">
-								@for (int j = 0; j < columnLatin.Length; j++) {
-									<td class="hiradata">
-										<a class="toggle-button-empty"></a>
-									</td>
-								}
-							</tr>
-						}
-					}
-				</table>
-			</section>
-			break;
-		}
-	}
-</article>
+	}}<link rel="stylesheet" href="css/pages/Settings.css" /><article class="PAGE">	<h2>HIRAGANA GRID</h2>	<h3>SYLLABLE COUNT: @mc.SettingsC.Guesses.Count</h3>	@switch (mc.SettingsC.CurrGraphState) {		case GraphState.MONOGRAPH : {			<section id="first">				<nav id="syllable-graph-types">					<a class="GRAPH-ON">MONOGRAPHS</a>					<a class="GRAPH-OFF" @onclick="() => mc.SettingsC.NextGraph()">DIGRAPHS</a>				</nav>				<table id="toggle-button">					@{						string[] columnLatin = { "A", "I", "U", "E", "O" };						string[] firstRowLatin = { "K", "S", "T", "N", "H"};						string[] secondRowLatin = { "M", "Y", "R", "W", "N" };						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">									&#x25b2;								</a>							</td>                            <td class="toggle-button-data" title="DISABLE CONSONANT HIRAGANA">                                <a class="toggle-button-array-@getToggleConsonants()" @onclick="() => {									for(int i = 1; i < mc.SettingsC.GetCurrentGraph().Rows; i++) {										int y =  i;										mc.SettingsC.GetCurrentGraph().ToggleRow(i);									}								}">                                    c:                                </a>                            </td>							@for (int i = 0; i < columnLatin.Length; i++) {								int x = i;								<td class="toggle-button-data">									<a class="toggle-button-array-@getToggleCol(x + 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(x + 1)">										@columnLatin[x]									</a>								</td>							}						</tr>						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-empty"></a>							</td>                            <td class="toggle-button-data" title="DISABLE VOWEL-ONLY HIRAGANA">                                <a class="toggle-button-array-@getToggleRow(0)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(0)">                                    v:                                </a>                            </td>							@for (int i = 1; i < mc.SettingsC.GetCurrentGraph().Columns; i++) {								int x = i;								string kana = mc.SettingsC.GetCurrentGraph().Graphs[0, x].Kana;								<td class="toggle-button-data">									<a class="toggle-button-@getToggle(0, x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(0, x)">										@kana									</a>								</td>							}						</tr>					}					@for (int i = 0; i < firstRowLatin.Length; i++) {						int x = i;						<tr class="toggle-button-row">							<td class="toggle-button-data">								@if (mc.SettingsC.GetCurrentGraph().Graphs[x + 1, 0].Toggle == ToggleState.UNSET) {									<a class="toggle-button-empty"></a>								} else {									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, 0].Kana;									<a class="toggle-button-@getToggle(x + 1, 0)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, 0)">										@kana									</a>								}							</td>							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleRow(x + 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x + 1)">									@firstRowLatin[x]								</a>							</td>							@for (int j = 1; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {								int y = j;								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, y].Kana;								<td class="toggle-button-data">									<a class="toggle-button-@getToggle(x + 1, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, y)">										@kana									</a>								</td>							}						</tr>					}					<tr class="toggle-button-row">						@for (int i = 0; i < columnLatin.Length; i++) {							<td class="toggle-button-data">								<a class="toggle-button-empty"></a>							</td>						}					</tr>					@for (int i = 0; i < secondRowLatin.Length; i++) {						int x = i + firstRowLatin.Length;						<tr class="toggle-button-row">							<td class="toggle-button-data">								@if (mc.SettingsC.GetCurrentGraph().Graphs[x + 1, 0].Toggle == ToggleState.UNSET) {									<a class="toggle-button-empty"></a>								} else {									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, 0].Kana;									<a class="toggle-button-@getToggle(x + 1, 0)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, 0)">										@kana									</a>								}							</td>							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleRow(x + 1)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x + 1)">									@secondRowLatin[i]								</a>							</td>							@for (int j = 1; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {								int y = j;								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, y].Kana;								<td class="toggle-button-data">									<a class="toggle-button-@getToggle(x + 1, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, y)">										@kana									</a>								</td>							}						</tr>					}				</table>			</section>			break;		}		case GraphState.DIGRAPH : {			<section id="first">				<nav id="syllable-graph-types">					<a class="GRAPH-OFF" @onclick="() => mc.SettingsC.NextGraph()">MONOGRAPHS</a>					<a class="GRAPH-ON">DIGRAPHS</a>				</nav>				<table id="toggle-button">					@{						string[] columnLatin = { "YA", "YU", "YO" };						string[] rowLatin = { "K", "S", "T", "N", "H", "M", "R" };						string[] firstRowLatin = { "K", "S", "T", "N", "H" };						string   secondRowLatin = "M";						string   thirdRowLatin = "R";						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">									&#x25b2;								</a>							</td>							@for (int i = 0; i < columnLatin.Length; i++) {								int y = i;								<td class="toggle-button-data">									<a class="toggle-button-array-@getToggleCol(y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(y)">										@columnLatin[y]									</a>								</td>							}						</tr>						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => {									for(int i = 0; i < mc.SettingsC.GetCurrentGraph().Rows; i++) {										int y =  i;										mc.SettingsC.GetCurrentGraph().ToggleRow(i);									}								}">									c:								</a>							</td>							@for (int i = 1; i < columnLatin.Length; i++) {								<td class="toggle-button-data">									<a class="toggle-button-empty"></a>								</td>							}						</tr>						for (int i = 0; i < firstRowLatin.Length; i++) {							int x = i;							<tr class="toggle-button-row">								<td class="toggle-button-data">									<a class="toggle-button-array-@getToggleRow(x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x)">										@firstRowLatin[x]									</a>								</td>								@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {									int y = j;									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;									<td class="toggle-button-data">										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">											@kana											</a>									</td>								}							</tr>						}						<tr class="toggle-button-row">							@for (int i = 0; i < columnLatin.Length; i++) {								<td class="toggle-button-data">									<a class="toggle-button-empty"></a>								</td>							}						</tr>						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleRow(firstRowLatin.Length)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(firstRowLatin.Length)">									@secondRowLatin								</a>							</td>							@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {								int y = j;								string kana = mc.SettingsC.GetCurrentGraph().Graphs[firstRowLatin.Length, y].Kana;								<td class="toggle-button-data">									<a class="toggle-button-@getToggle(firstRowLatin.Length, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(firstRowLatin.Length, y)">										@kana									</a>								</td>							}						</tr>						<tr class="toggle-button-row">							@for (int i = 0; i < columnLatin.Length; i++) {								<td class="toggle-button-data">									<a class="toggle-button-empty"></a>								</td>							}						</tr>						int last = firstRowLatin.Length + secondRowLatin.Length;						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleRow(last)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(last)">									@thirdRowLatin								</a>							</td>							@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {								int y = j;								string kana = mc.SettingsC.GetCurrentGraph().Graphs[last, y].Kana;								<td class="toggle-button-data">									<a class="toggle-button-@getToggle(last, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(last, y)">										@kana									</a>								</td>							}						</tr>						for (int i = 0; i < 2; i++) {							<tr class="toggle-button-row">								@for (int j = 0; j < columnLatin.Length; j++) {									<td class="toggle-button-data">										<a class="toggle-button-empty"></a>									</td>								}							</tr>						}					}				</table>			</section>			break;		}		case GraphState.DIACRITIC_MONOGRAPG : {			<section id="first">				<nav id="syllable-graph-types">					<a class="GRAPH-ON">MONOGRAPHS</a>					<a class="GRAPH-OFF" @onclick="() => mc.SettingsC.NextGraph()">DIGRAPHS</a>				</nav>				<table id="toggle-button">					<tr class="toggle">						<td class="toggle-button-data">							<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">								&#x25b2;							</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => {								for(int i = 0; i < mc.SettingsC.GetCurrentGraph().Rows; i++) {									int y =  i;									mc.SettingsC.GetCurrentGraph().ToggleRow(i);								}							}">								c:							</a>						</td>						@{							string[] colLatin = { "A", "I", "U", "E", "O" };						}						@for (int i = 0; i < colLatin.Length; i++) {							int y = i;							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleCol(y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(y)">@colLatin[y]</a>							</td>						}					</tr>					<tr class="toggle-button-row">						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-array-unset">v:</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3042;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3044;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3046;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3048;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x304a;</a>						</td>					</tr>					@{						string[] firstRowLatin = { "G", "Z", "D" }, secondRowLatin = { "B", "P" };					}					@for (int i = 0; i < firstRowLatin.Length; i++) {						int x = i;						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-empty"></a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleRow(x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x)">									@firstRowLatin[x]								</a>							</td>							@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {								int y = j;								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;								<td class="toggle-button-data">									<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">										@kana									</a>								</td>							}						</tr>					}										<tr class="toggle-button-row">						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-array-unset">N</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x306a;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x306b;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x306c;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x306d;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x306e;</a>						</td>					</tr>					@for (int i = 0; i < secondRowLatin.Length; i++) {						int x = i;						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-empty"></a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleRow(x + firstRowLatin.Length)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x + firstRowLatin.Length)">									@secondRowLatin[x]								</a>							</td>							@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {								int y = j;								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + firstRowLatin.Length, y].Kana;								<td class="toggle-button-data">									<a class="toggle-button-@getToggle(x + firstRowLatin.Length, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + firstRowLatin.Length, y)">										@kana									</a>								</td>							}						</tr>					}					<tr class="toggle-button-row">						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-array-unset">M</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x307e;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x307f;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3080;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3081;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3082;</a>						</td>					</tr>					<tr class="toggle-button-row">						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-array-unset">Y</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3084;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3086;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3088;</a>						</td>					</tr>					<tr class="toggle-button-row">						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-array-unset">R</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3089;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x308a;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x308b;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x308c;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x308d;</a>						</td>					</tr>					<tr class="toggle-button-row">						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-array-unset">W</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x308f;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3090;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3091;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3092;</a>						</td>					</tr>					<tr class="toggle-button-row">						<td class="toggle-button-data">							<a class="toggle-button-unset">&#x3093;</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-array-unset">N</a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>						<td class="toggle-button-data">							<a class="toggle-button-empty"></a>						</td>					</tr>				</table>			</section>			break;		}		case GraphState.DIACRITIC_DIGRAPH : {			<section id="first">				<nav id="syllable-graph-types">					<a class="GRAPH-OFF" @onclick="() => mc.SettingsC.NextGraph()">MONOGRAPHS</a>					<a class="GRAPH-ON">DIGRAPHS</a>				</nav>				<table id="toggle-button">					@{						string[] columnLatin = { "YA", "YU", "YO" };						string[] firstRowLatin = { "G", "Z", "D" };						string[] secondRowLatin  = { "B", "P" };						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">									&#x25b2;								</a>							</td>							@for (int i = 0; i < columnLatin.Length; i++) {								int y = i;								<td class="toggle-button-data">									<a class="toggle-button-array-@getToggleCol(y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleColumn(y)">										@columnLatin[y]									</a>								</td>							}						</tr>						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => {									for(int i = 0; i < mc.SettingsC.GetCurrentGraph().Rows; i++) {										int y =  i;										mc.SettingsC.GetCurrentGraph().ToggleRow(i);									}								}">									c:								</a>							</td>							@for (int i = 1; i < columnLatin.Length; i++) {								<td class="toggle-button-data">									<a class="toggle-button-empty"></a>								</td>							}						</tr>						for (int i = 0; i < firstRowLatin.Length; i++) {							int x = i;							<tr class="toggle-button-row">								<td class="toggle-button-data">									<a class="toggle-button-array-@getToggleRow(x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x)">										@firstRowLatin[x]									</a>								</td>								@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {									int y = j;									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;									<td class="toggle-button-data">										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">											@kana										</a>									</td>								}							</tr>						}						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-array-unset">N</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x306b;&#x3083;								</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x306b;&#x3085;								</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x306b;&#x3087;								</a>							</td>						</tr>						for (int i = 0; i < secondRowLatin.Length; i++) {							int x = i + firstRowLatin.Length;							<tr class="toggle-button-row">								<td class="toggle-button-data">									<a class="toggle-button-array-@getToggleRow(x)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(x)">										@secondRowLatin[i]									</a>								</td>								@for (int j = 0; j < mc.SettingsC.GetCurrentGraph().Columns; j++) {									int y = j;									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;									<td class="toggle-button-data">										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">											@kana										</a>									</td>								}							</tr>						}						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-array-unset">M</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x307f;&#x3083;								</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x307f;&#x3085;								</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x307f;&#x3087;								</a>							</td>						</tr>						<tr class="toggle-button-row">							@for (int i = 0; i < columnLatin.Length; i++) {								<td class="toggle-button-data">									<a class="toggle-button-empty"></a>								</td>							}						</tr>						<tr class="toggle-button-row">							<td class="toggle-button-data">								<a class="toggle-button-array-unset">R</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x308a;&#x3083;								</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x308a;&#x3085;								</a>							</td>							<td class="toggle-button-data">								<a class="toggle-button-unset">									&#x308a;&#x3087;								</a>							</td>						</tr>						for (int i = 0; i < 2; i++) {							<tr class="toggle-button-row">								@for (int j = 0; j < columnLatin.Length; j++) {									<td class="toggle-button-data">										<a class="toggle-button-empty"></a>									</td>								}							</tr>						}					}				</table>			</section>			break;		}	}</article>
