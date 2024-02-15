@@ -17,6 +17,11 @@ a.NAVIGATION {
 	text-align: center;
 	color: #D9D9D9;
 }
+
+a.NAVIGATION:hover {
+	text-decoration: underline;
+}
+
 a.NAVIGATION:first-child {
 	background-color: #1B1B1B;
 }
@@ -182,35 +187,6 @@ nav#minor {
 	margin: 0;
 }
 
-nav#syllable-graph-types {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-	margin-left: 2px;
-	margin-right: 2px;
-}
-
-a.GRAPH-OFF, a.GRAPH-ON {
-	all: unset;
-	user-select: none;
-	display: grid;
-	align-content: center;
-	height: 2.5em;
-	cursor: pointer;
-	text-align: center;
-}
-
-a.GRAPH-ON {
-	background-color: #353535;
-	color: #D9D9D9;
-}
-
-a.GRAPH-OFF {
-	background-color: #D9D9D9;
-	color: #353535;
-}
-
 
 /* article page*/
 article.PAGE {
@@ -226,9 +202,12 @@ article.PAGE:nth-of-type(even) {
 	background-color: #2b2b2b;
 }
 
-article.PAGE:nth-of-type(odd) h2, h3, h4 {
-		color: #2b2b2b;
-	}
+article.PAGE:nth-of-type(odd) h2,
+article.PAGE:nth-of-type(odd) h3, 
+article.PAGE:nth-of-type(odd) h4,
+article.PAGE:nth-of-type(odd) p {
+	color: #2b2b2b;
+}
 
 h3#score {
 	justify-self: end;
@@ -328,6 +307,10 @@ small.FOOTERDIVIDER {
 
 a.FOOTERLINKS {
 	cursor: pointer;
+}
+
+a.FOOTERLINKS:hover {
+	text-decoration: underline;
 }
 
 img#location {

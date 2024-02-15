@@ -1,97 +1,122 @@
 ﻿section#first {
-    grid-column: span 5;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+	grid-column: span 5;
+	display: grid;
+	grid-template-columns: 1fr 1em 1fr;
 
-    justify-items: center;
+	justify-items: center;
 }
 
 p#romanji, p#romanji-correct, p#romanji-wrong {
-    display: grid;
-    position: absolute;
-    justify-self: center;
-    justify-content: center;
-    align-self: center;
-    align-content: center;
-    color: #1B1B1B;
-    background: #D9D9D9;
-    border-radius: 5em;
-    border: 0.1em solid #D9d9d9;
-    width: 3em;
-    height: 3em;
-    font-size: 2.5em;
-    user-select: none;
+	display: grid;
+	position: absolute;
+	justify-self: center;
+	justify-content: center;
+	align-self: center;
+	align-content: center;
+	color: #1B1B1B;
+	background: #D9D9D9;
+	border-radius: 5em;
+	border: 0.1em solid #D9d9d9;
+	width: 3em;
+	height: 3em;
+	font-size: 2.5em;
+	user-select: none;
 }
 
 p#romanji-correct {
-    color: #D9D9D9;
-    background: #308658;
+	color: #D9D9D9;
+	background: #308658;
 }
 
 p#romanji-wrong {
-    color: #D9D9D9;
-    background: #863030;
+	color: #D9D9D9;
+	background: #863030;
 }
 
 a#firstpick, a#secondpick {
-    all: unset;
-    display: grid;
-    justify-content: center;
-    align-content: center;
-    width: 100%;
-    height: 420px;
-    cursor: pointer;
+	all: unset;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	width: 100%;
+	height: 420px;
+	cursor: pointer;
 }
 
 a#firstpick {
-    border-radius: 32px 0em 0em 32px;
-    border-right: 1em solid #D9D9D9;
+	border-radius: 32px 0em 0em 32px;
+	grid-column: 1;
 }
 
 a#secondpick {
-    border-radius: 0em 32px 32px 0em;
-    border-left: 1em solid #D9D9D9;
+	border-radius: 0em 32px 32px 0em;
+	grid-column-end: -1;
 }
 
 a#firstpick:hover {
-    /*
-    animation-duration: 500ms;
-    animation-name: slide-left;
-    animation-fill-mode: forwards;
-    */
+	animation-duration: 500ms;
+	animation-name: slide-left;
+	animation-fill-mode: forwards;
 }
 
 a#secondpick:hover {
-    /*
-    animation-duration: 500ms;
-    animation-name: slide-right;
-    animation-fill-mode: forwards;
-    */
+	animation-duration: 500ms;
+	animation-name: slide-right;
+	animation-fill-mode: forwards;
 }
 
-/*
 @keyframes slide-left {
-    to {
-        transform: translate(-0.5em);
-    }
+	to {
+		transform: translate(-0.5em);
+	}
 }
 
 @keyframes slide-right {
-    to {
-        transform: translate(0.5em);
-    }
+	to {
+		transform: translate(0.5em);
+	}
 }
-*/
+
 
 
 p#firstguess, p#secondguess {
-    text-align: center;
-    font-size: 9em;
-    cursor: pointer;
-    user-select: none;
+	text-align: center;
+	font-size: 9em;
+	cursor: pointer;
+	user-select: none;
+	color: #D9D9D9;
 }
 
-h3#score {
-    grid-column: 3;
-    justify-self: center;
+p#gamemode-statistics-score {
+	grid-column: 2;
+	text-align: center;
+	font-size: 1.5em;
+}
+
+div#gamemode-statistics {
+	display: grid;
+	grid-template-columns: 1fr 4em 1fr;
+	grid-column-start: 1;
+	grid-column-end: -1;
+
+	margin-bottom: 1em;
+}
+
+span#gamemode-statistics-wrong-guesses, span#gamemode-statistics-correct-guesses,
+span#gamemode-statistics-wrong-animate, span#gamemode-statistics-correct-animate {
+	height: 100%;
+}
+
+span#gamemode-statistics-wrong-guesses, span#gamemode-statistics-wrong-animate {
+	justify-self: end;
+	background: #863030;
+	grid-column: 1;
+	border-radius: 1em 0 0 1em;
+}
+
+span#gamemode-statistics-correct-guesses, span#gamemode-statistics-correct-animate {
+	justify-self: start;
+	background: #308658;
+	grid-column: 3;
+	border-radius: 0 1em 1em 0
 }

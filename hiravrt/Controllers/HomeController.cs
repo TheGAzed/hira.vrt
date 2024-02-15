@@ -8,5 +8,7 @@ namespace hiravrt.Controllers {
 		public string Contact() => "/contact";
 		public string Privacy() => "/privacy";
 		public string Terms() => "/terms";
-	}
+		public string GithubAccount() => "https://github.com/TheGAzed";
+		public string TwitterAccount() => "https://twitter.com/pipiklover";
+    }
 }

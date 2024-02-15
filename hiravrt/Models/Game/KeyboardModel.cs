@@ -2,11 +2,9 @@
 using System.Text;
 
 namespace hiravrt.Models.Game {
-	public class KeyboardModel : GameModel {
+	public class KeyboardModel(LookUp lookUp) : GameModel(lookUp, 1) {
 		private StringBuilder GuessLatin = new StringBuilder();
 		private string CurrentGuessLatin = "";
-
-		public KeyboardModel(LookUp lookUp) : base(lookUp) {}
 
 		public override bool IsCorrect(string syllable) {
 			return CurrentGuessLatin.CompareTo(GuessLatin.ToString() + syllable) == 0;
@@ -47,10 +45,6 @@ namespace hiravrt.Models.Game {
 			GuessLatin.Clear();
 			CurrentGuessLatin = "";
 			base.Reset();
-		}
-
-		protected override void SetMinGuessCount() {
-			MinGuessCount = 1;
 		}
 	}
 }

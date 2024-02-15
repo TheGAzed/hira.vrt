@@ -201,9 +201,6 @@
 		private int Mixer(int RGB_ONE, int RGB_TWO) {
 			int CMY_ONE, CMY_TWO;
 
-			//CMY_ONE = (0xFF0000 - (RGB_ONE & 0xFF0000)) | (0x00FF00 - (RGB_ONE & 0x00FF00)) | (0x0000FF - (RGB_ONE & 0x0000FF));
-			//CMY_TWO = (0xFF0000 - (RGB_TWO & 0xFF0000)) | (0x00FF00 - (RGB_TWO & 0x00FF00)) | (0x0000FF - (RGB_TWO & 0x0000FF));
-
 			CMY_ONE = 0xFFFFFF - RGB_ONE;
 			CMY_TWO = 0xFFFFFF - RGB_TWO;
 

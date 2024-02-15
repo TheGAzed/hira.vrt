@@ -9,7 +9,8 @@ section#first, section#second {
 
 span#external-media {
 	display: flex;
-	grid-template-columns: repeat(3, 1fr);
+	grid-column-start: 1;
+	grid-column-end: -1;
 	margin-top: 1em;
 	margin-bottom: 1em;
 }

@@ -3,12 +3,10 @@ using System.Text;
 
 namespace hiravrt.Models.Game
 {
-	public class EitherOrModel : GameModel
+	public class EitherOrModel(LookUp lookUp) : GameModel(lookUp, 2)
 	{
 		public string[] Guesses { get; set; } = new string[2];
 		public int CorrectIndex { get; set; } = default;
-
-		public EitherOrModel(LookUp lookUp) : base(lookUp) { }
 
 		public override bool IsCorrect(string syllable) {
 			return CurrentGuess.Equals(syllable);
@@ -64,10 +62,6 @@ namespace hiravrt.Models.Game
 			Guesses = new string[2];
 			CorrectIndex = default;
 			base.Reset();
-		}
-
-		protected override void SetMinGuessCount() {
-			MinGuessCount = 2;
 		}
 	}
 }

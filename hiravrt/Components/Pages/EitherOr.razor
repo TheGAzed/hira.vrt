@@ -10,9 +10,19 @@
 
 @code {
 	static int baseColor = 0x1B1B1B;
-	static (int, int)[] color = new[] { (baseColor, baseColor), (baseColor, baseColor) };
-	static string romanjiType = "romanji";
-	static bool IsChecking = false;
+	(int, int)[] color = new[] { (baseColor, baseColor), (baseColor, baseColor) };
+	string romanjiType = "romanji";
+	string guesses = "guesses";
+	bool IsChecking = false;
+
+	(int, int) ratioBefore = (0, 0), ratioAfter = (0, 0);
+	protected override void OnInitialized() {
+		base.OnInitialized();
+		int wrong = mc.GameC.EitherOrModel.WrongGuesses.Count();
+		int correct = mc.GameC.EitherOrModel.CorrectGuesses.Count();
+
+		ratioBefore = ratioAfter = (wrong, correct);
+	}
 }
 
 @{
@@ -23,14 +33,19 @@
 			int i = mc.GameC.EitherOrModel.CorrectIndex;
 			color[i] = mc.GameC.LookUp.Color(mc.GameC.EitherOrModel.CurrentGuess);
 
+			ratioBefore = ratioAfter;
 			if (mc.GameC.EitherOrModel.IsCorrect(syllable)) {
 				romanjiType = "romanji-correct";
+				ratioAfter.Item2++;
 			} else {
 				romanjiType = "romanji-wrong";
+				ratioAfter.Item1++;
 			}
+			guesses = "animate";
 
-			await Task.Yield();
 			await Task.Delay(1500);
+
+			guesses = "guesses";
 
 			mc.GameC.UpdateModel(mc.GameC.EitherOrModel, syllable);
 			color[i] = (baseColor, baseColor);
@@ -40,21 +55,31 @@
 		}
 	}
 	/*async Task checkKey(KeyboardEventArgs e) {
-		switch (e.Key) {
-			case "ArrowLeft":
-			case "a": {
+				switch (e.Key) {
+				case "ArrowLeft":
+				case "a": {
 				await checkClick(mc.GameC.EitherOrModel.Guesses[0]);
 			break;
 			}
 			case "ArrowRight":
-			case "d": {
+				case "d": {
 				int i = mc.GameC.EitherOrModel.CorrectIndex;
 				await checkClick(mc.GameC.EitherOrModel.Guesses[1]);
-			break;
+	break;
 	}
 	}
-			}
+	}
 	*/
+
+	string updateWidthWrong((int, int) ratio) {
+		if (ratio.Item1 + ratio.Item2 == 0) return "0%";
+		return (100.0 / (ratio.Item1 + ratio.Item2) * ratio.Item1).ToString().Replace(",", ".") + "%";
+	}
+
+	string updateWidthCorrect((int, int) ratio) {
+		if (ratio.Item1 + ratio.Item2 == 0) return "0%";
+		return (100.0 / (ratio.Item1 + ratio.Item2) * ratio.Item2).ToString().Replace(",", ".") + "%";
+	}
 }
 
 <link rel="stylesheet" href="css/game/EitherOr.css" />
@@ -63,8 +88,54 @@
 	<Error ErrorNumber="01" ErrorDescription="NOT ENOUGH SYLLABLES TO PLAY GAME" ErrorFix="GO TO SETTINGS TO INCREASE SYLLABLE COUNT" />
 } else {
 	<article class="PAGE">
-		<h2>EITHER OR GAMEMODE</h2>
-		<h3 id="score">@mc.GameC.EitherOrModel.Score</h3>
+		<hgroup>
+			<h2>EITHER OR GAMEMODE</h2>
+		</hgroup>
+		
+		<style>
+			@@keyframes slide-wrong {
+				from {
+					width: @(updateWidthWrong(ratioBefore));
+				}
+
+				to {
+					width: @(updateWidthWrong(ratioAfter));
+				}
+			}
+
+			@@keyframes slide-correct {
+				from {
+					width: @(updateWidthCorrect(ratioBefore));
+				}
+
+				to {
+					width: @(updateWidthCorrect(ratioAfter));
+				}
+			}
+
+			span#gamemode-statistics-wrong-animate {
+				animation: slide-wrong 1500ms forwards;
+			}
+
+			span#gamemode-statistics-correct-animate {
+				animation: slide-correct 1500ms forwards;
+			}
+
+			span#gamemode-statistics-wrong-guesses {
+				width: @(updateWidthWrong(ratioAfter));
+			}
+
+			span#gamemode-statistics-correct-guesses {
+				width: @(updateWidthCorrect(ratioAfter));
+			}
+		</style>
+
+		<div id="gamemode-statistics">
+			<span id="gamemode-statistics-wrong-@guesses"></span>
+			<p id="gamemode-statistics-score">@mc.GameC.EitherOrModel.Score</p>
+			<span id="gamemode-statistics-correct-@guesses"></span>
+		</div>
+		
 		<section id="first">
 			<style>
 				a#firstpick {
