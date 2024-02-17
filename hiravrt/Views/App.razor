@@ -1,0 +1,37 @@
+﻿@using hiravrt.Controllers
+
+@inject MainController mc
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-16" />
+		<meta charset="SHIFT_JIS">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title> - HIRA.VRT</title>
+		<link rel="stylesheet" href="css/Defaults.css" />
+		<link rel="stylesheet" href="css/Page.css" />
+	</head>
+
+	<body>
+		<Routes />
+
+		<footer>
+			<nav id="footer-navigation">
+				<a class="footer-navigation-link" href="@mc.HomeC.Github()" target="_blank" title="LINK TO GITHUB PROJECT">GITHUB</a>
+
+			<small class="footer-navigation-divider">|</small>
+
+				<a class="footer-navigation-link" href="@mc.HomeC.Privacy()">PRIVACY POLICY</a>
+
+			<small class="footer-navigation-divider">|</small>
+
+				<a class="footer-navigation-link" href="@mc.HomeC.Terms()">TERMS & CONDITIONS</a>
+			</nav>
+		</footer>
+
+		<script src="~/lib/jquery/dist/jquery.min.js"></script>
+		<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="~/js/site.js" asp-append-version="true"></script>
+	</body>
+</html>

@@ -1,10 +1,10 @@
-﻿using hiravrt.Controllers;
+﻿using hiravrt.Controllers.Nav;
 using hiravrt.Models.Game;
 using Microsoft.AspNetCore.Mvc;
 
-namespace hiravrt.Models.Settings.Graphs
+namespace hiravrt.Models.Nav.Graphs
 {
-	public enum ToggleState : int
+    public enum ToggleState : int
 	{
 		ON = 1,
 		OFF = -1,

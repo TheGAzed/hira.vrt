@@ -7,47 +7,32 @@
 
 @inject MainController mc
 
-<link rel="stylesheet" href="css/index.css" />
+<link rel="stylesheet" href="css/Home.css" />
 
-<article id="GAMEMODE" class="PAGE">
+<article class="article-page" id="gamemode-main-article">
 	<hgroup>
         <h2 class="SUBTITLE">PICK A GAMEMODE</h2>
     </hgroup>
 
 	<section id="first">
-		<a class="GAMEMODE" href="@mc.GameC.EitherOr()" title="Either Or Gamemode">
-			<img class="GAMEMODE" src="img/game/either-or-mode.svg" alt="HIRA.VRT gamemode with either or choice" />
+		<a href="@mc.GameC.EitherOr()" title="Either Or Gamemode">
+			<img class="pick-gamemode" src="img/game/either-or-mode.svg" alt="HIRA.VRT gamemode with either or choice" />
 		</a>
 	</section>
-	@{
-		/*
-			<section id="second">
-				<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
-					<img class="GAMEMODE" src="img/game/pick-one-mode.svg" alt="HIRA.VRT gamemode with four answers to pick">
-				</a>
-			</section>
-
-			<section id="third">
-				<a class="GAMEMODE" href="@mc.GameC.EitherOr()">
-					<img class="GAMEMODE" src="img/game/keyboard-mode.svg" alt="HIRA.VRT gamemode with keyboard guessing">
-				</a>
-			</section>
-		 */
-	}
 </article>
 
-<article id="ABOUT" class="PAGE">
-	<hgroup>
-        <h2>ABOUT HIRA.VRT</h2>
+<article class="article-page" id="about-main-article">
+	<hgroup id="about-section-title">
+        <h2 id="about-section-title-text">ABOUT HIRA.VRT</h2>
     </hgroup>
 	
 	<section id="fourth">
-		<p>
+		<p id="about-section-text-short">
 			HIRA.VRT began as a university bachelor thesis with the aim of creating an interactive web applications for learning Japanese hiragana syllabary. The main idea behind its creation was to make learning hiragana characters easier and accessible to a broader spectrum of users. The application itself was designed using Microsoft's Blazor framework in order to improve the user experience. It is designed for people who want to learn the characters through a quiz game, where the user must correctly guess from a set of randomly picked hiragana syllables. This form of learning aims to enhance the learning experience through replayability and the human desire for improvement.
 		</p>
-		<a href="@mc.HomeC.About()" class="CONFIRM" id="readmorebutton">READ MORE</a>
+		<a href="@mc.HomeC.About()" id="more-about-button">READ MORE</a>
 	</section>
 	<section id="fifth">
-		<img id="sublogo" src="img/logo_two.svg" alt="HIRA.VRT secondary logo">
+		<img id="about-section-logo" src="img/logo_two.svg" alt="HIRA.VRT secondary logo">
 	</section>
 </article>

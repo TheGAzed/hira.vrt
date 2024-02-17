@@ -1,8 +1,8 @@
-﻿using hiravrt.Controllers;
+﻿using hiravrt.Controllers.Nav;
 
-namespace hiravrt.Models.Settings.Graphs
+namespace hiravrt.Models.Nav.Graphs
 {
-	public class MonographModel(SettingsController controller) : GraphModel(11, 6, controller) {
+    public class MonographModel(SettingsController controller) : GraphModel(11, 6, controller) {
 		protected override void ConsonantsToggleState() {
 			IEnumerable<ToggleState> distinct = RowToggle.Skip(1).Distinct();
 

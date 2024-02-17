@@ -24,7 +24,6 @@ h1, h2, h3, h4, p {
 }
 
 h1 {
-	align-self: self-end;
 	font-size: 2.5em;
 	font-weight: bold;
 	cursor: pointer;

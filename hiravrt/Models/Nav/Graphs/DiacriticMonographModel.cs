@@ -1,8 +1,8 @@
-﻿using hiravrt.Controllers;
+﻿using hiravrt.Controllers.Nav;
 
-namespace hiravrt.Models.Settings.Graphs
+namespace hiravrt.Models.Nav.Graphs
 {
-	public class DiacriticMonographModel(SettingsController controller) : GraphModel(5, 5, controller) {
+    public class DiacriticMonographModel(SettingsController controller) : GraphModel(5, 5, controller) {
 		protected override void ConsonantsToggleState() {
 			IEnumerable<ToggleState> distinct = RowToggle.Distinct();
 

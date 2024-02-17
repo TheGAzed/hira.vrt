@@ -1,4 +1,4 @@
-using hiravrt.Components;
+using hiravrt.Views;
 using hiravrt.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);

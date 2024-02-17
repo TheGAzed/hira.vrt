@@ -6,9 +6,6 @@
 
 <PageTitle>Error</PageTitle>
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
 @code {
 	[Parameter]
 	public int ErrorNumber { get; set; }
@@ -18,7 +15,9 @@
 	public string ErrorFix { get; set; } = "";
 }
 
-<article class="PAGE">
-	<h2>[ERROR @ErrorNumber] @ErrorDescription</h2>
-	<h3>@ErrorFix</h3>
+<article class="article-page" id="error-sub-article">
+	<hgroup>
+        <h2>[ERROR @ErrorNumber] @ErrorDescription</h2>
+        <h3>@ErrorFix</h3>
+	</hgroup>
 </article>

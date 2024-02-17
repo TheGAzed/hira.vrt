@@ -1,8 +1,9 @@
 ﻿@page "/settings"
 
 @using hiravrt.Controllers
+@using hiravrt.Controllers.Nav
 @using hiravrt.Models.Game
-@using hiravrt.Models.Settings.Graphs
+@using hiravrt.Models.Nav.Graphs
 
 @rendermode InteractiveServer
 @inject MainController mc
@@ -35,10 +36,13 @@
 	}
 }
 
-<link rel="stylesheet" href="css/pages/Settings.css" />
-<article class="PAGE">
-	<h2>HIRAGANA GRID</h2>
-	<h3>SYLLABLE COUNT: @mc.SettingsC.Guesses.Count</h3>
+<link rel="stylesheet" href="css/nav/Settings.css" />
+<article class="article-page" id="settings-sub-article">
+	<hgroup>
+        <h2>HIRAGANA GRID</h2>
+        <h3>SYLLABLE COUNT: @mc.SettingsC.Guesses.Count</h3>
+	</hgroup>
+
 	@switch (mc.SettingsC.CurrGraphState) {
 		case GraphState.MONOGRAPH : {
 			<section id="first">
