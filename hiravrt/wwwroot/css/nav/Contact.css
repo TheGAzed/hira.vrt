@@ -29,9 +29,7 @@ span.contact-info {
 span.contact-info-icon {
 	user-select: none;
 	display: grid;
-	width: auto;
 	align-content: center;
-	justify-self: center;
 	background-color: #1B1B1B;
 	padding-left: 1em;
 	padding-right: 1em;
@@ -48,13 +46,10 @@ small.contact-info-data {
 }
 
 form.contact-form {
-	all: unset;
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	row-gap: 0.5em;
-	align-self: self-start;
-	width: -webkit-fill-available;
 }
 textarea.contact-form-message {
 	all: unset;
@@ -71,7 +66,6 @@ input.contact-form-data {
 	padding: 1em;
 }
 a.contact-form-button {
-	all: unset;
 	display: grid;
 	min-height: 3.5em;
 	width: 10em;

@@ -16,8 +16,6 @@ td.toggle-button-data {
 	padding: unset;
 	height: 34px;
 }
-tr.toggle-button-row {
-}
 
 /* TOGGLE BUTTON ANCHORS */
 a.toggle-button-diacritic,
@@ -25,7 +23,6 @@ a.toggle-button-on, a.toggle-button-off, a.toggle-button-empty,
 a.toggle-button-array-on, a.toggle-button-array-off,
 a.toggle-button-unset, a.toggle-button-array-unset {
 	user-select: none;
-	width: 100%;
 	height: 100%;
 	display: grid;
 	justify-content: center;
@@ -100,7 +97,6 @@ nav#syllable-graph-types {
 	margin-right: 2px;
 }
 a.syllable-graph-off, a.syllable-graph-on {
-	all: unset;
 	user-select: none;
 	display: grid;
 	align-content: center;
@@ -124,9 +120,7 @@ a.syllable-graph-off:hover, a.syllable-graph-on:hover {
 	section#first {
 		grid-column: 1 / 4;
 	}
-
 	td.toggle-button-data {
-		padding: unset;
 		height: 40px;
 	}
 }

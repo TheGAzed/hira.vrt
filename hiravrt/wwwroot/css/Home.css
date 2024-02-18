@@ -1,5 +1,4 @@
 ﻿section#first {
-	grid-column: 1;
 }
 section#second {
 	grid-column: 3;
@@ -10,20 +9,15 @@ section#third {
 section#fourth {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-
 	grid-column: span 3;
-	grid-row: 2;
 	gap: 1em;
 }
 section#fifth {
 	grid-column: 5;
-	grid-row: 2;
 }
 
 img.pick-gamemode {
 	width: 100%;
-	height: auto;
 	opacity: 80%;
 }
 img.pick-gamemode:hover {
@@ -53,14 +47,9 @@ a#more-about-button:hover {
 
 img#about-section-logo {
 	width: 100%;
-	height: auto;
 }
 
 @media (max-width: 950px) {
-	section#fourth {
-		grid-column: span 3;
-	}
-
 	section#fifth {
 		width: 0;
 		height: 0;

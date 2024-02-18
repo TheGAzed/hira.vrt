@@ -24,14 +24,13 @@ nav#main-page-navigation {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	grid-column: span 2;
-	margin: 0;
+	height: fit-content;
 }
 
 /* SUB PAGE */
 a#sub-page-logo-link {
 	display: flex;
 	grid-row: span 3;
-	align-self: center;
 	justify-self: center;
 	justify-content: center;
 	cursor: pointer;
@@ -59,7 +58,6 @@ nav#sub-page-navigation {
 	grid-column: 2 / 4;
 	grid-row: 3;
 	align-self: self-end;
-	margin: 0;
 }
 
 /* SHARED */
@@ -87,12 +85,10 @@ a.navigation-bar-link:first-child {
 
 nav#footer-navigation {
 	display: flex;
-	grid-column: 2 / 5;
 	gap: 2em;
 	justify-content: center;
 	color: #D9D9D9;
 	font-size: small;
-	grid-template-columns: repeat(3, 1fr);
 }
 a.footer-navigation-link, small.footer-navigation-dividers {
 	all: unset;
@@ -110,10 +106,8 @@ small.footer-navigation-divider {
 }
 
 article.article-page {
-	all: unset;
 	display: grid;
 	grid-template-columns: 15em 3.5em 15em 3.5em 15em;
-	justify-content: center;
 	padding-top: 3.5em;
 	padding-bottom: 3.5em;
 	justify-content: center;
@@ -142,27 +136,22 @@ article.article-page:nth-of-type(odd) p {
 		grid-template-rows: unset;
 		height: fit-content;
 	}
-
 	a#main-page-head-title-link, a#sub-page-head-title-link {
 		display: flex;
 		justify-content: center;
 		grid-column: span 2;
-		grid-row: 2;
 	}
-	
 	nav#main-page-navigation, nav#sub-page-navigation {
 		grid-column: span 2;
 		grid-row: 3;
 	}
-
 	a#main-page-logo-link, a#sub-page-logo-link {
+		display: flex;
+		justify-content: center;
 		grid-column: span 2;
 		grid-row: unset;
-		align-self: center;
-		justify-self: center;
-		cursor: pointer;
+		width: unset;
 	}
-
 	article.article-page {
 		all: unset;
 		display: grid;
@@ -172,12 +161,7 @@ article.article-page:nth-of-type(odd) p {
 		padding-bottom: 3.5em;
 		justify-content: center;
 	}
-
 	img#page-logo {
 		width: 50%;
-	}
-
-	a.navigation-bar-link {
-		height: 3em;
 	}
 }
