@@ -49,9 +49,29 @@ img#about-section-logo {
 	width: 100%;
 }
 
-@media (max-width: 950px) {
+@media screen and (max-width: 950px) {
 	section#fifth {
 		width: 0;
 		height: 0;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	img.pick-gamemode {
+		max-width: 250px;
+		height: auto;
+	}
+
+	section#first {
+		justify-self: center;
+	}
+
+	section#fourth {
+		grid-column: unset;
+		grid-row: 2;
+	}
+
+	a#more-about-button {
+		align-self: center;
 	}
 }

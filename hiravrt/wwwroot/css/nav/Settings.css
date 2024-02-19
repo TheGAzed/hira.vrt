@@ -116,7 +116,7 @@ a.syllable-graph-off:hover, a.syllable-graph-on:hover {
 	text-decoration: underline;
 }
 
-@media (max-width: 950px) {
+@media screen and (max-width: 950px) {
 	section#first {
 		grid-column: 1 / 4;
 	}

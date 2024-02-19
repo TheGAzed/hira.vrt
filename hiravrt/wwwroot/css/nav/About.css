@@ -42,8 +42,18 @@ img.external-media-button-icon {
 
 }
 
-@media (max-width: 950px) {
+@media screen and (max-width: 950px) {
 	section#first, section#second {
 		grid-column: span 3;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	span#external-media {
+		justify-content: center;
+	}
+
+	section#first, section#second {
+		text-align: center;
 	}
 }

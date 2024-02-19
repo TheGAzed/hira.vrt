@@ -22,38 +22,30 @@ h1, h2, h3, h4, p {
 	grid-column-start: 1;
 	grid-column-end: -1;
 }
-
 h1 {
 	font-size: 2.5em;
 	font-weight: bold;
 	cursor: pointer;
 }
-
 h2 {
 	font-weight: bold;
 	font-size: 2em;
 }
-
 h3 {
 	font-size: 1.5em;
 	font-weight: 400;
 }
-
 h4 {
 	font-size: 1em;
 	font-weight: 300;
 }
-
 p {
-	text-align: justify;
+	text-align: left;
 	text-overflow: ellipsis;
 	font-size: 1em;
 	white-space: nowrap;
 	overflow: hidden;
-	height: fit-content;
-	width: 100%;
 	text-wrap: wrap;
-	text-align: left;
 }
 
 html {
@@ -82,4 +74,43 @@ footer {
 	background-color: #1B1B1B;
 	justify-content: space-evenly;
 	min-height: 3em;
+}
+
+article {
+	display: grid;
+	grid-template-columns: 15em 3.5em 15em 3.5em 15em;
+	padding-top: 3.5em;
+	padding-bottom: 3.5em;
+	justify-content: center;
+}
+article:nth-of-type(even) {
+	background-color: #2b2b2b;
+}
+article:nth-of-type(odd) h2, article:nth-of-type(odd) h3,
+article:nth-of-type(odd) h4, article:nth-of-type(odd) p {
+	color: #2b2b2b;
+}
+
+@media screen and (max-width: 950px) {
+	article {
+		grid-template-columns: 15em 3.5em 15em;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	article {
+		grid-template-columns: 1fr;
+		padding: 1em 3em 2em 3em;
+	}
+
+	footer {
+		flex-direction: column;
+		justify-content: space-evenly;
+		padding-top: 1em;
+		padding-bottom: 1em;
+	}
+
+	h1, h2, h3, h4, p {
+		text-align: center;
+	}
 }
