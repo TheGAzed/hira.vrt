@@ -3,57 +3,63 @@
 	color: #1B1B1B;
 }
 
-section#first, section#second {
+section[id^="about-"][id$="-section"] {
 	grid-column: span 5;
 }
 
-span#external-media {
+ul#external-media-list {
+	all: unset;
 	display: flex;
+	gap: 0.5em;
 	grid-column-start: 1;
 	grid-column-end: -1;
 	margin-top: 1em;
 }
 
-a.external-media-button {
+li.external-media-list-item {
 	all: unset;
 	cursor: pointer;
-	padding: 1em;
-	width: 1.5em;
-	height: 1.5em;
+	width: auto;
 	justify-self: center;
 	border-radius: 0.25em;
 	border: 0.188em solid #1B1B1B;
-	margin-right: 0.5em;
 }
 
-a.external-media-button:hover {
+a.external-media-button {
+	all: unset;
+	display: block;
+	padding: 1em;
+	height: 1.5em;
+	width: 1.5em;
+}
+
+li.external-media-list-item:hover {
 	border-color: #D9D9D9;
 	filter: invert(94%) sepia(0%) saturate(47%) hue-rotate(215deg) brightness(93%) contrast(95%);
 	background-color: #D9D9D9;
 }
 
-a.external-media-button:active {
+li.external-media-list-item:active {
 	transform: scale(0.95);
 }
 
 img.external-media-button-icon {
 	height: inherit;
-	width: auto;
-
+	width: inherit;
 }
 
 @media screen and (max-width: 950px) {
-	section#first, section#second {
+	section[id^="about-"][id$="-section"] {
 		grid-column: span 3;
 	}
 }
 
 @media screen and (max-width: 650px) {
-	span#external-media {
+	ul#external-media-list {
 		justify-content: center;
 	}
 
-	section#first, section#second {
+	section[id^="about-"][id$="-section"] {
 		text-align: center;
 	}
 }

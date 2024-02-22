@@ -18,10 +18,7 @@ td.toggle-button-data {
 }
 
 /* TOGGLE BUTTON ANCHORS */
-a.toggle-button-diacritic,
-a.toggle-button-on, a.toggle-button-off, a.toggle-button-empty,
-a.toggle-button-array-on, a.toggle-button-array-off,
-a.toggle-button-unset, a.toggle-button-array-unset {
+a[class^="toggle-button"] {
 	user-select: none;
 	height: 100%;
 	display: grid;
@@ -33,12 +30,12 @@ a.toggle-button-on:hover, a.toggle-button-off:hover {
 }
 
 /* TOGGLE BUTTON ROW COLUMN ARRAY */
-a.toggle-button-array-on, a.toggle-button-array-off {
-		background-color: #353535;
-		cursor: pointer;
-		color: #d9d9d9;
-		outline-offset: -3px;
-	}
+a[class^="toggle-button-array"] {
+	background-color: #353535;
+	cursor: pointer;
+	color: #d9d9d9;
+	outline-offset: -3px;
+}
 a.toggle-button-array-on {
 	outline: 3px solid #308658;
 }
@@ -46,11 +43,8 @@ a.toggle-button-array-off {
 	outline: 3px solid #863030;
 }
 a.toggle-button-array-unset {
-	background-color: #353535;
 	cursor: default;
-	color: #d9d9d9;
 	outline: 3px solid #353535;
-	outline-offset: -3px;
 	opacity: 0.5;
 	filter: saturate(0);
 }

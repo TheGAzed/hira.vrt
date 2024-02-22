@@ -73,7 +73,9 @@ footer {
 	flex-direction: column;
 	background-color: #1B1B1B;
 	justify-content: space-evenly;
-	min-height: 3em;
+
+	padding-top: 1em;
+	padding-bottom: 1em;
 }
 
 article {
@@ -91,6 +93,13 @@ article:nth-of-type(odd) h4, article:nth-of-type(odd) p {
 	color: #2b2b2b;
 }
 
+form {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	row-gap: 0.5em;
+}
+
 @media screen and (max-width: 950px) {
 	article {
 		grid-template-columns: 15em 3.5em 15em;
@@ -100,14 +109,7 @@ article:nth-of-type(odd) h4, article:nth-of-type(odd) p {
 @media screen and (max-width: 650px) {
 	article {
 		grid-template-columns: 1fr;
-		padding: 1em 3em 2em 3em;
-	}
-
-	footer {
-		flex-direction: column;
-		justify-content: space-evenly;
-		padding-top: 1em;
-		padding-bottom: 1em;
+		padding: 1em 1em 2em 1em;
 	}
 
 	h1, h2, h3, h4, p {

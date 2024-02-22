@@ -6,21 +6,23 @@
 	justify-items: center;
 }
 
-p#romanji, p#romanji-correct, p#romanji-wrong {
+p[id^="romanji"] {
 	display: grid;
 	position: absolute;
 	justify-self: center;
 	justify-content: center;
 	align-self: center;
 	align-content: center;
-	color: #1B1B1B;
-	background: #D9D9D9;
 	border-radius: 5em;
 	border: 0.1em solid #D9d9d9;
 	width: 3em;
 	height: 3em;
 	font-size: 2.5em;
 	user-select: none;
+}
+p#romanji {
+	color: #1B1B1B;
+	background: #D9D9D9;
 }
 p#romanji-correct {
 	color: #D9D9D9;
@@ -31,7 +33,7 @@ p#romanji-wrong {
 	background: #863030;
 }
 
-a#firstpick, a#secondpick {
+a[id$="pick"] {
 	all: unset;
 	display: grid;
 	justify-content: center;
@@ -48,15 +50,15 @@ a#secondpick {
 	border-radius: 0em 32px 32px 0em;
 	grid-column-end: -1;
 }
-a#firstpick:hover {
+a[id$="pick"]:hover {
 	animation-duration: 500ms;
-	animation-name: slide-left;
 	animation-fill-mode: forwards;
 }
+a#firstpick:hover {
+	animation-name: slide-left;
+}
 a#secondpick:hover {
-	animation-duration: 500ms;
 	animation-name: slide-right;
-	animation-fill-mode: forwards;
 }
 
 @keyframes slide-left {
@@ -92,17 +94,16 @@ div#gamemode-statistics {
 	margin-bottom: 1em;
 }
 
-span#gamemode-statistics-wrong-guesses, span#gamemode-statistics-correct-guesses,
-span#gamemode-statistics-wrong-animate, span#gamemode-statistics-correct-animate {
+span[id^="gamemode-statistics"][id$="guesses"], span[id^="gamemode-statistics"][id$="animate"] {
 	height: 100%;
 }
-span#gamemode-statistics-wrong-guesses, span#gamemode-statistics-wrong-animate {
+span[id^="gamemode-statistics-wrong"] {
 	justify-self: end;
 	background: #863030;
 	grid-column: 1;
 	border-radius: 1em 0 0 1em;
 }
-span#gamemode-statistics-correct-guesses, span#gamemode-statistics-correct-animate {
+span[id^="gamemode-statistics-correct"] {
 	justify-self: start;
 	background: #308658;
 	grid-column: 3;
@@ -114,7 +115,7 @@ span#gamemode-statistics-correct-guesses, span#gamemode-statistics-correct-anima
 		grid-column: span 3;
 	}
 
-	p#firstguess, p#secondguess {
+	p[id$="guess"] {
 		line-height: 1em;
 	}
 }
@@ -152,7 +153,7 @@ span#gamemode-statistics-correct-guesses, span#gamemode-statistics-correct-anima
 		border-radius: 0em 0em 32px 32px;
 	}
 
-	p#romanji, p#romanji-correct, p#romanji-wrong {
+	p[id^="romanji"] {
 		width: 2.5em;
 		height: 2.5em;
 	}

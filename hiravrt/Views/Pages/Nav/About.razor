@@ -8,35 +8,39 @@
 <link rel="stylesheet" href="css/nav/About.css" />
 
 <article class="article-page" id="about-sub-article">
-	<hgroup>
-		<h2>ABOUT HIRA.VRT</h2>
-		<h3>THE STORY</h3>
+	<hgroup id="about-header-group">
+		<h2 id="about-header-title">ABOUT HIRA.VRT</h2>
+		<h3 id="about-header-subtitle">THE STORY</h3>
 	</hgroup>
 
-	<section id="first">
-		<p>
+	<section id="about-story-section">
+		<p id="about-story">
             HIRA.VRT began as a university <b>bachelor thesis project</b> with the aim of creating an interactive <b>web applications</b> for learning <b>Japanese hiragana syllabary</b>. The main idea behind its creation was to make learning hiragana characters easier and accessible to a broader spectrum of users. The application itself was designed using Microsoft's <b>Blazor framework</b> in order to improve the user experience. It is designed for people who want to learn the characters through a <b>quiz game</b>, where the user must correctly guess from a set of randomly picked hiragana syllables. This form of learning aims to enhance the learning experience through replayability and the human desire for improvement.
 		</p>
 	</section>
 
-	<hgroup>
-		<h3>GAMEMODES</h3>
-		<h4>EITHER OR</h4>
+	<hgroup id="about-header-group-gamemode">
+		<h3 id="about-header-subtitle-gamemode">GAMEMODES</h3>
+		<h4 id="about-header-subsubtitle-either-or">EITHER OR</h4>
 	</hgroup>
 
-	<section id="second">
-		<p>
+	<section id="about-either-or-section">
+		<p id="about-either-or">
             This game mode gives the user the option to choose the correct hiragana syllable from two choices. The user is supposed to guess the correct syllable based on the Latin version of the correct answer. The right choice is indicated by the color of the Latin version, with green representing "right" and red representing "wrong," along with the correct Japanese character changing color.
 		</p>
 	</section>
 
-	<span id="external-media">
-		<a class="external-media-button" href="@mc.HomeC.GithubAccount()" title="LINK TO MY GITHUB ACCOUNT" target="_blank">
-			<img src="img/icons/github.svg" alt="github profile page" class="external-media-button-icon">
-		</a>
+	<ul id="external-media-list">
+		<li class="external-media-list-item">
+            <a class="external-media-button" href="@mc.HomeC.GithubAccount()" title="LINK TO MY GITHUB ACCOUNT" target="_blank">
+                <img src="img/icons/github.svg" alt="github profile page" class="external-media-button-icon">
+            </a>
+		</li>
 
-		<a class="external-media-button" href="@mc.HomeC.TwitterAccount()" title="LINK TO MY TWITTER/X ACCOUNT" target="_blank">
-			<img src="img/icons/twitter-x.svg" alt="Twitter/X profile page" class="external-media-button-icon">
-		</a>
-	</span>
+		<li class="external-media-list-item">
+            <a class="external-media-button" href="@mc.HomeC.TwitterAccount()" title="LINK TO MY TWITTER/X ACCOUNT" target="_blank">
+                <img src="img/icons/twitter-x.svg" alt="Twitter/X profile page" class="external-media-button-icon">
+            </a>
+		</li>
+	</ul>
 </article>

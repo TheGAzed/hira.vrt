@@ -3,19 +3,19 @@
 	color: #1B1B1B;
 }
 
-section#first {
+section#contact-info-section {
 	grid-column: 1;
 	display: flex;
 	flex-direction: column;
 	gap: 1em;
 }
-section#second {
+section#contact-location-section {
 	grid-column: 3;
 	display: flex;
 	flex-direction: column;
 	gap: 1em;
 }
-section#third {
+section#contact-form-section {
 	grid-column: 5;
 	display: flex;
 	flex-direction: column;
@@ -23,10 +23,6 @@ section#third {
 }
 
 /* CONTACT INFORMATION */
-span.contact-info {
-	display: flex;
-	flex-direction: row;
-}
 span.contact-info-icon {
 	user-select: none;
 	display: grid;
@@ -45,6 +41,17 @@ small.contact-info-data {
 	width: -webkit-fill-available;
 	padding: 1.577em;
 }
+ul#contact-info-list {
+	all: unset;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+li.contact-info-list-item {
+	all: unset;
+	display: flex;
+	flex-direction: row;
+}
 
 /* CONTACT LOCATION */
 iframe#contact-location-map {
@@ -56,13 +63,7 @@ iframe#contact-location-map {
 }
 
 /* CONTACT FORM*/
-form.contact-form {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	row-gap: 0.5em;
-}
-textarea.contact-form-message {
+textarea#contact-form-message {
 	all: unset;
 	height: -webkit-fill-available;
 	padding: 1em;
@@ -76,7 +77,8 @@ input.contact-form-data {
 	height: 1em;
 	padding: 1em;
 }
-a.contact-form-button {
+button#contact-form-button {
+	all: unset;
 	display: grid;
 	min-height: 3.5em;
 	width: 10em;
@@ -89,42 +91,42 @@ a.contact-form-button {
 	align-content: center;
 	user-select: none;
 }
-a.contact-form-button:active {
+button#contact-form-button:active {
 	transform: scale(0.95);
 	background-color: #353535;
 }
-a.contact-form-button:hover {
+button#contact-form-button:hover {
 	background-color: #353535;
 }
 
 @media screen and (max-width: 950px) {
-	section#second {
+	section#contact-location-section {
 		margin-top: 4em;
 		grid-column: span 3;
 		grid-row: 4;
 		height: 24em;
 	}
 
-	section#third {
+	section#contact-form-section {
 		grid-column: 3;
 	}
 }
 
 @media screen and (max-width: 650px) {
-	section#second {
+	section#contact-location-section {
 		margin-top: 4em;
 		grid-column: unset;
 		height: 24.5em;
 		grid-row: unset;
 	}
 
-	section#third {
+	section#contact-form-section {
 		grid-column: unset;
 		height: 24.5em;
 		grid-row: unset;
 	}
 
-	section#first, section#second, section#third {
+	section[id^="contact"][id$="section"] {
 		margin-top: 1em;
 		margin-bottom: 1em;
 	}
@@ -133,7 +135,7 @@ a.contact-form-button:hover {
 		align-self: center;
 	}
 
-	form.contact-form {
+	form {
 		row-gap: 1em;
 	}
 }
