@@ -1,4 +1,4 @@
-﻿section#first {
+﻿section#either-or-section {
 }
 section#second {
 	grid-column: 3;
@@ -6,13 +6,13 @@ section#second {
 section#third {
 	grid-column: 5;
 }
-section#fourth {
+section#about-text-section {
 	display: flex;
 	flex-direction: column;
 	grid-column: span 3;
 	gap: 1em;
 }
-section#fifth {
+section#about-logo-section {
 	grid-column: 5;
 }
 
