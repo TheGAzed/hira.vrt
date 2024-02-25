@@ -1,5 +1,12 @@
 ﻿@page "/contact"
 
+@using hiravrt.Models.Nav
+@using System.ComponentModel.DataAnnotations;
+@using System.Net;
+@using System.Net.Mail;
+
+@rendermode InteractiveServer
+
 <PageTitle>Contact</PageTitle>
 
 <link rel="stylesheet" href="css/nav/Contact.css" />
@@ -15,35 +22,35 @@
 
 		<ul id="contact-info-list">
 			<li class="contact-info-list-item" id="contact-info-address-list-item">
-                <span class="contact-info-icon" id="contact-info-address-icon">
-                    <img src="img/icons/address-contact.svg" alt="house (address) icon" id="contact-info-address-icon-image">
-                </span>
+				<span class="contact-info-icon" id="contact-info-address-icon">
+					<img src="img/icons/address-contact.svg" alt="house (address) icon" id="contact-info-address-icon-image">
+				</span>
 
-                <small class="contact-info-data" id="contact-info-address">Technical University of Košice <br> Letná 1/9 <br> 040 01 Košice <br> Slovakia</small>
+				<small class="contact-info-data" id="contact-info-address">Technical University of Košice <br> Letná 1/9 <br> 040 01 Košice <br> Slovakia</small>
 			</li>
 
 			<li class="contact-info-list-item" id="contact-info-phone-list-item">
-                <span class="contact-info-icon" id="contact-info-phone-icon">
-                    <img src="img/icons/phone-contact.svg" alt="phone number icon" id="contact-info-phone-icon-image">
-                </span>
+				<span class="contact-info-icon" id="contact-info-phone-icon">
+					<img src="img/icons/phone-contact.svg" alt="phone number icon" id="contact-info-phone-icon-image">
+				</span>
 
-                <small class="contact-info-data" id="contact-info-phone">055/643 61 51</small>
+				<small class="contact-info-data" id="contact-info-phone">055/643 61 51</small>
 			</li>
 
 			<li class="contact-info-list-item" id="contact-info-email-list-item">
-                <span class="contact-info-icon" id="contact-info-email-icon">
+				<span class="contact-info-icon" id="contact-info-email-icon">
 					<img src="img/icons/email-contact.svg" alt="email contact icon" id="contact-info-email-icon-image">
-                </span>
+				</span>
 
-                <small class="contact-info-data" id="contact-info-email">hiravrt@hiravrt.sk</small>
+				<small class="contact-info-data" id="contact-info-email">hiravrt@hiravrt.sk</small>
 			</li>
 
 			<li class="contact-info-list-item" id="contact-info-website-list-item">
-                <span class="contact-info-icon" id="contact-info-website-icon">
+				<span class="contact-info-icon" id="contact-info-website-icon">
 					<img src="img/icons/website-contact.svg" alt="website icon" id="contact-info-website-icon-image">
-                </span>
+				</span>
 
-                <small class="contact-info-data" id="contact-info-website">www.hiravrt.sk</small>
+				<small class="contact-info-data" id="contact-info-website">www.hiravrt.sk</small>
 			</li>
 		</ul>
 	</section>
@@ -58,15 +65,19 @@
 	<section id="contact-form-section">
 		<h3 id="contact-form-subtitle">FORM</h3>
 
-		<form action="" method="post" id="contact-form">
-			<input type="text" name="iname" class="contact-form-data" placeholder="FULL NAME" id="contact-form-name">
+		<EditForm id="contact-form" Model="@formModel" FormName="Email" OnValidSubmit="() => formModel.SendEmail()">
+			<InputText class="contact-form-data" placeholder="FULL NAME" id="contact-form-name" @bind-Value="formModel.Name"></InputText>
 
-			<input type="email" name="iemail" class="contact-form-data" placeholder="EMAIL" id="contact-form-email">
+			<InputText name="iemail" class="contact-form-data" placeholder="EMAIL" id="contact-form-email" @bind-Value="formModel.Email"></InputText>
 
-			<textarea name="imessage" id="contact-form-message" placeholder="MESSAGE"></textarea>
+			<InputTextArea name="imessage" id="contact-form-message" placeholder="MESSAGE *" @bind-Value="formModel.Message"></InputTextArea>
 
-			<button id="contact-form-button">SEND</button>
-		</form>
+			<button type="submit" id="contact-form-button">SEND</button>
+		</EditForm>
+
+		@code {
+			FormModel formModel = new FormModel();
+		}
 	</section>
 </article>
 
