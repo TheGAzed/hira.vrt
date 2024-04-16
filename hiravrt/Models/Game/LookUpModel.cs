@@ -225,10 +225,10 @@
 		}
 
 		public readonly (int, int) Color(string syllable) {
-			foreach (char s in syllable)
-				if (!LatinColor.ContainsKey(s.ToString())) 
-					return (0, 0);
-			
+			foreach (char s in syllable) {
+				if (!LatinColor.ContainsKey(s.ToString())) return (0, 0);
+			}
+
 			switch (syllable.Length) {
 				case 1: return LatinColor[syllable];
 				case 2: {
@@ -237,8 +237,9 @@
 
 					return (Mixer(first.Item1, second.Item1), Mixer(first.Item2, second.Item2));
 				}
-				default: return (0, 0);
 			}
+
+			return (0, 0);
 		}
 
 		public readonly string Pronunciation(string syllable) {
