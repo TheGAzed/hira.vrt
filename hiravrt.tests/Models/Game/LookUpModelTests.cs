@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace hiravrt.tests.Models.Game {
-	internal class LookUpModelTests {
+	class LookUpModelTests {
 		private LookUp Lookup;
 		private List<string> Syllable;
 		private List<string> Latin;

@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
-namespace hiravrt.Models.Game
-{
-	public class EitherOrModel(LookUp lookUp) : GameModel(lookUp, 2)
-	{
+namespace hiravrt.Models.Game {
+	public class EitherOrModel(LookUp lookUp) : GameModel(lookUp, 2) {
 		public string[] Guesses { get; set; } = new string[2];
 		public int CorrectIndex { get; set; } = default;
 
