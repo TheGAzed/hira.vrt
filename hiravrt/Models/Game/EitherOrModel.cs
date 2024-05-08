@@ -55,11 +55,5 @@ namespace hiravrt.Models.Game {
 			CorrectIndex = j;
 			CurrentGuess = Guesses[j];
 		}
-
-		public override void Reset() {
-			Guesses = new string[2];
-			CorrectIndex = default;
-			base.Reset();
-		}
 	}
 }
