@@ -200,14 +200,13 @@
 			{ "\u3074\u3083",   "[pʲa]" }, { "\u3074\u3085",   "[pʲɯ]" }, { "\u3074\u3087",   "[pʲo]" }, // p
 		};
 
-		public LookUp() { }
+        public LookUp()
+        {
+        }
 
-		public readonly int Points(string syllable) {
-			if (SyllablePoints.ContainsKey(syllable)) {
-				return SyllablePoints[syllable];
-			} else {
-				return 0;
-			}
+        public readonly int Points(string syllable) {
+			SyllablePoints.TryGetValue(syllable, out int value);
+			return value;
 		}
 
 		public readonly string Latin(string syllable) {
@@ -218,18 +217,16 @@
 		}
 
 		public readonly string Syllable(string latin) {
-			if (LatinSyllable.TryGetValue(latin, out string value))
+			if (LatinSyllable.TryGetValue(latin, out string? value))
 				return value;
 
 			return "";
 		}
 
 		public readonly (int, int) Color(string syllable) {
-			foreach (char s in syllable) {
-				if (!LatinColor.ContainsKey(s.ToString())) return (0, 0);
-			}
+			if (!SyllableLatin.ContainsKey(syllable)) return (0, 0);
 
-			switch (syllable.Length) {
+            switch (syllable.Length) {
 				case 1: return LatinColor[syllable];
 				case 2: {
 					(int, int) first = LatinColor[syllable[0].ToString()];
@@ -243,7 +240,7 @@
 		}
 
 		public readonly string Pronunciation(string syllable) {
-			if (SyllablePronunciation.TryGetValue(syllable, out string value))
+			if (SyllablePronunciation.TryGetValue(syllable, out string? value))
 				return value;
 
 			return "";

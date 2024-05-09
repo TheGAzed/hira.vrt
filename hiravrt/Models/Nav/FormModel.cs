@@ -16,7 +16,7 @@ namespace hiravrt.Models.Nav {
 			MailMessage mailMessage = new();
 			IConfiguration config = new ConfigurationBuilder()
 				.AddUserSecrets<FormModel>()
-			.Build();
+				.Build();
 
 			if (address.IsValid(Email)) {
 				mailMessage.From = new MailAddress(Email);

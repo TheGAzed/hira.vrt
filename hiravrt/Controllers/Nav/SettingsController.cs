@@ -1,5 +1,4 @@
 ﻿using hiravrt.Models.Game;
-using hiravrt.Models.Settings;
 using hiravrt.Models.Nav.Graphs;
 
 namespace hiravrt.Controllers.Nav

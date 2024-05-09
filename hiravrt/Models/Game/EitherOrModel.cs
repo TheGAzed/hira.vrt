@@ -14,15 +14,11 @@ namespace hiravrt.Models.Game {
 			Random random = new();
 			RemainingGuesses.Remove(Guesses[1 - CorrectIndex]);
 
-			int size = RemainingGuesses.Count;
-			int i = random.Next(size);
-
-			Guesses[CorrectIndex] = RemainingGuesses[i];
+			Guesses[CorrectIndex] = RemainingGuesses[random.Next(RemainingGuesses.Count)];
 			RemainingGuesses.Add(Guesses[1 - CorrectIndex]);
 
-			int j = random.Next(Guesses.Length);
-			CorrectIndex = j;
-			CurrentGuess = Guesses[j];
+			CorrectIndex = random.Next(Guesses.Length);
+			CurrentGuess = Guesses[CorrectIndex];
 		}
 
 		public override void NextMove(string syllable) {
@@ -37,7 +33,7 @@ namespace hiravrt.Models.Game {
 		}
 
 		protected override void FirstGuess() {
-			if (RemainingGuesses.Count < MinGuessCount) { return; }
+			if (RemainingGuesses.Count < MinGuessCount) return;
 
 			Random random = new();
 			int size = RemainingGuesses.Count;
@@ -46,14 +42,11 @@ namespace hiravrt.Models.Game {
 			Guesses[0] = RemainingGuesses[i];
 			RemainingGuesses.RemoveAt(i);
 
-			size -= 1;
-			i = random.Next(size);
-			Guesses[1] = RemainingGuesses[i];
+			Guesses[1] = RemainingGuesses[random.Next(--size)];
 			RemainingGuesses.Add(Guesses[0]);
 
-			int j = random.Next(Guesses.Length);
-			CorrectIndex = j;
-			CurrentGuess = Guesses[j];
+			CorrectIndex = random.Next(Guesses.Length);
+            CurrentGuess = Guesses[CorrectIndex];
 		}
 	}
 }
