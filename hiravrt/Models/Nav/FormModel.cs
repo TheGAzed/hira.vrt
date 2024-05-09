@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Configuration.UserSecrets;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
 using static hiravrt.Views.Pages.Nav.Contact;
@@ -18,19 +19,19 @@ namespace hiravrt.Models.Nav {
 				.AddUserSecrets<FormModel>()
 				.Build();
 
-			if (address.IsValid(Email)) {
+            if (address.IsValid(Email)) {
 				mailMessage.From = new MailAddress(Email);
-			} else {
-				mailMessage.From = new MailAddress(config.GetSection("Smtp")["Username"]);
+			} else if (config.GetValue<string>("SMTP:Username") is not null) {
+				mailMessage.From = new MailAddress(config.GetValue<string>("SMTP:Username")!);
 			}
 
-			mailMessage.To.Add("ask.hira.vrt@gmail.com");
+			mailMessage.To.Add(config.GetValue<string>("SMTP:Username")!);
 			mailMessage.Subject = (Name == "" ? "Annonym" : Name) + "writes";
 			mailMessage.Body = Message;
 
 			SmtpClient smtpClient = new("smtp.gmail.com") {
-				Port = 587,
-				Credentials = new NetworkCredential(config.GetSection("Smtp")["Username"], config.GetSection("Smtp")["Password"]),
+				Port = config.GetValue<int>("SMTP:Port"),
+				Credentials = new NetworkCredential(config.GetValue<string>("SMTP:Username"), config.GetValue<string>("SMTP:Password")),
 				EnableSsl = true,
 			};
 
