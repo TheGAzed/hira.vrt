@@ -54,22 +54,6 @@
 			IsChecking = false;
 		}
 	}
-	/*async Task checkKey(KeyboardEventArgs e) {
-				switch (e.Key) {
-				case "ArrowLeft":
-				case "a": {
-				await checkClick(mc.GameC.EitherOrModel.Guesses[0]);
-			break;
-			}
-			case "ArrowRight":
-				case "d": {
-				int i = mc.GameC.EitherOrModel.CorrectIndex;
-				await checkClick(mc.GameC.EitherOrModel.Guesses[1]);
-	break;
-	}
-	}
-	}
-	*/
 
 	string updateWidthWrong((int, int) ratio) {
 		if (ratio.Item1 + ratio.Item2 == 0) return "0%";
@@ -89,7 +73,7 @@
 } else {
 	<article class="article-page" id="either-or-gamemode-sub-article">
 		<hgroup>
-			<h2>EITHER OR</h2>
+			<h2>EITHER OR MODE</h2>
 		</hgroup>
 		
 		<style>
@@ -131,9 +115,8 @@
 		</style>
 
 		<div id="gamemode-statistics">
-			<span id="gamemode-statistics-wrong-@guesses"></span>
-			<p id="gamemode-statistics-score">@mc.GameC.EitherOrModel.Score</p>
-			<span id="gamemode-statistics-correct-@guesses"></span>
+			<span id="gamemode-statistics-wrong-@guesses" title="@(mc.GameC.EitherOrModel.WrongGuesses.Count) WRONG GUESSES"></span>
+			<span id="gamemode-statistics-correct-@guesses" title="@(mc.GameC.EitherOrModel.CorrectGuesses.Count) CORRECT GUESSES"></span>
 		</div>
 		
 		<section id="first">

@@ -50,7 +50,7 @@ img#about-section-logo {
 }
 
 @media screen and (max-width: 950px) {
-	section#fifth {
+	section#about-logo-section {
 		width: 0;
 		height: 0;
 	}
@@ -62,11 +62,11 @@ img#about-section-logo {
 		height: auto;
 	}
 
-	section#first {
+	section#either-or-section {
 		justify-self: center;
 	}
 
-	section#fourth {
+	section#about-text-section {
 		grid-column: unset;
 		grid-row: 2;
 	}

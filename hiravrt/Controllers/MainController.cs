@@ -10,7 +10,6 @@ namespace hiravrt.Controllers
 
 		public MainController() {
 			SettingsC.AddGame(GameC.EitherOrModel);
-			SettingsC.AddGame(GameC.KeyboardModel);
 		}
 	}
 }
