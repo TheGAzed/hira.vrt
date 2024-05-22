@@ -180,12 +180,17 @@
 								int y = j;
 
 								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x + 1, y].Kana;
-
-								<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
-									<a class="toggle-button-@getToggle(x + 1, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, y)">
-										@kana
-									</a>
-								</td>
+								if (kana.Length == 0) {
+									<td class="toggle-button-data">
+										<a class="toggle-button-@getToggle(x + 1, y)"></a>
+									</td>
+								} else {
+									<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
+										<a class="toggle-button-@getToggle(x + 1, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x + 1, y)">
+											@kana
+										</a>
+									</td>										
+								}
 							}
 						</tr>
 					}
@@ -259,11 +264,17 @@
 									int y = j;
 
 									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;
+									if (kana.Length == 0) {
+										<td class="toggle-button-data">
+											<a class="toggle-button-@getToggle(x, y)"></a>
+										</td>
+									} else {
 									<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
 										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
 											@kana
 											</a>
-									</td>
+									</td>											
+									}
 								}
 							</tr>
 						}
@@ -419,11 +430,20 @@
 								int y = j;
 
 								string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;
-								<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
-									<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
-										@kana
-									</a>
-								</td>
+									if (kana.Length == 0)
+									{
+										<td class="toggle-button-data">
+											<a class="toggle-button-@getToggle(x, y)"></a>
+										</td>
+									} else
+									{
+										<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
+											<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
+												@kana
+											</a>
+										</td>
+									}
+
 							}
 						</tr>
 					}
@@ -660,11 +680,20 @@
 									int y = j;
 
 									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;
-									<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
-										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
-											@kana
-										</a>
-									</td>
+										if (kana.Length == 0)
+										{
+											<td class="toggle-button-data">
+												<a class="toggle-button-@getToggle(x, y)"></a>
+											</td>
+										} else
+										{
+											<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
+												<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
+													@kana
+												</a>
+											</td>
+										}
+
 								}
 							</tr>
 						}
@@ -707,11 +736,19 @@
 									int y = j;
 
 									string kana = mc.SettingsC.GetCurrentGraph().Graphs[x, y].Kana;
-									<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
-										<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
-											@kana
-										</a>
-									</td>
+										if (kana.Length == 0)
+										{
+											<td class="toggle-button-data">
+												<a class="toggle-button-@getToggle(x, y)"></a>
+											</td>
+										} else
+										{
+											<td class="toggle-button-data" title="@(mc.GameC.LookUp.Latin(kana)) @(mc.GameC.LookUp.Pronunciation(kana))">
+												<a class="toggle-button-@getToggle(x, y)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleAt(x, y)">
+													@kana
+												</a>
+											</td>
+										}
 								}
 							</tr>
 						}

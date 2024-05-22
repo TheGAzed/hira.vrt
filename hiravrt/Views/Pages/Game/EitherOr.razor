@@ -31,7 +31,7 @@
 			IsChecking = true;
 
 			int i = mc.GameC.EitherOrModel.CorrectIndex;
-			color[i] = mc.GameC.LookUp.Color(mc.GameC.EitherOrModel.CurrentGuess);
+			color[i] = mc.GameC.LookUp.Color(mc.GameC.EitherOrModel.CorrectSyllable);
 
 			ratioBefore = ratioAfter;
 			if (mc.GameC.EitherOrModel.IsCorrect(syllable)) {
@@ -68,7 +68,7 @@
 
 <link rel="stylesheet" href="css/game/EitherOr.css" />
 
-@if (mc.GameC.EitherOrModel.RemainingGuesses.Count < mc.GameC.EitherOrModel.MinGuessCount) {
+@if (mc.GameC.EitherOrModel.RemainingSyllables.Count < mc.GameC.EitherOrModel.MinimumGuessesCount) {
 	<Error ErrorNumber="01" ErrorDescription="NOT ENOUGH SYLLABLES TO PLAY GAME" ErrorFix="GO TO SETTINGS TO INCREASE SYLLABLE COUNT" />
 } else {
 	<article class="article-page" id="either-or-gamemode-sub-article">
@@ -136,7 +136,7 @@
 			<a id="secondpick" @onclick="async () => await checkClick(mc.GameC.EitherOrModel.Guesses[1])" disabled="@IsChecking">
 				<p lang="ja" id="secondguess">@mc.GameC.EitherOrModel.Guesses[1]</p>
 			</a>
-			<p id="@(romanjiType)">@mc.GameC.LookUp.Latin(mc.GameC.EitherOrModel.CurrentGuess)</p>
+			<p id="@(romanjiType)">@mc.GameC.LookUp.Latin(mc.GameC.EitherOrModel.CorrectSyllable)</p>
 		</section>
 	</article>
 }

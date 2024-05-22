@@ -6,11 +6,12 @@
 @using System.Net.Mail;
 
 @rendermode InteractiveServer
+@inject IJSRuntime JS
 
 <PageTitle>Contact</PageTitle>
 
 <link rel="stylesheet" href="css/nav/Contact.css" />
-
+<script src="/js/PlaySound.js"></script>
 
 <article class="article-page" id="contact-sub-article">
 	<hgroup id="contact-header-group">
@@ -34,7 +35,7 @@
 					<img src="img/icons/phone-contact.svg" alt="phone number icon" id="contact-info-phone-icon-image">
 				</span>
 
-				<small class="contact-info-data" id="contact-info-phone">055/643 61 51</small>
+				<small class="contact-info-data" id="contact-info-phone">+421 949 515 205 (SMS ONLY)</small>
 			</li>
 
 			<li class="contact-info-list-item" id="contact-info-email-list-item">
@@ -42,7 +43,9 @@
 					<img src="img/icons/email-contact.svg" alt="email contact icon" id="contact-info-email-icon-image">
 				</span>
 
-				<small class="contact-info-data" id="contact-info-email">hiravrt@hiravrt.sk</small>
+				<small class="contact-info-data" id="contact-info-email">
+					ask.hira.vrt@gmail.com
+				</small>
 			</li>
 
 			<li class="contact-info-list-item" id="contact-info-website-list-item">
@@ -58,25 +61,45 @@
 	<section id="contact-location-section">
 		<h3 id="contact-location-subtitle">LOCATION</h3>
 
-		<iframe id="contact-location-map" frameborder="0" scrolling="no" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Letn%C3%A1%201/9,%20040%2001%20Ko%C5%A1ice,%20Slovakia+(TUKE)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+		<iframe id="contact-location-map" frameborder="0" scrolling="no" src="https://www.google.com/maps/embed/v1/place?q=tuke+kosice&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8">
 		</iframe>
 	</section>
 
 	<section id="contact-form-section">
 		<h3 id="contact-form-subtitle">FORM</h3>
+		<audio id="confirm-sound" src="sound/confirm-form-send.mp3"></audio>
 
-		<EditForm id="contact-form" Model="@formModel" FormName="Email" OnValidSubmit="() => formModel.SendEmail()">
-			<InputText class="contact-form-data" placeholder="FULL NAME" id="contact-form-name" @bind-Value="formModel.Name"></InputText>
+		<EditForm id="contact-form" Model="@formModel" FormName="Email" OnValidSubmit="() => SubmitForm()">
+            
+			@if (formModel.IsBroken) {
+				<InputText class="contact-form-data-blocked" placeholder="NAME" id="contact-form-name"disabled></InputText>
 
-			<InputText name="iemail" class="contact-form-data" placeholder="EMAIL" id="contact-form-email" @bind-Value="formModel.Email"></InputText>
+				<InputText name="iemail" class="contact-form-data-blocked" placeholder="EMAIL" id="contact-form-email"disabled></InputText>
 
-			<InputTextArea name="imessage" id="contact-form-message" placeholder="MESSAGE *" @bind-Value="formModel.Message"></InputTextArea>
+				<InputTextArea name="imessage" id="contact-form-message-blocked" placeholder="MESSAGE *"disabled></InputTextArea>
 
-			<button type="submit" id="contact-form-button">SEND</button>
+				<button type="submit" id="contact-form-button-blocked">SEND</button>
+			} else {
+				<InputText class="contact-form-data-normal" placeholder="NAME" id="contact-form-name" @bind-Value="formModel.Name"></InputText>
+
+				<InputText name="iemail" class="contact-form-data-normal" placeholder="EMAIL" id="contact-form-email" @bind-Value="formModel.Email"></InputText>
+
+				<InputTextArea name="imessage" id="contact-form-message-normal" placeholder="MESSAGE *" @bind-Value="formModel.Message"></InputTextArea>
+
+				<button type="submit" id="contact-form-button-normal">SEND</button>
+			}
+
 		</EditForm>
 
 		@code {
 			FormModel formModel = new FormModel();
+
+			private async void SubmitForm() {
+				if (!formModel.IsBroken && formModel.IsValidForm()) {
+					formModel.SendEmail();
+					await JS.InvokeAsync<string>("PlaySound");
+				}
+			}
 		}
 	</section>
 </article>

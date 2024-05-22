@@ -10,7 +10,7 @@ namespace hiravrt.Controllers.Game
 
         public GameController()
         {
-            EitherOrModel = new EitherOrModel(LookUp);
+            EitherOrModel = new EitherOrModel();
         }
 
         public string EitherOr() => "/eitheror";

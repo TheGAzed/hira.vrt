@@ -1,5 +1,6 @@
 using hiravrt.Views;
 using hiravrt.Controllers;
+using hiravrt.Models.Nav;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,7 @@ builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
 
 builder.Services
-	.AddSingleton<MainController>();
+	.AddScoped<MainController>();
 
 var app = builder.Build();
 

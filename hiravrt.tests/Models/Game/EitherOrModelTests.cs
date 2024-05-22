@@ -11,20 +11,20 @@ namespace hiravrt.tests.Models.Game {
 
 		[SetUp]
 		public void SetUp() {
-			model = new(new());
+			model = new();
 		}
 
 		[Test]
 		public void EitherGuessIsCorrect_Test() {
-            Assert.That(model.Guesses[0].Equals(model.CurrentGuess) || model.Guesses[1].Equals(model.CurrentGuess));
+            Assert.That(model.Guesses[0].Equals(model.CorrectSyllable) || model.Guesses[1].Equals(model.CorrectSyllable));
 		}
 		[Test]
 		public void CorrectIndex_Test() {
-			Assert.That(model.Guesses[model.CorrectIndex], Is.EqualTo(model.CurrentGuess));
+			Assert.That(model.Guesses[model.CorrectIndex], Is.EqualTo(model.CorrectSyllable));
 		}
 		[Test]
 		public void IsCorrect_CurrentGuessTrue_Test() {
-			Assert.That(model.IsCorrect(model.CurrentGuess));
+			Assert.That(model.IsCorrect(model.CorrectSyllable));
 		}
 		[Test]
 		public void IsCorrect_CorrectIndexTrue_Test() {
@@ -39,7 +39,7 @@ namespace hiravrt.tests.Models.Game {
 			string a = model.Guesses[0];
 			string b = model.Guesses[1];
 
-			model.NextMove(model.CurrentGuess);
+			model.NextMove(model.CorrectSyllable);
 
 			Assert.That((a == model.Guesses[0]), Is.Not.EqualTo((b == model.Guesses[1])));
 		}

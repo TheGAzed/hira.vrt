@@ -18,7 +18,7 @@ namespace hiravrt.Models.Nav.Graphs
 	}
 
 	public abstract class GraphModel {
-		private SettingsController Controller;
+		private readonly SettingsController Controller;
 		public List<string> Guesses { get; set; }
 		public Graph[,] Graphs { get; set; }
 		public int Rows { get; }

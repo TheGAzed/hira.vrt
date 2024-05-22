@@ -7,6 +7,10 @@
 	font-family: 'Roboto-Regular';
 }
 
+a {
+	-webkit-tap-highlight-color: transparent;
+}
+
 hgroup {
 	display: flex;
 	flex-direction: column;

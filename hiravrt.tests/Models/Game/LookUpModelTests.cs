@@ -112,9 +112,5 @@ namespace hiravrt.tests.Models.Game {
 				Assert.That(l, Is.EqualTo(Lookup.Latin(Lookup.Syllable(l))));
 			});
 		}
-		[Test]
-		public void PointsReturnZeroIfInvalid_Test() {
-			Assert.That(Lookup.Points("zero"), Is.EqualTo(0));
-		}
 	}
 }

@@ -11,66 +11,57 @@ namespace hiravrt.Models.Nav {
 		public string Email { get; set; } = "";
 		public string Message { get; set; } = "";
 
-		private Stopwatch LastSubmit = new Stopwatch();
+		private readonly IConfiguration ?config;
 
-		private bool IsCooldown {
-			get { return LastSubmit.IsRunning && LastSubmit.ElapsedMilliseconds <= 60_000; }
+		public bool IsBroken = false;
+
+		public bool IsValidForm() {
+			return Message.Length > 0;
 		}
 
-		private bool IsBroken = false;
-
-		public bool IsBlocked {
-			get { return IsCooldown || IsBroken; }
-		}
-
-		public void SendEmail() {
-			if (Message.Length == 0) return;
-			if (IsBlocked) return;
-			LastSubmit.Reset();
-
-			EmailAddressAttribute address = new();
-			MailMessage mailMessage = new();
-			IConfiguration config;
-            try {
+		public FormModel() {
+			try {
 				config = new ConfigurationBuilder()
 					.AddUserSecrets<FormModel>()
 					.Build();
-			} catch (InvalidOperationException ioex) {
+			}
+			catch (InvalidOperationException) {
 				IsBroken = true;
-				return;
 			}
+		}
 
-			if (address.IsValid(Email)) {
-				mailMessage.From = new MailAddress(Email);
-			} else if (config.GetValue<string>("SMTP:Username") is not null) {
-				mailMessage.From = new MailAddress(config.GetValue<string>("SMTP:Username")!);
-			}
-
-			mailMessage.To.Add(config.GetValue<string>("SMTP:Username")!);
-			mailMessage.Subject = (Name == "" ? "Annonym" : Name) + " writes";
-			mailMessage.Body = Email == string.Empty ? "Email : " + Email + "\n\n" + Message : Message;
-
-			SmtpClient smtpClient = new("smtp.gmail.com") {
-				Port = config.GetValue<int>("SMTP:Port"),
-				Credentials = new NetworkCredential(config.GetValue<string>("SMTP:Username"), config.GetValue<string>("SMTP:Password")),
-				EnableSsl = true,
-			};
+		public void SendEmail() {
+			if (Message.Length == 0 || IsBroken) return;
 
 			try {
+				EmailAddressAttribute address = new();
+				MailMessage mailMessage = new();
+
+				if (address.IsValid(Email)) {
+					mailMessage.From = new MailAddress(Email);
+				} else if (config!.GetValue<string>("SMTP:Username") is not null) {
+					mailMessage.From = new MailAddress(config!.GetValue<string>("SMTP:Username")!);
+				}
+
+				mailMessage.To.Add(config!.GetValue<string>("SMTP:Username")!);
+				mailMessage.Subject = (Name == "" ? "Annonym" : Name) + " writes";
+				mailMessage.Body = Email.Length != 0 ? "Email : " + Email + "\n\n" + Message : Message;
+
+				SmtpClient smtpClient = new("smtp.gmail.com") {
+					Port = config!.GetValue<int>("SMTP:Port"),
+					Credentials = new NetworkCredential(config!.GetValue<string>("SMTP:Username"), config!.GetValue<string>("SMTP:Password")),
+					EnableSsl = true,
+				};
+
 				smtpClient.Send(mailMessage);
-				Console.WriteLine("Message Sent");
 			} catch {
 				IsBroken = true;
-				return;
 			}
 
 			this.Reset();
-
-			LastSubmit.Start();
 		}
 
-		public void Reset()
-		{
+		public void Reset() {
 			this.Name = "";
 			this.Email = "";
 			this.Message = "";

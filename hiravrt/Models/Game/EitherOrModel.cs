@@ -2,51 +2,50 @@
 using System.Text;
 
 namespace hiravrt.Models.Game {
-	public class EitherOrModel(LookUp lookUp) : GameModel(lookUp, 2) {
+	public class EitherOrModel() : GameModel(2) {
 		public string[] Guesses { get; set; } = new string[2];
 		public int CorrectIndex { get; set; } = default;
 
 		public override bool IsCorrect(string syllable) {
-			return CurrentGuess.Equals(syllable);
+			return CorrectSyllable.Equals(syllable);
 		}
 
-		protected override void NextGuess() {
+		protected override void UpdateGuess() {
 			Random random = new();
-			RemainingGuesses.Remove(Guesses[1 - CorrectIndex]);
+			RemainingSyllables.Remove(Guesses[1 - CorrectIndex]);
 
-			Guesses[CorrectIndex] = RemainingGuesses[random.Next(RemainingGuesses.Count)];
-			RemainingGuesses.Add(Guesses[1 - CorrectIndex]);
+			Guesses[CorrectIndex] = RemainingSyllables[random.Next(RemainingSyllables.Count)];
+			RemainingSyllables.Add(Guesses[1 - CorrectIndex]);
 
 			CorrectIndex = random.Next(Guesses.Length);
-			CurrentGuess = Guesses[CorrectIndex];
+			CorrectSyllable = Guesses[CorrectIndex];
 		}
 
 		public override void NextMove(string syllable) {
 			if (IsCorrect(syllable)) {
 				CorrectGuesses.Add(syllable);
-				Score += LookUp.Points(syllable);
 			} else {
 				WrongGuesses.Add(syllable);
 			}
 
-			NextGuess();
+			UpdateGuess();
 		}
 
-		protected override void FirstGuess() {
-			if (RemainingGuesses.Count < MinGuessCount) return;
+		protected override void InitialMove() {
+			if (RemainingSyllables.Count < MinimumGuessesCount) return;
 
 			Random random = new();
-			int size = RemainingGuesses.Count;
+			int size = RemainingSyllables.Count;
 
 			int i = random.Next(size);
-			Guesses[0] = RemainingGuesses[i];
-			RemainingGuesses.RemoveAt(i);
+			Guesses[0] = RemainingSyllables[i];
+			RemainingSyllables.RemoveAt(i);
 
-			Guesses[1] = RemainingGuesses[random.Next(--size)];
-			RemainingGuesses.Add(Guesses[0]);
+			Guesses[1] = RemainingSyllables[random.Next(--size)];
+			RemainingSyllables.Add(Guesses[0]);
 
 			CorrectIndex = random.Next(Guesses.Length);
-            CurrentGuess = Guesses[CorrectIndex];
+            CorrectSyllable = Guesses[CorrectIndex];
 		}
 	}
 }
