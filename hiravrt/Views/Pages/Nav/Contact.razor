@@ -11,7 +11,7 @@
 <PageTitle>Contact</PageTitle>
 
 <link rel="stylesheet" href="css/nav/Contact.css" />
-<script src="/js/PlaySound.js"></script>
+<script src="/js/Sound.js"></script>
 
 <article class="article-page" id="contact-sub-article">
 	<hgroup id="contact-header-group">
@@ -23,15 +23,15 @@
 
 		<ul id="contact-info-list">
 			<li class="contact-info-list-item" id="contact-info-address-list-item">
-				<span class="contact-info-icon" id="contact-info-address-icon">
-					<img src="img/icons/address-contact.svg" alt="house (address) icon" id="contact-info-address-icon-image">
+				<span class="contact-info-icon" id="contact-info-address-icon" title="CONTACT ADDRESS INFORMATION">
+					<img src="img/icons/address-contact.svg" alt="address icon" id="contact-info-address-icon-image">
 				</span>
 
 				<small class="contact-info-data" id="contact-info-address">Technical University of Košice <br> Letná 1/9 <br> 040 01 Košice <br> Slovakia</small>
 			</li>
 
 			<li class="contact-info-list-item" id="contact-info-phone-list-item">
-				<span class="contact-info-icon" id="contact-info-phone-icon">
+				<span class="contact-info-icon" id="contact-info-phone-icon" title="SLOVAK PHONE NUMBER">
 					<img src="img/icons/phone-contact.svg" alt="phone number icon" id="contact-info-phone-icon-image">
 				</span>
 
@@ -39,7 +39,7 @@
 			</li>
 
 			<li class="contact-info-list-item" id="contact-info-email-list-item">
-				<span class="contact-info-icon" id="contact-info-email-icon">
+				<span class="contact-info-icon" id="contact-info-email-icon" title="EMAIL ADDRESS">
 					<img src="img/icons/email-contact.svg" alt="email contact icon" id="contact-info-email-icon-image">
 				</span>
 
@@ -49,7 +49,7 @@
 			</li>
 
 			<li class="contact-info-list-item" id="contact-info-website-list-item">
-				<span class="contact-info-icon" id="contact-info-website-icon">
+				<span class="contact-info-icon" id="contact-info-website-icon" title="WEBSITE URL">
 					<img src="img/icons/website-contact.svg" alt="website icon" id="contact-info-website-icon-image">
 				</span>
 
@@ -97,7 +97,7 @@
 			private async void SubmitForm() {
 				if (!formModel.IsBroken && formModel.IsValidForm()) {
 					formModel.SendEmail();
-					await JS.InvokeAsync<string>("PlaySound");
+					await JS.InvokeAsync<string>("PlaySound", "confirm-sound");
 				}
 			}
 		}

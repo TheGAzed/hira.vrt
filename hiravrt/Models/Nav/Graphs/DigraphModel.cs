@@ -27,7 +27,7 @@ namespace hiravrt.Models.Nav.Graphs
 			};
 		}
 
-		protected override List<string> SetGuesses(int size) {
+		protected override List<string> SetInitialGuesses(int size) {
 			return [];
 		}
 

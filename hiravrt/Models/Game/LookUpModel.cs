@@ -1,6 +1,6 @@
 ﻿namespace hiravrt.Models.Game {
 	public readonly struct LookUp {
-		private readonly Dictionary<string, string> SyllableLatin = new(){
+		private readonly Dictionary<string, string> SyllableLatin = new() {
 			// MONOGRAPHS
 			//    a                   i                     u                    e                     o
 			{ "\u3042",  "A" }, { "\u3044",  "I"   }, { "\u3046",  "U"  }, { "\u3048",  "E"   }, { "\u304a",  "O"   },
@@ -43,7 +43,7 @@
 			{ "\u3074\u3083", "PYA"   }, { "\u3074\u3085", "PYU"   }, { "\u3074\u3087", "PYO"   }, // p
 		};
 
-		private readonly Dictionary<string, string> LatinSyllable = new(){
+		private readonly Dictionary<string, string> LatinSyllable = new() {
 			// MONOGRAPHS
 			//          a                     i                    u                     e                     o
 			{  "A", "\u3042" }, {    "I", "\u3044" }, {   "U", "\u3046" }, {    "E", "\u3048" }, {    "O", "\u304a" },
@@ -86,7 +86,7 @@
 			{ "PYA"  , "\u3074\u3083" }, { "PYU"  , "\u3074\u3085" }, { "PYO"  , "\u3074\u3087" }, // p
 		};
 
-		private readonly Dictionary<string, (int, int)> LatinColor = new(){
+		private readonly Dictionary<string, (int, int)> LatinColor = new() {
 			// NON DIACRITIC
 			//    a                                   i                                   u                                   e                                   o
 			{ "\u3042", (0xFF5733, 0xFF5733) }, { "\u3044", (0x4CAF50, 0x4CAF50) }, { "\u3046", (0x2196F3, 0x2196F3) }, { "\u3048", (0xFFC107, 0xFFC107) }, { "\u304a", (0xE91E63, 0xE91E63) },
@@ -158,9 +158,7 @@
 			{ "\u3074\u3083",   "[pʲa]" }, { "\u3074\u3085",   "[pʲɯ]" }, { "\u3074\u3087",   "[pʲo]" }, // p
 		};
 
-        public LookUp()
-        {
-        }
+		public LookUp() { }
 
 		public readonly string Latin(string syllable) {
 			if (!SyllableLatin.TryGetValue(syllable, out string? latin)) throw new ArgumentException(latin + " is not a valid japanese syllable");

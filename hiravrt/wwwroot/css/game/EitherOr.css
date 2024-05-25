@@ -82,29 +82,58 @@ p#firstguess, p#secondguess {
 
 div#gamemode-statistics {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 4em 1fr;
 	grid-column-start: 1;
 	grid-column-end: -1;
+	align-items: center;
 
 	margin-bottom: 1em;
-	gap: 1em;
 }
 
-span[id^="gamemode-statistics"][id$="guesses"], span[id^="gamemode-statistics"][id$="animate"] {
-	height: 1.5em;
+button#reset-button {
+	grid-column: 2;
+	all: unset;
+	display: flex;
+	justify-content: center;
+	width: 2.5em;
+	height: 2.5em;
+	justify-self: center;
+	border-radius: 0.5em;
+	border: 0.188em solid #1B1B1B;
 }
-span[id^="gamemode-statistics-wrong"] {
+button#reset-button:hover {
+	border-color: #D9D9D9;
+	filter: invert(94%) sepia(0%) saturate(47%) hue-rotate(215deg) brightness(93%) contrast(95%);
+	background-color: #D9D9D9;
+}
+button#reset-button:active {
+	transform: scale(0.95);
+}
+img#reset-icon {
+	width: 1.5em;
+	height: auto;
+}
+span[id^="gamemode-statistics"][id$="progress"] {
+	display: grid;
+	height: 1.5em;
+	background: rgba(00, 00, 00, 0.1);
+}
+span#gamemode-statistics-wrong-progress {
+	grid-column: 1;
+}
+span#gamemode-statistics-correct-progress {
+	grid-column: 3;
+}
+span[id^="gamemode-statistics"][id$="guesses-bar"], span[id^="gamemode-statistics"][id$="animate-bar"] {
+	height: 100%;
+}
+span[id^="gamemode-statistics-wrong"][id$="bar"] {
 	justify-self: end;
 	background: #863030;
-	grid-column: 1;
-	/*border-radius: 1em 0 0 1em;*/
 }
-span[id^="gamemode-statistics-correct"] {
+span[id^="gamemode-statistics-correct"][id$="bar"] {
 	justify-self: start;
 	background: #308658;
-	grid-column: 2;
-	height: 1.5em;
-	/*border-radius: 0 1em 1em 0*/
 }
 
 @media screen and (max-width: 950px) {
@@ -133,6 +162,17 @@ span[id^="gamemode-statistics-correct"] {
 		to {
 			transform: translate(0, 0);
 		}
+	}
+
+	button#reset-button {
+		width: 3em;
+		height: 3em;
+	}
+
+	button#reset-button:hover {
+		border-color: unset;
+		filter: unset;
+		background-color: unset;
 	}
 
 	a#firstpick, a#secondpick {

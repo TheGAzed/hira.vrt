@@ -1,6 +1,7 @@
 ﻿using hiravrt.Controllers.Nav;
 using hiravrt.Models.Game;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 
 namespace hiravrt.Models.Nav.Graphs
 {
@@ -27,8 +28,7 @@ namespace hiravrt.Models.Nav.Graphs
 		public ToggleState[] ColToggle { get; set; } = [];
 		public ToggleState ConsonantsToggle { get; set; }
 
-		public GraphModel(int rows, int columns, SettingsController controller)
-		{
+		public GraphModel(int rows, int columns, SettingsController controller) {
 			Controller = controller;
 
 			Rows = rows;
@@ -38,13 +38,13 @@ namespace hiravrt.Models.Nav.Graphs
 			ColToggle = SetColToggle(columns);
 
 			Graphs = SetGraphs(rows, columns);
-			Guesses = SetGuesses(rows * columns);
+			Guesses = SetInitialGuesses(rows * columns);
 
 			ConsonantsToggleState();
 		}
 
 		abstract protected Graph[,] SetGraphs(int rows, int columns);
-		abstract protected List<string> SetGuesses(int size);
+		abstract protected List<string> SetInitialGuesses(int size);
 		abstract protected ToggleState[] SetRowToggle(int rows);
 		abstract protected ToggleState[] SetColToggle(int columns);
 

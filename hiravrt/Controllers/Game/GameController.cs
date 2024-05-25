@@ -3,22 +3,23 @@ using System.Diagnostics;
 
 namespace hiravrt.Controllers.Game
 {
-    public class GameController
-    {
-        public LookUp LookUp { get; } = new LookUp();
-        public EitherOrModel EitherOrModel { get; }
+	public class GameController {
+		/// <summary>
+		/// Lookup variable of dictionaries.
+		/// </summary>
+		public LookUp LookUp { get; } = new LookUp();
+		/// <summary>
+		/// EitherOr game mode model.
+		/// </summary>
+		public EitherOrModel EitherOrModel { get; }
 
-        public GameController()
-        {
-            EitherOrModel = new EitherOrModel();
-        }
+		/// <summary>
+		/// Initializer for all gamemodes.
+		/// </summary>
+		public GameController() {
+			EitherOrModel = new EitherOrModel();
+		}
 
-        public string EitherOr() => "/eitheror";
-        public string PickFour() => "/pickfour";
-
-        public void UpdateModel(GameModel model, string syllable)
-        {
-            model.NextMove(syllable);
-        }
-    }
+		public string EitherOr() => "/eitheror";
+	}
 }

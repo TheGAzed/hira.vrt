@@ -40,7 +40,7 @@
 <article class="article-page" id="settings-sub-article">
 	<hgroup>
 		<h2>HIRAGANA GRID</h2>
-		<h3>SYLLABLE COUNT: @mc.SettingsC.Guesses.Count</h3>
+		<h3>ACTIVE SYLLABLES: @mc.SettingsC.Guesses.Count</h3>
 	</hgroup>
 
 	@switch (mc.SettingsC.CurrGraphState) {
@@ -57,7 +57,7 @@
 						string[] secondRowLatin = { "M", "Y", "R", "W", "N" };
 
 						<tr class="toggle-button-row">
-							<td class="toggle-button-data" title="TOGGLE DIACRITIC TO DAKUTEN, HANDAKUTEN">
+							<td class="toggle-button-data" title="TOGGLE DIACRITIC TO DAKUTEN AND HANDAKUTEN">
 								<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">
 										&#x25B2;
 								</a>
@@ -214,7 +214,7 @@
 
 						<tr class="toggle-button-row">
 
-							<td class="toggle-button-data">
+							<td class="toggle-button-data" title="TOGGLE DIACRITIC TO DAKUTEN AND HANDAKUTEN">
 								<a class="toggle-button-diacritic" @onclick="() => mc.SettingsC.NextDiacritic()">
 										&#x25B2;
 								</a>

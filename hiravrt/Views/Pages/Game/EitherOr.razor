@@ -18,10 +18,15 @@
 	(int, int) ratioBefore = (0, 0), ratioAfter = (0, 0);
 	protected override void OnInitialized() {
 		base.OnInitialized();
-		int wrong = mc.GameC.EitherOrModel.WrongGuesses.Count();
+		int wrong   = mc.GameC.EitherOrModel.WrongGuesses.Count();
 		int correct = mc.GameC.EitherOrModel.CorrectGuesses.Count();
 
 		ratioBefore = ratioAfter = (wrong, correct);
+	}
+
+	private void OnReset() {
+		mc.GameC.EitherOrModel.Reset();
+		OnInitialized();
 	}
 }
 
@@ -47,7 +52,7 @@
 
 			guesses = "guesses";
 
-			mc.GameC.UpdateModel(mc.GameC.EitherOrModel, syllable);
+			mc.GameC.EitherOrModel.NextMove(syllable);
 			color[i] = (baseColor, baseColor);
 			romanjiType = "romanji";
 
@@ -97,26 +102,36 @@
 				}
 			}
 
-			span#gamemode-statistics-wrong-animate {
+			span#gamemode-statistics-wrong-animate-bar {
 				animation: slide-wrong 1500ms forwards;
 			}
 
-			span#gamemode-statistics-correct-animate {
+			span#gamemode-statistics-correct-animate-bar {
 				animation: slide-correct 1500ms forwards;
 			}
 
-			span#gamemode-statistics-wrong-guesses {
+			span#gamemode-statistics-wrong-guesses-bar {
 				width: @(updateWidthWrong(ratioAfter));
 			}
 
-			span#gamemode-statistics-correct-guesses {
+			span#gamemode-statistics-correct-guesses-bar {
 				width: @(updateWidthCorrect(ratioAfter));
 			}
 		</style>
 
 		<div id="gamemode-statistics">
-			<span id="gamemode-statistics-wrong-@guesses" title="@(mc.GameC.EitherOrModel.WrongGuesses.Count) WRONG GUESSES"></span>
-			<span id="gamemode-statistics-correct-@guesses" title="@(mc.GameC.EitherOrModel.CorrectGuesses.Count) CORRECT GUESSES"></span>
+            <span id="gamemode-statistics-wrong-progress" title="@(mc.GameC.EitherOrModel.WrongGuesses.Count) WRONG GUESSES">
+                <span id="gamemode-statistics-wrong-@guesses-bar"></span>
+			</span>
+			
+
+			<button id="reset-button" @onclick="OnReset">
+				<img src="/img/icons/arrow-clockwise.svg" alt="Reset gamemode button" id="reset-icon"/>
+			</button>
+
+            <span id="gamemode-statistics-correct-progress" title="@(mc.GameC.EitherOrModel.CorrectGuesses.Count) CORRECT GUESSES">
+                <span id="gamemode-statistics-correct-@guesses-bar"></span>
+			</span>
 		</div>
 		
 		<section id="first">
