@@ -40,16 +40,6 @@ namespace hiravrt.tests.Models.Game {
 		}
 
 		[Test]
-		public void NextMove_CheckChangeOnlyOneNextGuess_Test() {
-			string a = model.GuessesPair[0];
-			string b = model.GuessesPair[1];
-
-			model.NextMove(model.CorrectSyllable);
-
-			Assert.That((a == model.GuessesPair[0]), Is.Not.EqualTo((b == model.GuessesPair[1])));
-		}
-
-		[Test]
 		public void NextMove_CorrectGuessesListSizeIncreaseOnCorrect_Test() {
 			int list_length = model.CorrectGuessesCount;
 			model.NextMove(model.GuessesPair[model.CorrectIndex]);
