@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace hiravrt.Controllers.Nav
-{
+namespace hiravrt.Controllers.Nav {
 	public class HomeController {
 		/// <summary>
 		/// String address to homepage.

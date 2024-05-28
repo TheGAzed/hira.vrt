@@ -18,22 +18,27 @@ namespace hiravrt.tests.Models.Game {
 		public void EitherGuessIsCorrect_Test() {
             Assert.That(model.GuessesPair[0].Equals(model.CorrectSyllable) || model.GuessesPair[1].Equals(model.CorrectSyllable));
 		}
+
 		[Test]
 		public void CorrectIndex_Test() {
 			Assert.That(model.GuessesPair[model.CorrectIndex], Is.EqualTo(model.CorrectSyllable));
 		}
+
 		[Test]
 		public void IsCorrect_CurrentGuessTrue_Test() {
 			Assert.That(model.IsCorrect(model.CorrectSyllable));
 		}
+
 		[Test]
 		public void IsCorrect_CorrectIndexTrue_Test() {
             Assert.That(model.IsCorrect(model.GuessesPair[model.CorrectIndex]), Is.True);
 		}
+
 		[Test]
 		public void IsCorrect_WrongIndexFalse_Test() {
 			Assert.That(model.IsCorrect(model.GuessesPair[1 - model.CorrectIndex]), Is.False);
 		}
+
 		[Test]
 		public void NextMove_CheckChangeOnlyOneNextGuess_Test() {
 			string a = model.GuessesPair[0];
@@ -43,6 +48,7 @@ namespace hiravrt.tests.Models.Game {
 
 			Assert.That((a == model.GuessesPair[0]), Is.Not.EqualTo((b == model.GuessesPair[1])));
 		}
+
 		[Test]
 		public void NextMove_CorrectGuessesListSizeIncreaseOnCorrect_Test() {
 			int list_length = model.CorrectGuessesCount;
@@ -50,6 +56,7 @@ namespace hiravrt.tests.Models.Game {
 
 			Assert.That(list_length + 1, Is.EqualTo(model.CorrectGuessesCount));
 		}
+
 		[Test]
 		public void NextMove_WrongGuessesListSizeIncreaseOnIncorrect_Test() {
 			int list_length = model.WrongGuessesCount;

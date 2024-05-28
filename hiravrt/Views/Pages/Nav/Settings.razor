@@ -34,6 +34,11 @@
 		ToggleState result = mc.SettingsC.GetCurrentGraph().ConsonantsToggle;
 		return keyValuePairs[result];
 	}
+
+	string getToggleVowels() {
+		ToggleState result = mc.SettingsC.GetCurrentGraph().VowelToggle;
+		return keyValuePairs[result];
+	}
 }
 
 <link rel="stylesheet" href="css/nav/Settings.css" />
@@ -64,12 +69,7 @@
 							</td>
 
 							<td class="toggle-button-data" title="TOGGLE CONSONANT HIRAGANA">
-								<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => {
-									for(int i = 1; i < mc.SettingsC.GetCurrentGraph().Rows; i++) {
-										int y =  i;
-										mc.SettingsC.GetCurrentGraph().ToggleRow(i);
-									}
-								}">
+								<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => { mc.SettingsC.GetCurrentGraph().ToggleConsonants(); }">
 									c:
 								</a>
 							</td>
@@ -90,7 +90,7 @@
 							</td>
 
 							<td class="toggle-button-data" title="TOGGLE VOWEL-ONLY HIRAGANA">
-								<a class="toggle-button-array-@getToggleRow(0)" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleRow(0)">
+									<a class="toggle-button-array-@getToggleVowels()" @onclick="() => mc.SettingsC.GetCurrentGraph().ToggleVowels()">
 									v:
 								</a>
 							</td>
@@ -233,12 +233,7 @@
 
 						<tr class="toggle-button-row">
 							<td class="toggle-button-data">
-								<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => {
-									for(int i = 0; i < mc.SettingsC.GetCurrentGraph().Rows; i++) {
-										int y =  i;
-										mc.SettingsC.GetCurrentGraph().ToggleRow(i);
-									}
-								}">
+									<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => { mc.SettingsC.GetCurrentGraph().ToggleConsonants(); }">
 									c:
 								</a>
 							</td>
@@ -364,12 +359,7 @@
 						</td>
 
 						<td class="toggle-button-data">
-							<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => {
-								for(int i = 0; i < mc.SettingsC.GetCurrentGraph().Rows; i++) {
-									int y =  i;
-									mc.SettingsC.GetCurrentGraph().ToggleRow(i);
-								}
-							}">
+								<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => { mc.SettingsC.GetCurrentGraph().ToggleConsonants(); }">
 								c:
 							</a>
 						</td>
@@ -649,12 +639,7 @@
 
 						<tr class="toggle-button-row">
 							<td class="toggle-button-data">
-								<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => {
-									for(int i = 0; i < mc.SettingsC.GetCurrentGraph().Rows; i++) {
-										int y =  i;
-										mc.SettingsC.GetCurrentGraph().ToggleRow(i);
-									}
-								}">
+								<a class="toggle-button-array-@getToggleConsonants()" @onclick="() => { mc.SettingsC.GetCurrentGraph().ToggleConsonants(); }">
 									c:
 								</a>
 							</td>

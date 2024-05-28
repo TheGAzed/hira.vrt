@@ -2,12 +2,13 @@
 using hiravrt.Models.Game;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace hiravrt.Models.Nav.Graphs {
 	/// <summary>
 	/// Settings toggle states enum for rows, columns and sallables.
 	/// </summary>
-    public enum ToggleState : int {
+	public enum ToggleState : int {
 		ON    =  1,
 		OFF   = -1,
 		UNSET =  0,
@@ -25,14 +26,42 @@ namespace hiravrt.Models.Nav.Graphs {
 	}
 
 	public abstract class GraphModel {
+		/// <summary>
+		/// Observer of all graph models.
+		/// </summary>
 		private readonly SettingsController Controller;
+		/// <summary>
+		/// List of all currenty active (ToggleState.ON) kana syllables.
+		/// </summary>
 		public List<string> Guesses { get; set; }
+		/// <summary>
+		/// Grid of toggle states mapping to kana syllables.
+		/// </summary>
 		public Graph[,] Graphs { get; set; }
+		/// <summary>
+		/// Number of rows in this.Graphs grid.
+		/// </summary>
 		public int Rows { get; }
+		/// <summary>
+		/// Number of columns in this.Graphs grid.
+		/// </summary>
 		public int Columns { get; }
+		/// <summary>
+		/// Row toggle states array of grid.
+		/// </summary>
 		public ToggleState[] RowToggle { get; set; } = [];
+		/// <summary>
+		/// Column toggle states array of grid.
+		/// </summary>
 		public ToggleState[] ColToggle { get; set; } = [];
+		/// <summary>
+		/// Consonants toggle states variable.
+		/// </summary>
 		public ToggleState ConsonantsToggle { get; set; }
+		/// <summary>
+		/// Vowels (only used by MonographModel) toggle states variable.
+		/// </summary>
+		public ToggleState VowelToggle { get; set; } = ToggleState.UNSET;
 
 		public GraphModel(int rows, int columns, SettingsController controller) {
 			Controller = controller;
@@ -40,78 +69,38 @@ namespace hiravrt.Models.Nav.Graphs {
 			Rows    = rows;
 			Columns = columns;
 
-			RowToggle = SetRowToggle(rows);
-			ColToggle = SetColToggle(columns);
+			RowToggle = SetRowToggle();
+			ColToggle = SetColToggle();
 
-			Graphs  = SetInitialGraphs(rows, columns);
-			Guesses = SetInitialGuesses(rows * columns);
+			Graphs  = SetGraphs();
+			Guesses = SetInitialGuesses();
 
 			ConsonantsToggleState();
+			VowelToggleState();
 		}
 
-		abstract protected Graph[,] SetInitialGraphs(int rows, int columns);
-		abstract protected List<string> SetInitialGuesses(int size);
-		abstract protected ToggleState[] SetRowToggle(int rows);
-		abstract protected ToggleState[] SetColToggle(int columns);
-
-		public void ToggleRow(int row) {
-			if (row < 0 || row >= Rows) return;
-			if (RowToggle[row] == 0) return;
-
-			RowToggle[row] = (ToggleState)(-(int)RowToggle[row]);
-
-			ToggleState toggle = RowToggle[row];
-			for (int col = 0; col < Columns; col++) {
-				if (Graphs[row, col].Toggle == 0) continue;
-				if (Graphs[row, col].Toggle != toggle) {
-					Toggle(row, col);
-					ColToggleState(col);
-					ConsonantsToggleState();
-				}
-			}
-			NotifySettingsController();
+		/// <summary>
+		/// Sets the graph of all kana characters in graphs.
+		/// </summary>
+		/// <param name="rows"></param>
+		/// <param name="columns"></param>
+		/// <returns></returns>
+		abstract protected Graph[,] SetGraphs();
+		protected virtual List<string> SetInitialGuesses() {
+			return [];
 		}
 
-		public void ToggleColumn(int col) {
-			if (col < 0 || col >= Columns) return;
-			if (ColToggle[col] == 0) return;
-
-			ColToggle[col] = (ToggleState)(-(int)ColToggle[col]);
-
-			ToggleState toggle = ColToggle[col];
-			for (int row = 0; row < Rows; row++)
-			{
-				if (Graphs[row, col].Toggle == 0) continue;
-				if (Graphs[row, col].Toggle != toggle)
-				{
-					Toggle(row, col);
-					RowToggleState(row);
-					ConsonantsToggleState();
-				}
-			}
-			NotifySettingsController();
+		protected virtual ToggleState[] SetRowToggle() {
+			return Enumerable.Repeat(ToggleState.OFF, Rows).ToArray();
 		}
 
-		public void ToggleAt(int row, int col)
-		{
-			if (row < 0 || row >= Rows) return;
-			if (col < 0 || col >= Columns) return;
-			if (Graphs[row, col].Toggle == 0) return;
-
-			Toggle(row, col);
-
-			RowToggleState(row);
-			ColToggleState(col);
-			ConsonantsToggleState();
-
-			NotifySettingsController();
+		protected virtual ToggleState[] SetColToggle() {
+			return Enumerable.Repeat(ToggleState.OFF, Columns).ToArray();
 		}
 
-		private void RowToggleState(int row)
-		{
+		protected void RowToggleState(int row) {
 			int Sum = 0, Count = 0;
-			for (int c = 0; c < Columns; c++)
-			{
+			for (int c = 0; c < Columns; c++) {
 				Sum += (int)Graphs[row, c].Toggle;
 				Count += Math.Abs((int)Graphs[row, c].Toggle);
 			}
@@ -122,10 +111,10 @@ namespace hiravrt.Models.Nav.Graphs {
 			else RowToggle[row] = ToggleState.ON;
 		}
 
-		private void ColToggleState(int column) {
+		protected void ColToggleState(int column) {
 			int Sum = 0, Count = 0;
 			for (int r = 0; r < Rows; r++) {
-				Sum += (int)Graphs[r, column].Toggle;
+				Sum   += (int)Graphs[r, column].Toggle;
 				Count += Math.Abs((int)Graphs[r, column].Toggle);
 			}
 
@@ -143,7 +132,13 @@ namespace hiravrt.Models.Nav.Graphs {
 			}
 		}
 
-		private void Toggle(int row, int col) {
+		protected virtual void VowelToggleState() {
+
+		}
+
+		protected void Toggle(int row, int col) {
+			if (Graphs[row, col].Toggle == ToggleState.UNSET) return;
+
 			Graphs[row, col].Toggle = (ToggleState)(-(int)Graphs[row, col].Toggle);
 
 			string temp = Graphs[row, col].Kana;
@@ -151,8 +146,87 @@ namespace hiravrt.Models.Nav.Graphs {
 			else Guesses.Remove(temp);
 		}
 
-		private void NotifySettingsController() {
+		protected void NotifySettingsController() {
 			Controller.Notify();
+		}
+
+		public void ToggleRow(int row) {
+			if (row < 0 || row >= Rows) throw new ArgumentException("Row value " + row + " is out of bounds");
+
+			if (RowToggle[row] == ToggleState.UNSET) return;
+
+			RowToggle[row] = (ToggleState)(-(int)RowToggle[row]);
+
+			ToggleState toggle = RowToggle[row];
+			for (int col = 0; col < Columns; col++) {
+				if (Graphs[row, col].Toggle == 0) continue;
+				if (Graphs[row, col].Toggle != toggle) {
+					Toggle(row, col);
+					ColToggleState(col);
+				}
+			}
+
+			VowelToggleState();
+			ConsonantsToggleState();
+			NotifySettingsController();
+		}
+
+		public void ToggleColumn(int col) {
+			if (col < 0 || col >= Columns) throw new ArgumentException("Column value " + col + " is out of bounds");
+
+			if (ColToggle[col] == ToggleState.UNSET) return;
+
+			ColToggle[col] = (ToggleState)(-(int)ColToggle[col]);
+
+			ToggleState toggle = ColToggle[col];
+			for (int row = 0; row < Rows; row++) {
+				if (Graphs[row, col].Toggle == ToggleState.UNSET) continue;
+				if (Graphs[row, col].Toggle != toggle) {
+					Toggle(row, col);
+					RowToggleState(row);
+				}
+			}
+
+			VowelToggleState();
+			ConsonantsToggleState();
+			NotifySettingsController();
+		}
+
+		public void ToggleAt(int row, int col) {
+			if (row < 0 || row >= Rows) throw new ArgumentException("Row value " + row + " is out of bounds");
+			if (col < 0 || col >= Columns) throw new ArgumentException("Column value " + col + " is out of bounds");
+
+			if (Graphs[row, col].Toggle == ToggleState.UNSET) return;
+
+			Toggle(row, col);
+
+			RowToggleState(row);
+			ColToggleState(col);
+
+			VowelToggleState();
+			ConsonantsToggleState();
+
+			NotifySettingsController();
+		}
+
+		public virtual void ToggleVowels() {
+			VowelToggleState();
+		}
+
+		public virtual void ToggleConsonants() {
+			ConsonantsToggle = (ToggleState)(-(int)ConsonantsToggle);
+
+			for (int r = 0; r < Rows; r++) {
+				for (int c = 0; c < Columns; c++) {
+					if (Graphs[r, c].Toggle != ConsonantsToggle) Toggle(r, c);
+				}
+			}
+
+			for (int r = 0; r < Rows; r++)    RowToggleState(r);
+			for (int c = 0; c < Columns; c++) ColToggleState(c);
+
+			VowelToggleState();
+			NotifySettingsController();
 		}
 	}
 }

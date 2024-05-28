@@ -106,6 +106,7 @@ namespace hiravrt.tests.Models.Game {
 				Assert.That(s, Is.EqualTo(Lookup.Syllable(Lookup.Latin(s))));
 			});
 		}
+
 		[Test]
 		public void LatinBackwards_Test() {
 			Latin.ForEach(l => {

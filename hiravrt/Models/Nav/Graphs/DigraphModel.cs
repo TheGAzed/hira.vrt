@@ -3,11 +3,7 @@
 namespace hiravrt.Models.Nav.Graphs
 {
     public class DigraphModel(SettingsController controller) : GraphModel(7, 3, controller) {
-		protected override ToggleState[] SetColToggle(int columns) {
-			return Enumerable.Repeat(ToggleState.OFF, columns).ToArray();
-		}
-
-		protected override Graph[,] SetInitialGraphs(int rows, int columns) {
+		protected override Graph[,] SetGraphs() {
 			return new Graph[,] {
 				{ new(ToggleState.OFF, "\u304D\u3083"), new(ToggleState.OFF, "\u304D\u3085"), new(ToggleState.OFF, "\u304D\u3087") },
 				{ new(ToggleState.OFF, "\u3057\u3083"), new(ToggleState.OFF, "\u3057\u3085"), new(ToggleState.OFF, "\u3057\u3087") },
@@ -17,22 +13,6 @@ namespace hiravrt.Models.Nav.Graphs
 				{ new(ToggleState.OFF, "\u307F\u3083"), new(ToggleState.OFF, "\u307F\u3085"), new(ToggleState.OFF, "\u307F\u3087") },
 				{ new(ToggleState.OFF, "\u308A\u3083"), new(ToggleState.OFF, "\u308A\u3085"), new(ToggleState.OFF, "\u308A\u3087") },
 			};
-		}
-
-		protected override List<string> SetInitialGuesses(int size) {
-			return [];
-		}
-
-		protected override ToggleState[] SetRowToggle(int rows) {
-			return [
-				ToggleState.OFF,
-				ToggleState.OFF,
-				ToggleState.OFF,
-				ToggleState.OFF,
-				ToggleState.OFF,
-				ToggleState.OFF,
-				ToggleState.OFF,
-			];
 		}
 	}
 }

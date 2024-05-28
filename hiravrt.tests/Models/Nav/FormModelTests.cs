@@ -20,14 +20,15 @@ namespace hiravrt.tests.Models.Nav {
 			model.Message = "";
 			Assert.That(model.IsValidForm(), Is.False);
 		}
+
 		[Test]
 		public void NonEmptyMessageIsValid_Test() {
 			model.Message = "is not empty";
 			Assert.That(model.IsValidForm(), Is.True);
 		}
+
 		[Test]
-		public void ResetTurnsStringVariablesEmpty_Test()
-		{
+		public void ResetTurnsStringVariablesEmpty_Test() {
 			model.Name = "Name";
 			model.Email = "email";
 			model.Message = "Message";

@@ -176,6 +176,7 @@
 					background: linear-gradient(45deg, #@color[1].Item1.ToString("x") 0%, #@color[1].Item2.ToString("x") 100%);
 				}
 			</style>
+
 			<a id="firstpick" @onclick="async () => {  await checkClick(mc.GameC.EitherOrModel.GuessesPair[0]); }" disabled="@IsChecking">
 				<p lang="ja" id="firstguess">@mc.GameC.EitherOrModel.GuessesPair[0]</p>
 			</a>
@@ -183,7 +184,10 @@
 			<a id="secondpick" @onclick="async () => await checkClick(mc.GameC.EitherOrModel.GuessesPair[1])" disabled="@IsChecking">
 				<p lang="ja" id="secondguess">@mc.GameC.EitherOrModel.GuessesPair[1]</p>
 			</a>
-			<p id="@(romanjiType)">@mc.GameC.LookUp.Latin(mc.GameC.EitherOrModel.CorrectSyllable)</p>
+
+			<p id="@(romanjiType)" title="@(mc.GameC.LookUp.Pronunciation(mc.GameC.EitherOrModel.CorrectSyllable))">
+				@(mc.GameC.LookUp.Latin(mc.GameC.EitherOrModel.CorrectSyllable))
+			</p>
 		</section>
 	</article>
 }

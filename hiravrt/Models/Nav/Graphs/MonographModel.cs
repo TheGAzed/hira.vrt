@@ -1,21 +1,12 @@
 ﻿using hiravrt.Controllers.Nav;
 
-namespace hiravrt.Models.Nav.Graphs
-{
+namespace hiravrt.Models.Nav.Graphs {
     public class MonographModel(SettingsController controller) : GraphModel(11, 6, controller) {
-		protected override void ConsonantsToggleState() {
-			IEnumerable<ToggleState> distinct = RowToggle.Skip(1).Distinct();
-
-			if (distinct.Count() == 1) {
-				ConsonantsToggle = distinct.First();
-			}
+		protected override ToggleState[] SetColToggle() {
+			return Enumerable.Repeat(ToggleState.ON, Columns).ToArray();
 		}
 
-		protected override ToggleState[] SetColToggle(int columns) {
-			return Enumerable.Repeat(ToggleState.ON, columns).ToArray();
-		}
-
-		protected override Graph[,] SetInitialGraphs(int rows, int columns) {
+		protected override Graph[,] SetGraphs() {
 			return new Graph[,] {
 				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u3042"), new(ToggleState.ON, "\u3044"), new(ToggleState.ON, "\u3046"), new(ToggleState.ON, "\u3048"), new(ToggleState.ON, "\u304a"), },
 				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u304b"), new(ToggleState.ON, "\u304d"), new(ToggleState.ON, "\u304f"), new(ToggleState.ON, "\u3051"), new(ToggleState.ON, "\u3053"), },
@@ -31,8 +22,8 @@ namespace hiravrt.Models.Nav.Graphs
 			};
 		}
 
-		protected override List<string> SetInitialGuesses(int size) {
-			return new List<string>(size) {
+		protected override List<string> SetInitialGuesses() {
+			return [
 					"\u3042", "\u3044", "\u3046", "\u3048", "\u304a",
 					"\u304b", "\u304d", "\u304f", "\u3051", "\u3053",
 					"\u3055", "\u3057", "\u3059", "\u305b", "\u305d",
@@ -44,11 +35,44 @@ namespace hiravrt.Models.Nav.Graphs
 					"\u3089", "\u308a", "\u308b", "\u308c", "\u308d",
 					"\u308f",                               "\u3092",
 				"\u3093",
-			};
+			];
 		}
 
-		protected override ToggleState[] SetRowToggle(int rows) {
-			return Enumerable.Repeat(ToggleState.ON, rows).ToArray();
+		protected override ToggleState[] SetRowToggle() {
+			return Enumerable.Repeat(ToggleState.ON, Rows).ToArray();
+		}
+
+		protected override void ConsonantsToggleState() {
+			IEnumerable<ToggleState> distinct = RowToggle.Skip(1).Distinct();
+
+			if (distinct.Count() == 1) {
+				ConsonantsToggle = distinct.First();
+			}
+		}
+
+		protected override void VowelToggleState() {
+			VowelToggle = RowToggle[0];
+		}
+
+		public override void ToggleVowels() {
+			VowelToggle = (ToggleState)(-(int)VowelToggle);
+			ToggleRow(0);
+		}
+
+		public override void ToggleConsonants() {
+			ConsonantsToggle = (ToggleState)(-(int)ConsonantsToggle);
+
+			for (int r = 1; r < Rows; r++) {
+				for (int c = 0; c < Columns; c++) {
+					if (Graphs[r, c].Toggle != ConsonantsToggle) Toggle(r, c);
+				}
+			}
+
+			for (int r = 0; r < Rows; r++) RowToggleState(r);
+			for (int c = 0; c < Columns; c++) ColToggleState(c);
+
+			VowelToggleState();
+			NotifySettingsController();
 		}
 	}
 }

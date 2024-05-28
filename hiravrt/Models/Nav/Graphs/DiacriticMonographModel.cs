@@ -3,13 +3,7 @@
 namespace hiravrt.Models.Nav.Graphs
 {
     public class DiacriticMonographModel(SettingsController controller) : GraphModel(5, 5, controller) {
-		protected override ToggleState[] SetColToggle(int columns) {
-			return Enumerable
-				.Repeat(ToggleState.OFF, columns)
-				.ToArray();
-		}
-
-		protected override Graph[,] SetInitialGraphs(int rows, int columns) {
+		protected override Graph[,] SetGraphs() {
 			return new Graph[,] {
 				
 				{ new(ToggleState.OFF, "\u304C"), new(ToggleState.OFF, "\u304E"), new(ToggleState.OFF, "\u3050"), new(ToggleState.OFF, "\u3052"), new(ToggleState.OFF, "\u3054"), },
@@ -18,20 +12,6 @@ namespace hiravrt.Models.Nav.Graphs
 				{ new(ToggleState.OFF, "\u3070"), new(ToggleState.OFF, "\u3073"), new(ToggleState.OFF, "\u3076"), new(ToggleState.OFF, "\u3079"), new(ToggleState.OFF, "\u307C"), },
 				{ new(ToggleState.OFF, "\u3071"), new(ToggleState.OFF, "\u3074"), new(ToggleState.OFF, "\u3077"), new(ToggleState.OFF, "\u307A"), new(ToggleState.OFF, "\u307D"), },
 			};
-		}
-
-		protected override List<string> SetInitialGuesses(int size) {
-			return [];
-		}
-
-		protected override ToggleState[] SetRowToggle(int rows) {
-			return [
-				ToggleState.OFF,
-				ToggleState.OFF,
-				ToggleState.OFF,
-				ToggleState.OFF,
-				ToggleState.OFF,
-			];
 		}
 	}
 }
