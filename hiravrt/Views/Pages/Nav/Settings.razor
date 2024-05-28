@@ -40,10 +40,10 @@
 <article class="article-page" id="settings-sub-article">
 	<hgroup>
 		<h2>HIRAGANA GRID</h2>
-		<h3>ACTIVE SYLLABLES: @mc.SettingsC.Guesses.Count</h3>
+		<h3>ACTIVE SYLLABLES: @mc.SettingsC.AvailableSyllables.Count</h3>
 	</hgroup>
 
-	@switch (mc.SettingsC.CurrGraphState) {
+	@switch (mc.SettingsC.CurrentGraphState) {
 		case GraphState.MONOGRAPH : {
 			<section id="first">
 				<nav id="syllable-graph-types">

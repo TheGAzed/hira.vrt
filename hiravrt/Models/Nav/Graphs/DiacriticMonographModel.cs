@@ -3,21 +3,13 @@
 namespace hiravrt.Models.Nav.Graphs
 {
     public class DiacriticMonographModel(SettingsController controller) : GraphModel(5, 5, controller) {
-		protected override void ConsonantsToggleState() {
-			IEnumerable<ToggleState> distinct = RowToggle.Distinct();
-
-			if (distinct.Count() == 1) {
-				ConsonantsToggle = distinct.First();
-			}
-		}
-
 		protected override ToggleState[] SetColToggle(int columns) {
 			return Enumerable
 				.Repeat(ToggleState.OFF, columns)
 				.ToArray();
 		}
 
-		protected override Graph[,] SetGraphs(int rows, int columns) {
+		protected override Graph[,] SetInitialGraphs(int rows, int columns) {
 			return new Graph[,] {
 				
 				{ new(ToggleState.OFF, "\u304C"), new(ToggleState.OFF, "\u304E"), new(ToggleState.OFF, "\u3050"), new(ToggleState.OFF, "\u3052"), new(ToggleState.OFF, "\u3054"), },

@@ -16,11 +16,11 @@ namespace hiravrt.tests.Models.Game {
 
 		[Test]
 		public void EitherGuessIsCorrect_Test() {
-            Assert.That(model.Guesses[0].Equals(model.CorrectSyllable) || model.Guesses[1].Equals(model.CorrectSyllable));
+            Assert.That(model.GuessesPair[0].Equals(model.CorrectSyllable) || model.GuessesPair[1].Equals(model.CorrectSyllable));
 		}
 		[Test]
 		public void CorrectIndex_Test() {
-			Assert.That(model.Guesses[model.CorrectIndex], Is.EqualTo(model.CorrectSyllable));
+			Assert.That(model.GuessesPair[model.CorrectIndex], Is.EqualTo(model.CorrectSyllable));
 		}
 		[Test]
 		public void IsCorrect_CurrentGuessTrue_Test() {
@@ -28,50 +28,34 @@ namespace hiravrt.tests.Models.Game {
 		}
 		[Test]
 		public void IsCorrect_CorrectIndexTrue_Test() {
-            Assert.That(model.IsCorrect(model.Guesses[model.CorrectIndex]), Is.True);
+            Assert.That(model.IsCorrect(model.GuessesPair[model.CorrectIndex]), Is.True);
 		}
 		[Test]
 		public void IsCorrect_WrongIndexFalse_Test() {
-			Assert.That(model.IsCorrect(model.Guesses[1 - model.CorrectIndex]), Is.False);
+			Assert.That(model.IsCorrect(model.GuessesPair[1 - model.CorrectIndex]), Is.False);
 		}
 		[Test]
 		public void NextMove_CheckChangeOnlyOneNextGuess_Test() {
-			string a = model.Guesses[0];
-			string b = model.Guesses[1];
+			string a = model.GuessesPair[0];
+			string b = model.GuessesPair[1];
 
 			model.NextMove(model.CorrectSyllable);
 
-			Assert.That((a == model.Guesses[0]), Is.Not.EqualTo((b == model.Guesses[1])));
+			Assert.That((a == model.GuessesPair[0]), Is.Not.EqualTo((b == model.GuessesPair[1])));
 		}
 		[Test]
 		public void NextMove_CorrectGuessesListSizeIncreaseOnCorrect_Test() {
-			int list_length = model.CorrectGuesses.Count;
-			model.NextMove(model.Guesses[model.CorrectIndex]);
+			int list_length = model.CorrectGuessesCount;
+			model.NextMove(model.GuessesPair[model.CorrectIndex]);
 
-			Assert.That(list_length + 1, Is.EqualTo(model.CorrectGuesses.Count));
-		}
-		[Test]
-		public void NextMove_CorrectGuessesListLastElementIsPreviousCorrectGuess_Test() {
-			string last_correct = model.Guesses[model.CorrectIndex];
-			
-			model.NextMove(model.Guesses[model.CorrectIndex]);
-
-			Assert.That(last_correct, Is.EqualTo(model.CorrectGuesses.Last()));
+			Assert.That(list_length + 1, Is.EqualTo(model.CorrectGuessesCount));
 		}
 		[Test]
 		public void NextMove_WrongGuessesListSizeIncreaseOnIncorrect_Test() {
-			int list_length = model.WrongGuesses.Count;
-			model.NextMove(model.Guesses[1 - model.CorrectIndex]);
+			int list_length = model.WrongGuessesCount;
+			model.NextMove(model.GuessesPair[1 - model.CorrectIndex]);
 
-            Assert.That(list_length + 1, Is.EqualTo(model.WrongGuesses.Count));
-        }
-        [Test]
-        public void NextMove_WrongGuessesListLastElementIsPreviousWrongGuess_Test() {
-            string last_wrong = model.Guesses[1 - model.CorrectIndex];
-
-            model.NextMove(model.Guesses[1 - model.CorrectIndex]);
-
-            Assert.That(last_wrong, Is.EqualTo(model.WrongGuesses.Last()));
+            Assert.That(list_length + 1, Is.EqualTo(model.WrongGuessesCount));
         }
     }
 }

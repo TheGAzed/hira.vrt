@@ -135,9 +135,13 @@ span[id^="gamemode-statistics-correct"][id$="bar"] {
 	justify-self: start;
 	background: #308658;
 }
+article#either-or-gamemode-sub-article:focus {
+	border: none;
+	outline: none;
+}
 
 @media screen and (max-width: 950px) {
-	section#first {
+	section #first {
 		grid-column: span 3;
 	}
 

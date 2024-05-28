@@ -15,19 +15,19 @@ namespace hiravrt.Models.Nav.Graphs
 			return Enumerable.Repeat(ToggleState.ON, columns).ToArray();
 		}
 
-		protected override Graph[,] SetGraphs(int rows, int columns) {
+		protected override Graph[,] SetInitialGraphs(int rows, int columns) {
 			return new Graph[,] {
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u3042"), new(ToggleState.ON, "\u3044"), new(ToggleState.ON, "\u3046"), new(ToggleState.ON, "\u3048"), new(ToggleState.ON, "\u304a"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u304b"), new(ToggleState.ON, "\u304d"), new(ToggleState.ON, "\u304f"), new(ToggleState.ON, "\u3051"), new(ToggleState.ON, "\u3053"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u3055"), new(ToggleState.ON, "\u3057"), new(ToggleState.ON, "\u3059"), new(ToggleState.ON, "\u305b"), new(ToggleState.ON, "\u305d"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u305f"), new(ToggleState.ON, "\u3061"), new(ToggleState.ON, "\u3064"), new(ToggleState.ON, "\u3066"), new(ToggleState.ON, "\u3068"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u306a"), new(ToggleState.ON, "\u306b"), new(ToggleState.ON, "\u306c"), new(ToggleState.ON, "\u306d"), new(ToggleState.ON, "\u306e"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u306f"), new(ToggleState.ON, "\u3072"), new(ToggleState.ON, "\u3075"), new(ToggleState.ON, "\u3078"), new(ToggleState.ON, "\u307b"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u307e"), new(ToggleState.ON, "\u307f"), new(ToggleState.ON, "\u3080"), new(ToggleState.ON, "\u3081"), new(ToggleState.ON, "\u3082"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u3084"), new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u3086"), new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u3088"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u3089"), new(ToggleState.ON, "\u308a"), new(ToggleState.ON, "\u308b"), new(ToggleState.ON, "\u308c"), new(ToggleState.ON, "\u308d"), },
-				{ new(ToggleState.UNSET, ""),    new(ToggleState.ON, "\u308f"), new(ToggleState.OFF,"\u3090"), new(ToggleState.UNSET, ""),    new(ToggleState.OFF,"\u3091"), new(ToggleState.ON, "\u3092"), },
-				{ new(ToggleState.ON, "\u3093"), new(ToggleState.UNSET, ""),    new(ToggleState.UNSET, ""),    new(ToggleState.UNSET, ""),    new(ToggleState.UNSET, ""),   new(ToggleState.UNSET, ""),    },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u3042"), new(ToggleState.ON, "\u3044"), new(ToggleState.ON, "\u3046"), new(ToggleState.ON, "\u3048"), new(ToggleState.ON, "\u304a"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u304b"), new(ToggleState.ON, "\u304d"), new(ToggleState.ON, "\u304f"), new(ToggleState.ON, "\u3051"), new(ToggleState.ON, "\u3053"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u3055"), new(ToggleState.ON, "\u3057"), new(ToggleState.ON, "\u3059"), new(ToggleState.ON, "\u305b"), new(ToggleState.ON, "\u305d"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u305f"), new(ToggleState.ON, "\u3061"), new(ToggleState.ON, "\u3064"), new(ToggleState.ON, "\u3066"), new(ToggleState.ON, "\u3068"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u306a"), new(ToggleState.ON, "\u306b"), new(ToggleState.ON, "\u306c"), new(ToggleState.ON, "\u306d"), new(ToggleState.ON, "\u306e"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u306f"), new(ToggleState.ON, "\u3072"), new(ToggleState.ON, "\u3075"), new(ToggleState.ON, "\u3078"), new(ToggleState.ON, "\u307b"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u307e"), new(ToggleState.ON, "\u307f"), new(ToggleState.ON, "\u3080"), new(ToggleState.ON, "\u3081"), new(ToggleState.ON, "\u3082"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u3084"), new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u3086"), new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u3088"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u3089"), new(ToggleState.ON, "\u308a"), new(ToggleState.ON, "\u308b"), new(ToggleState.ON, "\u308c"), new(ToggleState.ON, "\u308d"), },
+				{ new(ToggleState.UNSET,    ""), new(ToggleState.ON, "\u308f"), new(ToggleState.OFF,"\u3090"), new(ToggleState.UNSET,    ""), new(ToggleState.OFF,"\u3091"), new(ToggleState.ON, "\u3092"), },
+				{ new(ToggleState.ON, "\u3093"), new(ToggleState.UNSET,    ""), new(ToggleState.UNSET,    ""), new(ToggleState.UNSET,    ""), new(ToggleState.UNSET,    ""), new(ToggleState.UNSET,    ""), },
 			};
 		}
 

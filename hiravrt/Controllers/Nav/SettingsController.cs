@@ -2,19 +2,24 @@
 using hiravrt.Models.Nav.Graphs;
 
 namespace hiravrt.Controllers.Nav {
-	public enum GraphState {
-		MONOGRAPH = 0b00,
-		DIGRAPH = 0b01,
+	/// <summary>
+	/// Graph states in settings razor section.
+	/// </summary>
+	public enum GraphState : int {
+		MONOGRAPH           = 0b00,
+		DIGRAPH             = 0b01,
 		DIACRITIC_MONOGRAPG = 0b10,
-		DIACRITIC_DIGRAPH = 0b11,
+		DIACRITIC_DIGRAPH   = 0b11,
 	}
 
 	public class SettingsController {
-		public string Settings() => "/settings";
+		/// <summary>
+		/// List of all game models that rely on settings' active syllables
+		/// </summary>
 		public List<GameModel> GameModels = [];
-		private Dictionary<GraphState, GraphModel> keyGraphPair;
-		public GraphState CurrGraphState { get; set; } = GraphState.MONOGRAPH;
-		public List<string> Guesses { get; set; } = [];
+		private readonly Dictionary<GraphState, GraphModel> keyGraphPair;
+		public GraphState CurrentGraphState { get; set; } = GraphState.MONOGRAPH;
+		public List<string> AvailableSyllables { get; set; } = [];
 
 		public SettingsController() {
 			keyGraphPair = new Dictionary<GraphState, GraphModel>() {
@@ -28,28 +33,28 @@ namespace hiravrt.Controllers.Nav {
 
 		public void AddGame(GameModel model) {
 			GameModels.Add(model);
-			model.RemainingSyllables = Guesses;
+			model.RemainingSyllables = AvailableSyllables;
 			model.Reset();
 		}
 
 		public GraphModel GetCurrentGraph() {
-			return keyGraphPair[CurrGraphState];
+			return keyGraphPair[CurrentGraphState];
 		}
 
 		public void NextGraph() {
-			CurrGraphState = (GraphState)(((int)CurrGraphState ^ 0b01) & ~0b10);
+			CurrentGraphState = (GraphState)(((int)CurrentGraphState ^ 0b01) & ~0b10);
 		}
 
 		public void NextDiacritic() {
-			CurrGraphState = (GraphState)((int)CurrGraphState ^ 0b10);
+			CurrentGraphState = (GraphState)((int)CurrentGraphState ^ 0b10);
 		}
 
 		private void SetGuesses() {
-			Guesses.Clear();
+			AvailableSyllables.Clear();
 
 			foreach (GraphModel m in keyGraphPair.Values) {
 				foreach (string g in m.Guesses) {
-					Guesses.Add(g);
+					AvailableSyllables.Add(g);
 				}
 			}
 		}

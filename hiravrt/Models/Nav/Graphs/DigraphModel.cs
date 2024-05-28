@@ -3,19 +3,11 @@
 namespace hiravrt.Models.Nav.Graphs
 {
     public class DigraphModel(SettingsController controller) : GraphModel(7, 3, controller) {
-		protected override void ConsonantsToggleState() {
-			IEnumerable<ToggleState> distinct = RowToggle.Distinct();
-
-			if (distinct.Count() == 1) {
-				ConsonantsToggle = distinct.First();
-			}
-		}
-
 		protected override ToggleState[] SetColToggle(int columns) {
 			return Enumerable.Repeat(ToggleState.OFF, columns).ToArray();
 		}
 
-		protected override Graph[,] SetGraphs(int rows, int columns) {
+		protected override Graph[,] SetInitialGraphs(int rows, int columns) {
 			return new Graph[,] {
 				{ new(ToggleState.OFF, "\u304D\u3083"), new(ToggleState.OFF, "\u304D\u3085"), new(ToggleState.OFF, "\u304D\u3087") },
 				{ new(ToggleState.OFF, "\u3057\u3083"), new(ToggleState.OFF, "\u3057\u3085"), new(ToggleState.OFF, "\u3057\u3087") },

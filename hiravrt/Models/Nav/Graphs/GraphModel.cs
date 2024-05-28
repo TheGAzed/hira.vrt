@@ -3,18 +3,24 @@ using hiravrt.Models.Game;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 
-namespace hiravrt.Models.Nav.Graphs
-{
-    public enum ToggleState : int
-	{
-		ON = 1,
-		OFF = -1,
-		UNSET = 0,
+namespace hiravrt.Models.Nav.Graphs {
+	/// <summary>
+	/// Settings toggle states enum for rows, columns and sallables.
+	/// </summary>
+    public enum ToggleState : int {
+		ON    =  1,
+		OFF   = -1,
+		UNSET =  0,
 	}
 
-	public struct Graph(ToggleState toggle, string kana)
-	{
+	public struct Graph(ToggleState toggle, string kana) {
+		/// <summary>
+		/// Toggle state.
+		/// </summary>
 		public ToggleState Toggle { get; set; } = toggle;
+		/// <summary>
+		/// Kana syllable string.
+		/// </summary>
 		public string Kana { get; } = kana;
 	}
 
@@ -31,19 +37,19 @@ namespace hiravrt.Models.Nav.Graphs
 		public GraphModel(int rows, int columns, SettingsController controller) {
 			Controller = controller;
 
-			Rows = rows;
+			Rows    = rows;
 			Columns = columns;
 
 			RowToggle = SetRowToggle(rows);
 			ColToggle = SetColToggle(columns);
 
-			Graphs = SetGraphs(rows, columns);
+			Graphs  = SetInitialGraphs(rows, columns);
 			Guesses = SetInitialGuesses(rows * columns);
 
 			ConsonantsToggleState();
 		}
 
-		abstract protected Graph[,] SetGraphs(int rows, int columns);
+		abstract protected Graph[,] SetInitialGraphs(int rows, int columns);
 		abstract protected List<string> SetInitialGuesses(int size);
 		abstract protected ToggleState[] SetRowToggle(int rows);
 		abstract protected ToggleState[] SetColToggle(int columns);
@@ -63,7 +69,7 @@ namespace hiravrt.Models.Nav.Graphs
 					ConsonantsToggleState();
 				}
 			}
-			NotifyController();
+			NotifySettingsController();
 		}
 
 		public void ToggleColumn(int col) {
@@ -83,7 +89,7 @@ namespace hiravrt.Models.Nav.Graphs
 					ConsonantsToggleState();
 				}
 			}
-			NotifyController();
+			NotifySettingsController();
 		}
 
 		public void ToggleAt(int row, int col)
@@ -98,7 +104,7 @@ namespace hiravrt.Models.Nav.Graphs
 			ColToggleState(col);
 			ConsonantsToggleState();
 
-			NotifyController();
+			NotifySettingsController();
 		}
 
 		private void RowToggleState(int row)
@@ -129,7 +135,13 @@ namespace hiravrt.Models.Nav.Graphs
 			else ColToggle[column] = ToggleState.ON;
 		}
 
-		protected abstract void ConsonantsToggleState();
+		protected virtual void ConsonantsToggleState() {
+			IEnumerable<ToggleState> distinct = RowToggle.Distinct();
+
+			if (distinct.Count() == 1) {
+				ConsonantsToggle = distinct.First();
+			}
+		}
 
 		private void Toggle(int row, int col) {
 			Graphs[row, col].Toggle = (ToggleState)(-(int)Graphs[row, col].Toggle);
@@ -139,7 +151,7 @@ namespace hiravrt.Models.Nav.Graphs
 			else Guesses.Remove(temp);
 		}
 
-		private void NotifyController() {
+		private void NotifySettingsController() {
 			Controller.Notify();
 		}
 	}

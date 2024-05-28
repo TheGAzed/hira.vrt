@@ -5,11 +5,10 @@ using hiravrt.Models.Nav;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-	.AddInteractiveServerComponents();
-
 builder.Services
-	.AddScoped<MainController>();
+    .AddScoped<MainController>()
+    .AddRazorComponents()
+	.AddInteractiveServerComponents();
 
 var app = builder.Build();
 
