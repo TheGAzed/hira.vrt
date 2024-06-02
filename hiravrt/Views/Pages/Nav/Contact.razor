@@ -69,14 +69,25 @@
 		<h3 id="contact-form-subtitle">FORM</h3>
 		<audio id="confirm-sound" src="sound/confirm-form-send.mp3"></audio>
 
+        @code {
+            FormModel formModel = new FormModel();
+
+            private async void SubmitForm() {
+                if (!formModel.IsBroken && formModel.IsValidForm()) {
+                    formModel.SendEmail();
+                    await JS.InvokeAsync<string>("PlaySound", "confirm-sound");
+                }
+            }
+        }
+
 		<EditForm id="contact-form" Model="@formModel" FormName="Email" OnValidSubmit="() => SubmitForm()">
             
 			@if (formModel.IsBroken) {
-				<InputText class="contact-form-data-blocked" placeholder="NAME" id="contact-form-name"disabled></InputText>
+				<input class="contact-form-data-blocked" placeholder="NAME" id="contact-form-name" disabled>
 
-				<InputText name="iemail" class="contact-form-data-blocked" placeholder="EMAIL" id="contact-form-email"disabled></InputText>
+				<input name="iemail" class="contact-form-data-blocked" placeholder="EMAIL" id="contact-form-email" disabled>
 
-				<InputTextArea name="imessage" id="contact-form-message-blocked" placeholder="MESSAGE *"disabled></InputTextArea>
+				<textarea name="imessage" id="contact-form-message-blocked" placeholder="MESSAGE *" disabled></textarea>
 
 				<button type="submit" id="contact-form-button-blocked">SEND</button>
 			} else {
@@ -91,16 +102,6 @@
 
 		</EditForm>
 
-		@code {
-			FormModel formModel = new FormModel();
-
-			private async void SubmitForm() {
-				if (!formModel.IsBroken && formModel.IsValidForm()) {
-					formModel.SendEmail();
-					await JS.InvokeAsync<string>("PlaySound", "confirm-sound");
-				}
-			}
-		}
 	</section>
 </article>
 

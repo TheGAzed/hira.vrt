@@ -21,11 +21,9 @@ namespace hiravrt.Models.Nav {
 
 		public FormModel() {
 			try {
-				config = new ConfigurationBuilder()
-					.AddUserSecrets<FormModel>()
-					.Build();
+				config = new ConfigurationBuilder().AddJsonFile("appsecrets.json").Build();
 			}
-			catch (InvalidOperationException) {
+			catch (Exception) {
 				IsBroken = true;
 			}
 		}

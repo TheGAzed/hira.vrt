@@ -7,12 +7,4 @@
     <UserSecretsId>aa283e3d-7597-462c-812d-22078bdf85d1</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="wwwroot\js\Keyboard.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\js\Keyboard.js" />
-  </ItemGroup>
-
 </Project>
