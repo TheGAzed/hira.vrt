@@ -1,4 +1,5 @@
 ﻿using hiravrt.Models.Game;
+using hiravrt.Models.Nav.Fonts;
 using hiravrt.Models.Nav.Graphs;
 
 namespace hiravrt.Controllers.Nav {
@@ -10,6 +11,28 @@ namespace hiravrt.Controllers.Nav {
 		DIGRAPH             = 0b01, // DIGRAPHIC SYLLABLES ENUM
 		DIACRITIC_MONOGRAPG = 0b10, // MONOGRAPHIC SYLLABLES WITH DIACRITICS ENUM
 		DIACRITIC_DIGRAPH   = 0b11, // DIGRAPHIC SYLLABLES WITH DIACRITICS ENUM
+	}
+
+	public enum FontGroup {
+		BASIC,
+		STYLE,
+	}
+
+	public enum FontID {
+		// BASIC
+		INITIAL              = 0,
+		GLNOVANTIQUAMINAMOTO = 1,
+		YUJIBOKU             = 2,
+
+		// STYLE
+		REGGAEONE            = 3,
+		HACHIMARUPOP         = 4,
+		NIKKYOUSANS          = 5,
+	}
+
+	public enum SettingsSection {
+		GRID,
+		FONTS,
 	}
 
 	public class SettingsController {
@@ -25,10 +48,14 @@ namespace hiravrt.Controllers.Nav {
 		/// Returns current set graph in sesttings.
 		/// </summary>
 		public GraphState CurrentGraphState { get; set; } = GraphState.MONOGRAPH;
+		public FontID CurrentFont { get; set; } = FontID.INITIAL;
+		public readonly Dictionary<FontID, string> FontIDFontName;
+		public SettingsSection CurrentSettingsSection { get; set; } = SettingsSection.GRID;
 		/// <summary>
 		/// List of all available/active syllables.
 		/// </summary>
 		private List<string> AvailableSyllables = [];
+		private Queue<string> AvailableSyllablesQueue;
 		/// <summary>
 		/// Default syllables used by every gamemodel.
 		/// </summary>
@@ -49,13 +76,27 @@ namespace hiravrt.Controllers.Nav {
 		public int AvailableSyllablesCount { get { return AvailableSyllables.Count; } }
 
 		public SettingsController() {
+			FontIDFontName = new() {
+				{ FontID.INITIAL, "initial"}, { FontID.GLNOVANTIQUAMINAMOTO, "GL-NovantiquaMinamoto"}, 
+				{ FontID.YUJIBOKU, "YujiBoku-Regular"}, { FontID.NIKKYOUSANS, "NikkyouSans"}, 
+				{ FontID.REGGAEONE, "ReggaeOne-Regular"}, { FontID.HACHIMARUPOP, "HachiMaruPop-Regular"},
+			};
+
 			StateGraphPair = new Dictionary<GraphState, GraphModel>() {
 				{ GraphState.MONOGRAPH,           new MonographModel(this)          },
 				{ GraphState.DIGRAPH,             new DigraphModel(this)            },
 				{ GraphState.DIACRITIC_MONOGRAPG, new DiacriticMonographModel(this) },
 				{ GraphState.DIACRITIC_DIGRAPH,   new DiacriticDigraphModel(this)   },
 			};
+
+			AvailableSyllablesQueue = new(AvailableSyllables);
 			SetGuesses();
+		}
+
+		public string ShiftGetAvailableSyllable() {
+			string temp = AvailableSyllablesQueue.Dequeue();
+			AvailableSyllablesQueue.Enqueue(temp);
+			return temp;
 		}
 
 		/// <summary>
@@ -101,6 +142,8 @@ namespace hiravrt.Controllers.Nav {
 					AvailableSyllables.Add(kana);
 				}
 			}
+
+			AvailableSyllablesQueue = new(AvailableSyllables);
 		}
 
 		/// <summary>

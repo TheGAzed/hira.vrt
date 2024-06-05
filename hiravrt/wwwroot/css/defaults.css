@@ -3,6 +3,31 @@
 	src: url(../font/roboto/Roboto-Regular.ttf);
 }
 
+@font-face {
+	font-family: 'GL-NovantiquaMinamoto';
+	src: url(../font/japanese/GL-NovantiquaMinamoto/GL-NovantiquaMinamoto.ttf);
+}
+
+@font-face {
+	font-family: 'HachiMaruPop-Regular';
+	src: url(../font/japanese/HachiMaruPop/HachiMaruPop-Regular.ttf);
+}
+
+@font-face {
+	font-family: 'NikkyouSans';
+	src: url(../font/japanese/NikkyouSans/NikkyouSans-mLKax.ttf);
+}
+
+@font-face {
+	font-family: 'ReggaeOne-Regular';
+	src: url(../font/japanese/ReggaeOne/ReggaeOne-Regular.ttf);
+}
+
+@font-face {
+	font-family: 'YujiBoku-Regular';
+	src: url(../font/japanese/YujiBoku/YujiBoku-Regular.ttf);
+}
+
 * {
 	font-family: 'Roboto-Regular';
 }
@@ -85,8 +110,8 @@ footer {
 article {
 	display: grid;
 	grid-template-columns: 15em 3.5em 15em 3.5em 15em;
-	padding-top: 3.5em;
-	padding-bottom: 3.5em;
+	padding-top: 3em;
+	padding-bottom: 3em;
 	justify-content: center;
 }
 article:nth-of-type(even) {

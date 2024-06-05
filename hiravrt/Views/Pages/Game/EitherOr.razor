@@ -1,6 +1,7 @@
 ﻿@page "/eitheror"
 
 @using hiravrt.Controllers
+@using hiravrt.Controllers.Nav
 @using hiravrt.Models.Game
 
 @rendermode InteractiveServer
@@ -183,11 +184,11 @@
 			</style>
 
 			<a id="firstpick" @onclick="async () => {  await checkClick(mc.GameC.EitherOrModel.GuessesPair[0]); }" disabled="@IsChecking">
-				<p lang="ja" id="firstguess">@mc.GameC.EitherOrModel.GuessesPair[0]</p>
+				<p lang="ja" id="firstguess" style="font-family: @(mc.SettingsC.FontIDFontName[mc.SettingsC.CurrentFont])">@mc.GameC.EitherOrModel.GuessesPair[0]</p>
 			</a>
 
 			<a id="secondpick" @onclick="async () => await checkClick(mc.GameC.EitherOrModel.GuessesPair[1])" disabled="@IsChecking">
-				<p lang="ja" id="secondguess">@mc.GameC.EitherOrModel.GuessesPair[1]</p>
+			<p lang="ja" id="secondguess" style="font-family: @(mc.SettingsC.FontIDFontName[mc.SettingsC.CurrentFont])">@mc.GameC.EitherOrModel.GuessesPair[1]</p>
 			</a>
 
 			<p id="@(romanjiType)" title="@(mc.GameC.LookUp.Pronunciation(mc.GameC.EitherOrModel.CorrectSyllable))">

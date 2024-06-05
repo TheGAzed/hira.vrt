@@ -3,6 +3,11 @@
 	grid-column: 2 / 5;
 }
 
+section#second {
+	display: grid;
+	grid-column: 2 / 5;
+}
+
 a.navigation-bar-link:nth-child(2) {
 	background-color: #D9D9D9;
 	color: #1B1B1B;
@@ -14,7 +19,7 @@ table#toggle-button {
 }
 td.toggle-button-data {
 	padding: unset;
-	height: 34px;
+	height: 32px;
 }
 
 /* TOGGLE BUTTON ANCHORS */
@@ -82,6 +87,40 @@ a.toggle-button-diacritic {
 	color: #d9d9d9;
 }
 
+nav#setting-types {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	margin-left: 2px;
+	margin-right: 2px;
+	grid-column-start: 1;
+	grid-column-end: -1;
+}
+
+a.setting-section-off, a.setting-section-on {
+	user-select: none;
+	display: grid;
+	align-content: center;
+	height: 2.5em;
+	cursor: pointer;
+	text-align: center;
+}
+
+a.setting-section-on {
+	background-color: #353535;
+	color: #D9D9D9;
+}
+
+a.setting-section-off {
+	background-color: #D9D9D9;
+	color: #353535;
+}
+
+a.setting-section-off:hover, a.setting-section-on:hover {
+	text-decoration: underline;
+}
+
 nav#syllable-graph-types {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
@@ -110,10 +149,76 @@ a.syllable-graph-off:hover, a.syllable-graph-on:hover {
 	text-decoration: underline;
 }
 
+a.font-button {
+	all: unset;
+	display: grid;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+
+a.font-button:hover small.font-button-element-name {
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+}
+
+td.font-type-on, td.font-type-off {
+	writing-mode: vertical-rl;
+	text-orientation: upright;
+	height: 8em;
+	width: calc(100% / 7);
+	text-align: center;
+	cursor: default;
+	user-select: none;
+}
+
+td.font-type-on {
+	background-color: #353535;
+	color: #D9D9D9;
+}
+
+td.font-data-on, td.font-data-off {
+	width: calc((100% / 7) * 2);
+}
+
+td.font-data-on {
+	color: #D9D9D9;
+	background-color: #353535;
+}
+
+td.font-data-on p.font-button-element-kana {
+	color: #D9D9D9;
+}
+
+tr.font-row {
+}
+
+p.font-button-element-kana {
+	width: 100%;
+	display: flex;
+	color: unset;
+	justify-content: center;
+	align-items: center;
+	aspect-ratio: 1 / 1;
+	font-size: 2.5em;
+	text-decoration: none;
+	user-select: none;
+}
+
+small.font-button-element-name {
+	font-size: x-small;
+	height: 3em;
+	text-align: center;
+	margin-top: 0.5em;
+}
+
 @media screen and (max-width: 950px) {
-	section#first {
+	section#first, section#second {
 		grid-column: 1 / 4;
 	}
+
 	td.toggle-button-data {
 		height: 40px;
 	}
