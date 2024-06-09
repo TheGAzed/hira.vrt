@@ -4,6 +4,7 @@
 @using System.ComponentModel.DataAnnotations;
 @using System.Net;
 @using System.Net.Mail;
+@using hiravrt.Models.Nav.Contact;
 
 @rendermode InteractiveServer
 @inject IJSRuntime JS
@@ -69,19 +70,19 @@
 		<h3 id="contact-form-subtitle">FORM</h3>
 		<audio id="confirm-sound" src="sound/confirm-form-send.mp3"></audio>
 
-        @code {
-            FormModel formModel = new FormModel();
+		@code {
+			FormModel formModel = new FormModel();
 
-            private async void SubmitForm() {
-                if (!formModel.IsBroken && formModel.IsValidForm()) {
-                    formModel.SendEmail();
-                    await JS.InvokeAsync<string>("PlaySound", "confirm-sound");
-                }
-            }
-        }
+			private async void SubmitForm() {
+				if (!formModel.IsBroken && formModel.IsValidForm()) {
+					formModel.SendEmail();
+					await JS.InvokeAsync<string>("PlaySound", "confirm-sound");
+				}
+			}
+		}
 
 		<EditForm id="contact-form" Model="@formModel" FormName="Email" OnValidSubmit="() => SubmitForm()">
-            
+			
 			@if (formModel.IsBroken) {
 				<input class="contact-form-data-blocked" placeholder="NAME" id="contact-form-name" disabled>
 

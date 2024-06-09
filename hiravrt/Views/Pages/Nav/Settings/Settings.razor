@@ -1,0 +1,42 @@
+﻿@page "/settings"
+
+@using hiravrt.Controllers
+@using hiravrt.Controllers.Nav
+
+@rendermode InteractiveServer
+@inject MainController mc
+
+<PageTitle>Settings</PageTitle>
+
+@code {
+	public string currentFontSyllable = "\u3042";
+}
+
+@{
+	string getSettingsSectionState(SettingsSection type) {
+		return type == mc.SettingsC.CurrentSettingsSection ? "on" : "off";
+	}
+}
+
+<link rel="stylesheet" href="css/nav/Settings.css" />
+<article class="article-page" id="settings-sub-article">
+	<hgroup>
+		<h2>GAME SETTINGS</h2>
+	</hgroup>
+
+	<nav id="setting-types">
+		<a class="setting-section-@(getSettingsSectionState(SettingsSection.GRID))" @onclick="() => mc.SettingsC.CurrentSettingsSection = SettingsSection.GRID">GRID</a>
+		<a class="setting-section-@(getSettingsSectionState(SettingsSection.FONTS))" @onclick="() => mc.SettingsC.CurrentSettingsSection = SettingsSection.FONTS">FONTS</a>
+	</nav>
+
+	@switch (mc.SettingsC.CurrentSettingsSection) {
+		case SettingsSection.GRID : {
+			<Grid />
+			break;
+		}
+		case SettingsSection.FONTS : {
+			<Fonts />
+			break;
+		}
+	}
+</article>

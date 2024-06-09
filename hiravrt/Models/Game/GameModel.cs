@@ -1,5 +1,5 @@
 ﻿using hiravrt.Controllers.Nav;
-using hiravrt.Models.Nav.Graphs;
+using hiravrt.Models.Nav.Settings.Grid;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -29,7 +29,7 @@ namespace hiravrt.Models.Game {
 		public int CorrectGuessesCount = default;
 
 		public GameModel(int MinimumGuessesCount) {
-			this.RemainingSyllables  = SettingsController.DefaultSyllables;
+			this.RemainingSyllables  = GridModel.DefaultSyllables;
 			this.MinimumGuessesCount = MinimumGuessesCount;
 			
 			InitialMove();

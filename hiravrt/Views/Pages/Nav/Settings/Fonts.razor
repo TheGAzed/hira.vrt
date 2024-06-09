@@ -1,0 +1,92 @@
+﻿@using hiravrt.Controllers
+@using hiravrt.Controllers.Nav
+@using hiravrt.Models.Nav.Settings
+
+@rendermode InteractiveServer
+@inject MainController mc
+
+@code {
+	public string currentFontSyllable = "\u3042";
+}
+
+@{
+	void setAndUpdateCurrentFont(FontID font) {
+		try {
+			if (mc.SettingsC.fontsModel.CurrentFont == font) {
+				string kana = mc.SettingsC.gridModel.ShiftGetAvailableSyllable();
+				if (kana != currentFontSyllable) currentFontSyllable = kana;
+				else currentFontSyllable = mc.SettingsC.gridModel.ShiftGetAvailableSyllable();
+			}
+			mc.SettingsC.fontsModel.CurrentFont = font;
+		} catch {
+			currentFontSyllable = "\u3042";
+		}
+	}
+
+	string getFontState(FontID check) {
+		return check == mc.SettingsC.fontsModel.CurrentFont ? "on" : "off";
+	}
+
+	string getFontGroupState(FontGroup type) {
+		if (type == FontGroup.BASIC) return (int)mc.SettingsC.fontsModel.CurrentFont < 3 ? "on" : "off";
+		return (int)mc.SettingsC.fontsModel.CurrentFont > 2 ? "on" : "off";
+	}
+}
+
+<hgroup>
+	<h3>FONT: @(mc.SettingsC.fontsModel.FontIDFontName[mc.SettingsC.fontsModel.CurrentFont].ToUpper())</h3>
+</hgroup>
+
+<section id="first">
+	<table id="fonts-table">
+		<tr id="basic-fonts" class="font-row">
+			<td class="font-type-@(getFontGroupState(FontGroup.BASIC))">BASIC</td>
+
+			<td class="font-data-@(getFontState(FontID.INITIAL))" @onclick="() => setAndUpdateCurrentFont(FontID.INITIAL)">
+				<a class="font-button">
+					<small class="font-button-element-name">INITIAL</small>
+					<p class="font-button-element-kana">@currentFontSyllable</p>
+				</a>
+			</td>
+
+			<td class="font-data-@(getFontState(FontID.GLNOVANTIQUAMINAMOTO))" @onclick="() => setAndUpdateCurrentFont(FontID.GLNOVANTIQUAMINAMOTO)">
+				<a class="font-button">
+					<small class="font-button-element-name">GL-NOVANTIQUA MINAMOTO</small>
+					<p class="font-button-element-kana" style="font-family: GL-NovantiquaMinamoto">@currentFontSyllable</p>
+				</a>
+			</td>
+
+			<td class="font-data-@(getFontState(FontID.YUJIBOKU))" @onclick="() => setAndUpdateCurrentFont(FontID.YUJIBOKU)">
+				<a class="font-button">
+					<small class="font-button-element-name">YUJI BOKU</small>
+					<p class="font-button-element-kana" style="font-family: YujiBoku-Regular">@currentFontSyllable</p>
+				</a>
+			</td>
+		</tr>
+
+		<tr id="stylized-fonts" class="font-row">
+			<td class="font-type-@(getFontGroupState(FontGroup.STYLE))">STYLE</td>
+
+			<td class="font-data-@(getFontState(FontID.NIKKYOUSANS))" @onclick="() => setAndUpdateCurrentFont(FontID.NIKKYOUSANS)">
+				<a class="font-button">
+					<small class="font-button-element-name">NIKKYOU SANS</small>
+					<p class="font-button-element-kana" style="font-family: NikkyouSans">@currentFontSyllable</p>
+				</a>
+			</td>
+
+			<td class="font-data-@(getFontState(FontID.REGGAEONE))" @onclick="() => setAndUpdateCurrentFont(FontID.REGGAEONE)">
+				<a class="font-button">
+					<small class="font-button-element-name">REGGAE ONE</small>
+					<p class="font-button-element-kana" style="font-family: ReggaeOne-Regular">@currentFontSyllable</p>
+				</a>
+			</td>
+
+			<td class="font-data-@(getFontState(FontID.HACHIMARUPOP))" @onclick="() => setAndUpdateCurrentFont(FontID.HACHIMARUPOP)">
+				<a class="font-button">
+					<small class="font-button-element-name">HACHIMARU POP</small>
+					<p class="font-button-element-kana" style="font-family: HachiMaruPop-Regular">@currentFontSyllable</p>
+				</a>
+			</td>
+		</tr>
+	</table>
+</section>
