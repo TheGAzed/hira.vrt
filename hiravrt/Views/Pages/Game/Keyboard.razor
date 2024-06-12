@@ -1,0 +1,50 @@
+﻿@page "/keyboard"
+
+@using hiravrt.Controllers
+@using hiravrt.Controllers.Nav
+@using hiravrt.Models.Game
+
+@rendermode InteractiveServer
+@inject MainController mc
+
+<PageTitle>Keyboard</PageTitle>
+
+<link rel="stylesheet" href="css/game/Keyboard.css" />
+
+<article class="article-page">
+	<hgroup>
+		<h2>KEYBOARD MODE</h2>
+	</hgroup>
+
+	<section id="KEYBOARDSECTION">
+		<p lang="ja" id="KEYBOARDP">ぁ</p>
+		<div id="upperkeyboard">
+			<button class="KEYBOARDBUTTON">></button>
+
+			<button class="KEYBOARDBUTTON">A</button>
+			<button class="KEYBOARDBUTTON">I</button>
+			<button class="KEYBOARDBUTTON">U</button>
+			<button class="KEYBOARDBUTTON">E</button>
+			<button class="KEYBOARDBUTTON">O</button>
+		</div>
+
+		<hr class="LINE">
+
+		<div id="toplower">
+			<button class="KEYBOARDBUTTON">^</button>
+
+			<button class="KEYBOARDBUTTON">K</button>
+			<button class="KEYBOARDBUTTON">S</button>
+			<button class="KEYBOARDBUTTON">T</button>
+			<button class="KEYBOARDBUTTON">N</button>
+		</div>
+
+		<div id="bottomlower">
+            <button class="KEYBOARDBUTTON">H</button>
+            <button class="KEYBOARDBUTTON">M</button>
+			<button class="KEYBOARDBUTTON">Y</button>
+			<button class="KEYBOARDBUTTON">R</button>
+			<button class="KEYBOARDBUTTON">W</button>
+		</div>
+	</section>
+</article>

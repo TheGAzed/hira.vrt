@@ -16,6 +16,7 @@
 		/// Lookup syllable unicode to pronunciation
 		/// </summary>
 		private readonly Dictionary<string, string> SyllablePronunciation;
+		private readonly Dictionary<string, string> SyllableGrid;
 
 		public LookUp() { 
 			this.SyllablePronunciation = new() {
@@ -131,47 +132,89 @@
 			{ "PYA"  , "\u3074\u3083" }, { "PYU"  , "\u3074\u3085" }, { "PYO"  , "\u3074\u3087" }, // p
 		};
 			this.SyllableLatin         = new() {
-			// HIRAGANA MONOGRAPHS TO LATIN
-			//    a                   i                     u                    e                     o
-			{ "\u3042",  "A" }, { "\u3044",  "I"   }, { "\u3046",  "U"  }, { "\u3048",  "E"   }, { "\u304a",  "O"   },
-			{ "\u304b", "KA" }, { "\u304d", "KI"   }, { "\u304f", "KU"  }, { "\u3051", "KE"   }, { "\u3053", "KO"   }, // k
-			{ "\u3055", "SA" }, { "\u3057", "SHI"  }, { "\u3059", "SU"  }, { "\u305b", "SE"   }, { "\u305d", "SO"   }, // s
-			{ "\u305f", "TA" }, { "\u3061", "CHI"  }, { "\u3064", "TSU" }, { "\u3066", "TE"   }, { "\u3068", "TO"   }, // t
-			{ "\u306a", "NA" }, { "\u306b", "NI"   }, { "\u306c", "NU"  }, { "\u306d", "NE"   }, { "\u306e", "NO"   }, // n
-			{ "\u306f", "HA" }, { "\u3072", "HI"   }, { "\u3075", "FU"  }, { "\u3078", "HE"   }, { "\u307b", "HO"   }, // h
-			{ "\u307e", "MA" }, { "\u307f", "MI"   }, { "\u3080", "MU"  }, { "\u3081", "ME"   }, { "\u3082", "MO"   }, // m
-			{ "\u3084", "YA" },                       { "\u3086", "YU"  },                       { "\u3088", "YO"   }, // y
-			{ "\u3089", "RA" }, { "\u308a", "RI"   }, { "\u308b", "RU"  }, { "\u308c", "RE"   }, { "\u308d", "RO"   }, // r
-			{ "\u308f", "WA" }, { "\u3090", "(W)I" },                      { "\u3091", "(W)E" }, { "\u3092", "(W)O" }, // w
-			//      n
-			{ "\u3093", "N" },
+				// HIRAGANA MONOGRAPHS TO LATIN
+				//    a                   i                     u                    e                     o
+				{ "\u3042",  "A" }, { "\u3044",  "I"   }, { "\u3046",  "U"  }, { "\u3048",  "E"   }, { "\u304a",  "O"   },
+				{ "\u304b", "KA" }, { "\u304d", "KI"   }, { "\u304f", "KU"  }, { "\u3051", "KE"   }, { "\u3053", "KO"   }, // k
+				{ "\u3055", "SA" }, { "\u3057", "SHI"  }, { "\u3059", "SU"  }, { "\u305b", "SE"   }, { "\u305d", "SO"   }, // s
+				{ "\u305f", "TA" }, { "\u3061", "CHI"  }, { "\u3064", "TSU" }, { "\u3066", "TE"   }, { "\u3068", "TO"   }, // t
+				{ "\u306a", "NA" }, { "\u306b", "NI"   }, { "\u306c", "NU"  }, { "\u306d", "NE"   }, { "\u306e", "NO"   }, // n
+				{ "\u306f", "HA" }, { "\u3072", "HI"   }, { "\u3075", "FU"  }, { "\u3078", "HE"   }, { "\u307b", "HO"   }, // h
+				{ "\u307e", "MA" }, { "\u307f", "MI"   }, { "\u3080", "MU"  }, { "\u3081", "ME"   }, { "\u3082", "MO"   }, // m
+				{ "\u3084", "YA" },                       { "\u3086", "YU"  },                       { "\u3088", "YO"   }, // y
+				{ "\u3089", "RA" }, { "\u308a", "RI"   }, { "\u308b", "RU"  }, { "\u308c", "RE"   }, { "\u308d", "RO"   }, // r
+				{ "\u308f", "WA" }, { "\u3090", "(W)I" },                      { "\u3091", "(W)E" }, { "\u3092", "(W)O" }, // w
+				//      n
+				{ "\u3093", "N" },
 
-			// HIRAGANA DIGRAPHS TO LATIN
-			//      ya                        yu                        yo
-			{ "\u304D\u3083", "KYA" }, {"\u304D\u3085", "KYU" }, {"\u304D\u3087", "KYO" }, // k
-			{ "\u3057\u3083", "SHA" }, {"\u3057\u3085", "SHU" }, {"\u3057\u3087", "SHO" }, // s
-			{ "\u3061\u3083", "CHA" }, {"\u3061\u3085", "CHU" }, {"\u3061\u3087", "CHO" }, // t
-			{ "\u306B\u3083", "NYA" }, {"\u306B\u3085", "NYU" }, {"\u306B\u3087", "NYO" }, // n
-			{ "\u3072\u3083", "HYA" }, {"\u3072\u3085", "HYU" }, {"\u3072\u3087", "HYO" }, // m
-			{ "\u307F\u3083", "MYA" }, {"\u307F\u3085", "MYU" }, {"\u307F\u3087", "MYO" }, // h
-			{ "\u308A\u3083", "RYA" }, {"\u308A\u3085", "RYU" }, {"\u308A\u3087", "RYO" }, // r
+				// HIRAGANA DIGRAPHS TO LATIN
+				//      ya                        yu                        yo
+				{ "\u304D\u3083", "KYA" }, {"\u304D\u3085", "KYU" }, {"\u304D\u3087", "KYO" }, // k
+				{ "\u3057\u3083", "SHA" }, {"\u3057\u3085", "SHU" }, {"\u3057\u3087", "SHO" }, // s
+				{ "\u3061\u3083", "CHA" }, {"\u3061\u3085", "CHU" }, {"\u3061\u3087", "CHO" }, // t
+				{ "\u306B\u3083", "NYA" }, {"\u306B\u3085", "NYU" }, {"\u306B\u3087", "NYO" }, // n
+				{ "\u3072\u3083", "HYA" }, {"\u3072\u3085", "HYU" }, {"\u3072\u3087", "HYO" }, // m
+				{ "\u307F\u3083", "MYA" }, {"\u307F\u3085", "MYU" }, {"\u307F\u3087", "MYO" }, // h
+				{ "\u308A\u3083", "RYA" }, {"\u308A\u3085", "RYU" }, {"\u308A\u3087", "RYO" }, // r
 
-			// HIRAGANA DIACRITIC MONOGRAPHS TO LATIN
-			//    a                   i                      u                      e                   o
-			{ "\u304C", "GA" }, { "\u304E", "GI"    }, { "\u3050", "GU"    }, { "\u3052", "GE" }, { "\u3054", "GO" }, // g
-			{ "\u3056", "ZA" }, { "\u3058", "(Z)JI" }, { "\u305A", "ZU"    }, { "\u305C", "ZE" }, { "\u305E", "ZO" }, // z
-			{ "\u3060", "DA" }, { "\u3062", "(D)JI" }, { "\u3065", "(D)ZU" }, { "\u3067", "DE" }, { "\u3069", "DO" }, // d
-			{ "\u3070", "BA" }, { "\u3073", "BI"    }, { "\u3076", "BU"    }, { "\u3079", "BE" }, { "\u307C", "BO" }, // b
-			{ "\u3071", "PA" }, { "\u3074", "PI"    }, { "\u3077", "PU"    }, { "\u307A", "PE" }, { "\u307D", "PO" }, // p
+				// HIRAGANA DIACRITIC MONOGRAPHS TO LATIN
+				//    a                   i                      u                      e                   o
+				{ "\u304C", "GA" }, { "\u304E", "GI"    }, { "\u3050", "GU"    }, { "\u3052", "GE" }, { "\u3054", "GO" }, // g
+				{ "\u3056", "ZA" }, { "\u3058", "(Z)JI" }, { "\u305A", "ZU"    }, { "\u305C", "ZE" }, { "\u305E", "ZO" }, // z
+				{ "\u3060", "DA" }, { "\u3062", "(D)JI" }, { "\u3065", "(D)ZU" }, { "\u3067", "DE" }, { "\u3069", "DO" }, // d
+				{ "\u3070", "BA" }, { "\u3073", "BI"    }, { "\u3076", "BU"    }, { "\u3079", "BE" }, { "\u307C", "BO" }, // b
+				{ "\u3071", "PA" }, { "\u3074", "PI"    }, { "\u3077", "PU"    }, { "\u307A", "PE" }, { "\u307D", "PO" }, // p
 
-			// HIRAGANA DIACRITIC DIGRAPHS TO LATIN
-			//      ya                           yu                           yo
-			{ "\u304E\u3083", "GYA"   }, { "\u304E\u3085", "GYU"   }, { "\u304E\u3087", "GYO"   }, // g
-			{ "\u3058\u3083", "(Z)JA" }, { "\u3058\u3085", "(Z)JU" }, { "\u3058\u3087", "(Z)JO" }, // z
-			{ "\u3062\u3083", "(D)JA" }, { "\u3062\u3085", "(D)JU" }, { "\u3062\u3087", "(D)JO" }, // d
-			{ "\u3073\u3083", "BYA"   }, { "\u3073\u3085", "BYU"   }, { "\u3073\u3087", "BYO"   }, // b
-			{ "\u3074\u3083", "PYA"   }, { "\u3074\u3085", "PYU"   }, { "\u3074\u3087", "PYO"   }, // p
-		};
+				// HIRAGANA DIACRITIC DIGRAPHS TO LATIN
+				//      ya                           yu                           yo
+				{ "\u304E\u3083", "GYA"   }, { "\u304E\u3085", "GYU"   }, { "\u304E\u3087", "GYO"   }, // g
+				{ "\u3058\u3083", "(Z)JA" }, { "\u3058\u3085", "(Z)JU" }, { "\u3058\u3087", "(Z)JO" }, // z
+				{ "\u3062\u3083", "(D)JA" }, { "\u3062\u3085", "(D)JU" }, { "\u3062\u3087", "(D)JO" }, // d
+				{ "\u3073\u3083", "BYA"   }, { "\u3073\u3085", "BYU"   }, { "\u3073\u3087", "BYO"   }, // b
+				{ "\u3074\u3083", "PYA"   }, { "\u3074\u3085", "PYU"   }, { "\u3074\u3087", "PYO"   }, // p
+			};
+			this.SyllableGrid          = new() {
+				// HIRAGANA MONOGRAPHS TO LATIN
+				//    a                   i                   u                   e                   o
+				{ "\u3042",  "A" }, { "\u3044",  "I" }, { "\u3046",  "U" }, { "\u3048",  "E" }, { "\u304a",  "O" },
+				{ "\u304b", "KA" }, { "\u304d", "KI" }, { "\u304f", "KU" }, { "\u3051", "KE" }, { "\u3053", "KO" }, // k
+				{ "\u3055", "SA" }, { "\u3057", "SI" }, { "\u3059", "SU" }, { "\u305b", "SE" }, { "\u305d", "SO" }, // s
+				{ "\u305f", "TA" }, { "\u3061", "TI" }, { "\u3064", "TU" }, { "\u3066", "TE" }, { "\u3068", "TO" }, // t
+				{ "\u306a", "NA" }, { "\u306b", "NI" }, { "\u306c", "NU" }, { "\u306d", "NE" }, { "\u306e", "NO" }, // n
+				{ "\u306f", "HA" }, { "\u3072", "HI" }, { "\u3075", "HU" }, { "\u3078", "HE" }, { "\u307b", "HO" }, // h
+				{ "\u307e", "MA" }, { "\u307f", "MI" }, { "\u3080", "MU" }, { "\u3081", "ME" }, { "\u3082", "MO" }, // m
+				{ "\u3084", "YA" },                     { "\u3086", "YU" },                     { "\u3088", "YO" }, // y
+				{ "\u3089", "RA" }, { "\u308a", "RI" }, { "\u308b", "RU" }, { "\u308c", "RE" }, { "\u308d", "RO" }, // r
+				{ "\u308f", "WA" }, { "\u3090", "WI" },                     { "\u3091", "WE" }, { "\u3092", "WO" }, // w
+				//      n
+				{ "\u3093", "N" },
+
+				// HIRAGANA DIGRAPHS TO LATIN
+				//      ya                        yu                        yo
+				{ "\u304D\u3083", "KYA" }, {"\u304D\u3085", "KYU" }, {"\u304D\u3087", "KYO" }, // k
+				{ "\u3057\u3083", "SYA" }, {"\u3057\u3085", "SYU" }, {"\u3057\u3087", "SYO" }, // s
+				{ "\u3061\u3083", "TYA" }, {"\u3061\u3085", "TYU" }, {"\u3061\u3087", "TYO" }, // t
+				{ "\u306B\u3083", "NYA" }, {"\u306B\u3085", "NYU" }, {"\u306B\u3087", "NYO" }, // n
+				{ "\u307F\u3083", "MYA" }, {"\u307F\u3085", "MYU" }, {"\u307F\u3087", "MYO" }, // m
+				{ "\u3072\u3083", "HYA" }, {"\u3072\u3085", "HYU" }, {"\u3072\u3087", "HYO" }, // h
+				{ "\u308A\u3083", "RYA" }, {"\u308A\u3085", "RYU" }, {"\u308A\u3087", "RYO" }, // r
+
+				// HIRAGANA DIACRITIC MONOGRAPHS TO LATIN
+				//    a                   i                      u                      e                   o
+				{ "\u304C", "GA" }, { "\u304E", "GI" }, { "\u3050", "GU" }, { "\u3052", "GE" }, { "\u3054", "GO" }, // g
+				{ "\u3056", "ZA" }, { "\u3058", "ZI" }, { "\u305A", "ZU" }, { "\u305C", "ZE" }, { "\u305E", "ZO" }, // z
+				{ "\u3060", "DA" }, { "\u3062", "DI" }, { "\u3065", "DU" }, { "\u3067", "DE" }, { "\u3069", "DO" }, // d
+				{ "\u3070", "BA" }, { "\u3073", "BI" }, { "\u3076", "BU" }, { "\u3079", "BE" }, { "\u307C", "BO" }, // b
+				{ "\u3071", "PA" }, { "\u3074", "PI" }, { "\u3077", "PU" }, { "\u307A", "PE" }, { "\u307D", "PO" }, // p
+
+				// HIRAGANA DIACRITIC DIGRAPHS TO LATIN
+				//      ya                           yu                           yo
+				{ "\u304E\u3083", "GYA" }, { "\u304E\u3085", "GYU" }, { "\u304E\u3087", "GYO" }, // g
+				{ "\u3058\u3083", "ZYA" }, { "\u3058\u3085", "ZYU" }, { "\u3058\u3087", "ZYO" }, // z
+				{ "\u3062\u3083", "DYA" }, { "\u3062\u3085", "DYU" }, { "\u3062\u3087", "DYO" }, // d
+				{ "\u3073\u3083", "BYA" }, { "\u3073\u3085", "BYU" }, { "\u3073\u3087", "BYO" }, // b
+				{ "\u3074\u3083", "PYA" }, { "\u3074\u3085", "PYU" }, { "\u3074\u3087", "PYO" }, // p
+			};
 		}
 
 		/// <summary>
@@ -224,6 +267,10 @@
 		public readonly string Pronunciation(string syllable) {
 			if (!SyllablePronunciation.TryGetValue(syllable, out string? latin)) throw new ArgumentException(latin + " is not a valid japanese syllable");
 			return latin;
+		}
+		public readonly string Grid(string syllable) {
+			if (!SyllableGrid.TryGetValue(syllable, out string? grid)) throw new ArgumentException(grid + " is not a valid japanese syllable");
+			return grid;
 		}
 		/// <summary>
 		/// Mixes two colors and returns new color.

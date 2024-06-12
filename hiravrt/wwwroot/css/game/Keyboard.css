@@ -1,0 +1,85 @@
+﻿p#KEYBOARDP {
+	display: grid;
+	font-size: 9.375em;
+	text-align: center;
+	align-content: center;
+	cursor: default;
+	background-color: #373186;
+	color: #FFF;
+	border-radius: 0.1em;
+	aspect-ratio: 1 / 1;
+}
+
+section#KEYBOARDSECTION, div#bottomlower, div#toplower, div#upperkeyboard {
+	display: flex;
+}
+
+section#KEYBOARDSECTION {
+	flex-direction: column;
+	grid-column: 3;
+	justify-self: center;
+	width: 100%;
+	row-gap: 0.5em;
+}
+
+div#upperkeyboard {
+	justify-content: space-between;
+}
+
+div#lowerkeyboard {
+	display: grid;
+	grid-template-rows: repeat(2, 1fr);
+	row-gap: 0.5em;
+	grid-row: 4;
+	justify-content: center;
+}
+
+div#toplower {
+	justify-content: space-between;
+}
+
+div#bottomlower {
+	justify-content: center;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 0.5em;
+}
+
+button.RIGHTBOARDBUTTON, button.KEYBOARDBUTTON, button.WRONGBOARDBUTTON {
+	width: 2.5em;
+	height: 2.5em;
+	border-radius: 0.5em;
+	border: 0.156em solid;
+	color: #FFF;
+	text-align: center;
+	font-weight: bold;
+	cursor: pointer;
+	column-gap: normal;
+}
+
+button.WRONGBOARDBUTTON {
+	border-color: #863030;
+	background: #863030;
+}
+
+button.RIGHTBOARDBUTTON {
+	border-color: #308658;
+	background: #308658;
+}
+
+button.KEYBOARDBUTTON {
+	border-color: #1B1B1B;
+	background: #FFF;
+	color: #1B1B1B;
+}
+
+button.KEYBOARDBUTTON:active, button.RIGHTBOARDBUTTON:active, button.WRONGBOARDBUTTON:active {
+	transform: scale(0.95);
+}
+
+hr.LINE {
+	margin: unset;
+}
+
+article.SUBPAGE {
+	height: 100%;
+}
