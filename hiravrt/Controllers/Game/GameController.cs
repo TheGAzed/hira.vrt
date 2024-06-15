@@ -27,5 +27,6 @@ namespace hiravrt.Controllers.Game
 		/// </summary>
 		/// <returns>EitherOr string address.</returns>
 		public string EitherOr() => "/eitheror";
+		public string Keyboard() => "/keyboard";
 	}
 }
