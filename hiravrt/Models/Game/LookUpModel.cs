@@ -17,9 +17,10 @@
 		/// </summary>
 		private readonly Dictionary<string, string> SyllablePronunciation;
 		private readonly Dictionary<string, string> SyllableGrid;
+		private readonly Dictionary<string, string> SyllableGridAlternative;
 
 		public LookUp() { 
-			this.SyllablePronunciation = new() {
+			this.SyllablePronunciation   = new() {
 			// HIRAGANA MONOGRAPHS TO PRONUNCIATION
 			//    a                     i                      u                      e                     o
 			{ "\u3042",  "[a]" }, { "\u3044",   "[i]" }, { "\u3046",   "[ɯ]" }, { "\u3048",  "[e]" }, { "\u304a",  "[o]" },
@@ -61,7 +62,7 @@
 			{ "\u3073\u3083",   "[bʲa]" }, { "\u3073\u3085",   "[bʲɯ]" }, { "\u3073\u3087",   "[bʲo]" }, // b
 			{ "\u3074\u3083",   "[pʲa]" }, { "\u3074\u3085",   "[pʲɯ]" }, { "\u3074\u3087",   "[pʲo]" }, // p
 		};
-			this.SyllableColor         = new() {
+			this.SyllableColor           = new() {
 			// HIRAGANA NON DIACRITIC
 			//    a                                   i                                   u                                   e                                   o
 			{ "\u3042", (0xFF5733, 0xFF5733) }, { "\u3044", (0x4CAF50, 0x4CAF50) }, { "\u3046", (0x2196F3, 0x2196F3) }, { "\u3048", (0xFFC107, 0xFFC107) }, { "\u304a", (0xE91E63, 0xE91E63) },
@@ -89,7 +90,7 @@
 			//    ya                                                                      yu                                                                      yo
 			{ "\u3083", (0xFF5733, 0x9C27B0) },                                     { "\u3085", (0x2196F3, 0x9C27B0) },                                     { "\u3087", (0xE91E63, 0x9C27B0) }, // y
 		};
-			this.LatinSyllable         = new() {
+			this.LatinSyllable           = new() {
 			// HIRAGANA MONOGRAPHS TO SYLLABLE
 			//          a                     i                    u                     e                     o
 			{  "A", "\u3042" }, {    "I", "\u3044" }, {   "U", "\u3046" }, {    "E", "\u3048" }, {    "O", "\u304a" },
@@ -131,7 +132,7 @@
 			{ "BYA"  , "\u3073\u3083" }, { "BYU"  , "\u3073\u3085" }, { "BYO"  , "\u3073\u3087" }, // b
 			{ "PYA"  , "\u3074\u3083" }, { "PYU"  , "\u3074\u3085" }, { "PYO"  , "\u3074\u3087" }, // p
 		};
-			this.SyllableLatin         = new() {
+			this.SyllableLatin           = new() {
 				// HIRAGANA MONOGRAPHS TO LATIN
 				//    a                   i                     u                    e                     o
 				{ "\u3042",  "A" }, { "\u3044",  "I"   }, { "\u3046",  "U"  }, { "\u3048",  "E"   }, { "\u304a",  "O"   },
@@ -173,7 +174,7 @@
 				{ "\u3073\u3083", "BYA"   }, { "\u3073\u3085", "BYU"   }, { "\u3073\u3087", "BYO"   }, // b
 				{ "\u3074\u3083", "PYA"   }, { "\u3074\u3085", "PYU"   }, { "\u3074\u3087", "PYO"   }, // p
 			};
-			this.SyllableGrid          = new() {
+			this.SyllableGrid            = new() {
 				// HIRAGANA MONOGRAPHS TO LATIN
 				//    a                   i                   u                   e                   o
 				{ "\u3042",  "A" }, { "\u3044",  "I" }, { "\u3046",  "U" }, { "\u3048",  "E" }, { "\u304a",  "O" },
@@ -214,6 +215,29 @@
 				{ "\u3062\u3083", "DYA" }, { "\u3062\u3085", "DYU" }, { "\u3062\u3087", "DYO" }, // d
 				{ "\u3073\u3083", "BYA" }, { "\u3073\u3085", "BYU" }, { "\u3073\u3087", "BYO" }, // b
 				{ "\u3074\u3083", "PYA" }, { "\u3074\u3085", "PYU" }, { "\u3074\u3087", "PYO" }, // p
+			};
+			this.SyllableGridAlternative = new() {
+				// HIRAGANA MONOGRAPHS TO LATIN
+				//    i                    u                    e                  o
+				{ "\u3057", "SHI" },                                                            // s
+				{ "\u3061", "CHI" }, { "\u3064", "TSU" },                                       // t
+				                     { "\u3075", "FU"  },                                       // h
+				{ "\u3090", "I"   },                      { "\u3091", "E" }, { "\u3092", "O" }, // w
+
+				// HIRAGANA DIGRAPHS TO LATIN
+				//      ya                        yu                        yo
+				{ "\u3057\u3083", "SHA" }, {"\u3057\u3085", "SHU" }, {"\u3057\u3087", "SHO" }, // s
+				{ "\u3061\u3083", "CHA" }, {"\u3061\u3085", "CHU" }, {"\u3061\u3087", "CHO" }, // t
+
+				// HIRAGANA DIACRITIC MONOGRAPHS TO LATIN
+				//    i                   u
+				{ "\u3058", "JI" },                     // z
+				{ "\u3062", "JI" }, { "\u3065", "ZU" }, // d
+
+				// HIRAGANA DIACRITIC DIGRAPHS TO LATIN
+				//      ya                        yu                         yo
+				{ "\u3058\u3083", "JA" }, { "\u3058\u3085", "JU" }, { "\u3058\u3087", "JO" }, // z
+				{ "\u3062\u3083", "JA" }, { "\u3062\u3085", "JU" }, { "\u3062\u3087", "JO" }, // d
 			};
 		}
 
@@ -270,6 +294,13 @@
 		}
 		public readonly string Grid(string syllable) {
 			if (!SyllableGrid.TryGetValue(syllable, out string? grid)) throw new ArgumentException(grid + " is not a valid japanese syllable");
+			return grid;
+		}
+		public readonly bool AlternativeGridContains(string syllable) {
+			return SyllableGridAlternative.ContainsKey(syllable);
+		}
+		public readonly string AlternativeGrid(string syllable) {
+			if (!SyllableGridAlternative.TryGetValue(syllable, out string? grid)) throw new ArgumentException(grid + " is not a valid japanese syllable");
 			return grid;
 		}
 		/// <summary>

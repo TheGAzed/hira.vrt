@@ -3,48 +3,299 @@
 @using hiravrt.Controllers
 @using hiravrt.Controllers.Nav
 @using hiravrt.Models.Game
+@using System.Text.RegularExpressions;
 
 @rendermode InteractiveServer
 @inject MainController mc
+@inject IJSRuntime JS
 
 <PageTitle>Keyboard</PageTitle>
 
 <link rel="stylesheet" href="css/game/Keyboard.css" />
 
-<article class="article-page">
+@code {
+	enum SyllableState { UNSET, CORRECT, INTERMEDIATE, WRONG, }
+	private bool isDigraph = false;
+	private bool isDiacritic = false;
+
+	static int baseColor = 0x1B1B1B;
+	string guesses = "guesses";
+	bool IsChecking = false;
+	(int, int) ratioBefore = (0, 0), ratioAfter = (0, 0);
+	(int, int) color = (baseColor, baseColor);
+
+	protected ElementReference gameDiv;
+
+	private Dictionary<string, SyllableState> SyllableStates = new() {
+		{ "A", SyllableState.UNSET }, { "I", SyllableState.UNSET }, { "U", SyllableState.UNSET }, { "E", SyllableState.UNSET }, { "O", SyllableState.UNSET },
+
+		{ "YA", SyllableState.UNSET }, { "YU", SyllableState.UNSET }, { "YO", SyllableState.UNSET },
+
+		{ "K", SyllableState.UNSET }, { "S", SyllableState.UNSET }, { "T", SyllableState.UNSET }, { "N", SyllableState.UNSET }, { "H", SyllableState.UNSET },
+		{ "M", SyllableState.UNSET }, { "Y", SyllableState.UNSET }, { "R", SyllableState.UNSET }, { "W", SyllableState.UNSET },
+
+		{ "G", SyllableState.UNSET }, { "Z", SyllableState.UNSET }, { "D", SyllableState.UNSET }, { "B", SyllableState.UNSET }, { "P", SyllableState.UNSET },
+	};
+
+	private HashSet<string> digraphVowels   = new() { "YA", "YU", "YO", };
+	private HashSet<string> monographVowels = new() { "A", "I", "U", "E", "O", };
+
+	private HashSet<string> diacriticConsonants    = new() { "G", "Z", "D", "B", "P", "J", };
+	private HashSet<string> nonDiacriticConsonants = new() { "K", "S", "T", "N", "H", "M", "Y", "R", "W", "C", "F" };
+
+	private void ResetProgressBar() {
+		int wrong = mc.GameC.EitherOrModel.WrongGuessesCount;
+		int correct = mc.GameC.EitherOrModel.CorrectGuessesCount;
+
+		ratioBefore = ratioAfter = (wrong, correct);
+	}
+
+	private void ResetSyllableStates() {
+		foreach (string s in SyllableStates.Keys) {
+			SyllableStates[s] = SyllableState.UNSET;
+		}
+	}
+
+	protected override void OnInitialized() {
+		base.OnInitialized();
+		ResetProgressBar();
+	}
+
+	private void OnReset() {
+		mc.GameC.KeyboardModel.Reset();
+		ResetProgressBar();
+	}
+
+	private void handleGraphToggle() {
+		isDigraph = !isDigraph;
+	}
+
+	private void handleDiacriticToggle() {
+		isDiacritic = !isDiacritic;
+	}
+
+	async Task checkClick(string syllable) {
+		if (!SyllableStates.ContainsKey(syllable)) throw new ArgumentException(syllable + " is not a valid syllable.");
+		if (IsChecking) return;
+
+		IsChecking = true;
+
+		if (!mc.GameC.KeyboardModel.IsValid(syllable)) {
+			SyllableStates[syllable] = SyllableState.WRONG;
+
+			ratioAfter.Item1++;
+
+			guesses = "animate";
+
+			await Task.Delay(1500);
+
+			guesses = "guesses";
+
+			ResetSyllableStates();
+		} else if (mc.GameC.KeyboardModel.IsCorrect(syllable)) {
+			SyllableStates[syllable] = SyllableState.CORRECT;
+
+			color = mc.GameC.LookUp.Color(mc.GameC.KeyboardModel.CorrectSyllable);
+			ratioBefore = ratioAfter;
+			ratioAfter.Item2++;
+
+			guesses = "animate";
+
+			await Task.Delay(1500);
+
+			guesses = "guesses";
+
+			color = (baseColor, baseColor);
+			ResetSyllableStates();
+		} else {
+			SyllableStates[syllable] = SyllableState.INTERMEDIATE;
+		}
+
+		mc.GameC.KeyboardModel.NextMove(syllable);
+
+		IsChecking = false;
+	}
+
+	private async void HandleKeypress(KeyboardEventArgs input) {
+		string setInput = input.Key.ToUpper();
+
+		if (monographVowels.Contains(setInput)) {
+			isDigraph = false;
+			await checkClick(setInput);
+			StateHasChanged();
+			return;
+		}
+
+		if (nonDiacriticConsonants.Contains(setInput)) {
+			isDiacritic = false;
+			await checkClick(setInput);
+			StateHasChanged();
+			return;
+		}
+
+		if (diacriticConsonants.Contains(setInput)) {
+			isDiacritic = true;
+			await checkClick(setInput);
+			StateHasChanged();
+			return;
+		}
+
+		if (input.Key == "q") OnReset();
+	}
+}
+
+@{
+	string getButtonType(string syllable) {
+		switch (SyllableStates[syllable]) {
+			case SyllableState.CORRECT      : return "correct-pick";
+			case SyllableState.INTERMEDIATE : return "intermediate-pick";
+			case SyllableState.WRONG        : return "wrong-pick";
+			case SyllableState.UNSET        : return "active";
+		}
+		return "unset";
+	}
+
+	string updateWidthWrong((int, int) ratio) {
+		if (ratio.Item1 + ratio.Item2 == 0) return "0%";
+		return (100.0 / (ratio.Item1 + ratio.Item2) * ratio.Item1).ToString().Replace(",", ".") + "%";
+	}
+
+	string updateWidthCorrect((int, int) ratio) {
+		if (ratio.Item1 + ratio.Item2 == 0) return "0%";
+		return (100.0 / (ratio.Item1 + ratio.Item2) * ratio.Item2).ToString().Replace(",", ".") + "%";
+	}
+}
+
+<article class="article-page" id="keyboard-gamemode-sub-article" tabindex="0" @onkeydown="HandleKeypress" @ref="gameDiv">
+	@code {
+		protected override async Task OnAfterRenderAsync(bool firstRender) {
+			if (firstRender) await JS.InvokeVoidAsync("SetFocusToElement", gameDiv);
+		}
+	}
+
 	<hgroup>
 		<h2>KEYBOARD MODE</h2>
 	</hgroup>
 
-	<section id="KEYBOARDSECTION">
-		<p lang="ja" id="KEYBOARDP">ぁ</p>
-		<div id="upperkeyboard">
-			<button class="KEYBOARDBUTTON">></button>
+	<style>
+		@@keyframes slide-wrong {
+			from { width: @(updateWidthWrong(ratioBefore)); }
+			to   { width: @(updateWidthWrong(ratioAfter));  }
+		}
 
-			<button class="KEYBOARDBUTTON">A</button>
-			<button class="KEYBOARDBUTTON">I</button>
-			<button class="KEYBOARDBUTTON">U</button>
-			<button class="KEYBOARDBUTTON">E</button>
-			<button class="KEYBOARDBUTTON">O</button>
+		@@keyframes slide-correct {
+			from { width: @(updateWidthCorrect(ratioBefore)); }
+			to   { width: @(updateWidthCorrect(ratioAfter));  }
+		}
+
+		span#gamemode-statistics-wrong-animate-bar {
+			animation: slide-wrong 1500ms forwards;
+		}
+
+		span#gamemode-statistics-correct-animate-bar {
+			animation: slide-correct 1500ms forwards;
+		}
+
+		span#gamemode-statistics-wrong-guesses-bar {
+			width: @(updateWidthWrong(ratioAfter));
+		}
+
+		span#gamemode-statistics-correct-guesses-bar {
+			width: @(updateWidthCorrect(ratioAfter));
+		}
+	</style>
+
+	<div id="gamemode-statistics">
+		<span id="gamemode-statistics-wrong-progress" title="@(mc.GameC.EitherOrModel.WrongGuessesCount) WRONG GUESSES">
+			<span id="gamemode-statistics-wrong-@guesses-bar"></span>
+		</span>
+
+
+		<button id="reset-button" @onclick="OnReset">
+			<img src="/img/icons/arrow-clockwise.svg" alt="Reset gamemode button" id="reset-icon" />
+		</button>
+
+		<span id="gamemode-statistics-correct-progress" title="@(mc.GameC.EitherOrModel.CorrectGuessesCount) CORRECT GUESSES">
+			<span id="gamemode-statistics-correct-@guesses-bar"></span>
+		</span>
+	</div>
+
+	<section id="KEYBOARDSECTION">
+		<style>
+			p#KEYBOARDP {
+				background: linear-gradient(45deg, #@color.Item1.ToString("x") 0%, #@color.Item2.ToString("x") 100%);
+			}
+		</style>
+
+		<p lang="ja" id="KEYBOARDP" style="font-family: @(mc.SettingsC.fontsModel.FontIDFontName[mc.SettingsC.fontsModel.CurrentFont])">@mc.GameC.KeyboardModel.CorrectSyllable</p>
+
+		<div id="upperkeyboard">
+			@if (isDigraph) {
+				<button class="toggle" @onclick="handleGraphToggle">G:</button>
+
+				<button class='@(getButtonType("YA"))' @onclick='async () => await checkClick("YA")'>YA</button>
+				<button class="unset">I</button>
+				<button class='@(getButtonType("YU"))' @onclick='async () => await checkClick("YU")'>YU</button>
+				<button class="unset">E</button>
+				<button class='@(getButtonType("YO"))' @onclick='async () => await checkClick("YO")'>YO</button>
+			} else {
+				<button class="toggle" @onclick="handleGraphToggle">g:</button>
+
+				<button class='@(getButtonType("A"))' @onclick='async () => await checkClick("A")'>A</button>
+				<button class='@(getButtonType("I"))' @onclick='async () => await checkClick("I")'>I</button>
+				<button class='@(getButtonType("U"))' @onclick='async () => await checkClick("U")'>U</button>
+				<button class='@(getButtonType("E"))' @onclick='async () => await checkClick("E")'>E</button>
+				<button class='@(getButtonType("O"))' @onclick='async () => await checkClick("O")'>O</button>				
+			}
 		</div>
 
 		<hr class="LINE">
 
-		<div id="toplower">
-			<button class="KEYBOARDBUTTON">^</button>
+		@if (isDiacritic) {
+			<div id="toplower">
+				<button class="toggle" @onclick="handleDiacriticToggle">D:</button>
 
-			<button class="KEYBOARDBUTTON">K</button>
-			<button class="KEYBOARDBUTTON">S</button>
-			<button class="KEYBOARDBUTTON">T</button>
-			<button class="KEYBOARDBUTTON">N</button>
-		</div>
+				<button class='@getButtonType("G")' @onclick='async () => await checkClick("G")'>G</button>
+				<button class='@getButtonType("Z")' @onclick='async () => await checkClick("Z")'>Z</button>
+				<button class='@getButtonType("D")' @onclick='async () => await checkClick("D")'>D</button>
+				<button class="unset">N</button>
+				<button class='@getButtonType("B")' @onclick='async () => await checkClick("B")'>B</button>
+			</div>
 
-		<div id="bottomlower">
-            <button class="KEYBOARDBUTTON">H</button>
-            <button class="KEYBOARDBUTTON">M</button>
-			<button class="KEYBOARDBUTTON">Y</button>
-			<button class="KEYBOARDBUTTON">R</button>
-			<button class="KEYBOARDBUTTON">W</button>
-		</div>
+			<div id="bottomlower">
+				<button class="empty"></button>
+				<button class='@getButtonType("P")' @onclick='async () => await checkClick("P")'>P</button>
+				<button class="unset">M</button>
+				<button class="unset">Y</button>
+				<button class="unset">R</button>
+				<button class="unset">W</button>
+			</div>
+		} else {
+			<div id="toplower">
+				<button class="toggle" @onclick="handleDiacriticToggle">d:</button>
+
+				<button class='@getButtonType("K")' @onclick='async () => await checkClick("K")'>K</button>
+				<button class='@getButtonType("S")' @onclick='async () => await checkClick("S")'>S</button>
+				<button class='@getButtonType("T")' @onclick='async () => await checkClick("T")'>T</button>
+				<button class='@getButtonType("N")' @onclick='async () => await checkClick("N")'>N</button>
+				<button class='@getButtonType("H")' @onclick='async () => await checkClick("H")'>H</button>
+			</div>
+
+			<div id="bottomlower">
+				<button class="empty"></button>
+				<button class="empty"></button>
+				<button class='@getButtonType("M")' @onclick='async () => await checkClick("M")'>M</button>
+
+				@if (isDigraph) {
+					<button class="unset">Y</button>
+					<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
+					<button class="unset">W</button>
+				} else {
+					<button class='@getButtonType("Y")' @onclick='async () => await checkClick("Y")'>Y</button>
+					<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
+					<button class='@getButtonType("W")' @onclick='async () => await checkClick("W")'>W</button>
+				}
+			</div>			
+		}
 	</section>
 </article>

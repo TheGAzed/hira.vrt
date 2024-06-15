@@ -12,12 +12,14 @@ namespace hiravrt.Controllers.Game
 		/// EitherOr gamemode model class.
 		/// </summary>
 		public EitherOrModel EitherOrModel { get; }
+		public KeyboardModel KeyboardModel { get; }
 
 		/// <summary>
 		/// Controller constructor for game dependant code.
 		/// </summary>
 		public GameController() {
-			EitherOrModel = new EitherOrModel();
+			EitherOrModel = new();
+			KeyboardModel = new(LookUp);
 		}
 
 		/// <summary>

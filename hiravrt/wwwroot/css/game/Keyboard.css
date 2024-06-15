@@ -1,13 +1,14 @@
 ﻿p#KEYBOARDP {
 	display: grid;
-	font-size: 9.375em;
+	font-size: 6em;
 	text-align: center;
 	align-content: center;
 	cursor: default;
-	background-color: #373186;
+	background-color: #1b1b1b;
 	color: #FFF;
 	border-radius: 0.1em;
 	aspect-ratio: 1 / 1;
+	text-shadow: 0 0 4px #1b1b1b;
 }
 
 section#KEYBOARDSECTION, div#bottomlower, div#toplower, div#upperkeyboard {
@@ -44,7 +45,7 @@ div#bottomlower {
 	gap: 0.5em;
 }
 
-button.RIGHTBOARDBUTTON, button.KEYBOARDBUTTON, button.WRONGBOARDBUTTON {
+button.correct-pick, button.active, button.unset, button.wrong-pick, button.intermediate-pick, button.toggle, button.empty {
 	width: 2.5em;
 	height: 2.5em;
 	border-radius: 0.5em;
@@ -56,30 +57,123 @@ button.RIGHTBOARDBUTTON, button.KEYBOARDBUTTON, button.WRONGBOARDBUTTON {
 	column-gap: normal;
 }
 
-button.WRONGBOARDBUTTON {
+button.wrong-pick {
 	border-color: #863030;
 	background: #863030;
 }
 
-button.RIGHTBOARDBUTTON {
+button.correct-pick {
 	border-color: #308658;
 	background: #308658;
 }
 
-button.KEYBOARDBUTTON {
+button.intermediate-pick {
+	border-color: #867D30;
+	background: #867D30;
+}
+
+button.active, button.unset {
 	border-color: #1B1B1B;
 	background: #FFF;
 	color: #1B1B1B;
 }
 
-button.KEYBOARDBUTTON:active, button.RIGHTBOARDBUTTON:active, button.WRONGBOARDBUTTON:active {
+button.unset {
+	cursor: default;
+	opacity: 0.5;
+	filter: saturate(0);
+}
+
+button.empty {
+	opacity: 0;
+}
+
+button.toggle {
+	border-color: #1B1B1B;
+	background: #FFF;
+	color: #1B1B1B;
+}
+
+button.KEYBOARDBUTTON:active, button.active:active, button.toggle:active {
 	transform: scale(0.95);
 }
 
 hr.LINE {
+	width: 100%;
+	height: 0%;
+	border-style: solid;
 	margin: unset;
 }
 
 article.SUBPAGE {
 	height: 100%;
+}
+
+
+div#gamemode-statistics {
+	display: grid;
+	grid-template-columns: 1fr 4em 1fr;
+	grid-column: 3;
+	align-items: center;
+	margin-bottom: 1em;
+}
+
+button#reset-button {
+	grid-column: 2;
+	all: unset;
+	display: flex;
+	justify-content: center;
+	width: 2.5em;
+	height: 2.5em;
+	justify-self: center;
+	border-radius: 0.5em;
+	border: 0.188em solid #1B1B1B;
+}
+
+button#reset-button:hover {
+	border-color: #D9D9D9;
+	filter: invert(94%) sepia(0%) saturate(47%) hue-rotate(215deg) brightness(93%) contrast(95%);
+	background-color: #D9D9D9;
+}
+
+button#reset-button:active {
+	transform: scale(0.95);
+}
+
+img#reset-icon {
+	width: 1.5em;
+	height: auto;
+}
+
+span[id^="gamemode-statistics"][id$="progress"] {
+	display: grid;
+	height: 1.5em;
+	background: rgba(00, 00, 00, 0.1);
+}
+
+span#gamemode-statistics-wrong-progress {
+	grid-column: 1;
+}
+
+span#gamemode-statistics-correct-progress {
+	grid-column: 3;
+}
+
+span[id^="gamemode-statistics"][id$="guesses-bar"], span[id^="gamemode-statistics"][id$="animate-bar"] {
+	height: 100%;
+}
+
+span[id^="gamemode-statistics-wrong"][id$="bar"] {
+	justify-self: end;
+	background: #863030;
+}
+
+span[id^="gamemode-statistics-correct"][id$="bar"] {
+	justify-self: start;
+	background: #308658;
+}
+
+article#keyboard-gamemode-sub-article:focus {
+	border: none;
+	outline: none;
 }

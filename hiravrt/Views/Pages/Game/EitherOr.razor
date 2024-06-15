@@ -39,35 +39,33 @@
 	}
 
 	async Task checkClick(string syllable) {
-		if (!IsChecking) {
-			IsChecking = true;
+		if (IsChecking) return;
 
-			int i = mc.GameC.EitherOrModel.CorrectIndex;
-			color[i] = mc.GameC.LookUp.Color(mc.GameC.EitherOrModel.CorrectSyllable);
+		IsChecking = true;
 
-			ratioBefore = ratioAfter;
-			if (mc.GameC.EitherOrModel.IsCorrect(syllable))
-			{
-				romanjiType = "romanji-correct";
-				ratioAfter.Item2++;
-			}
-			else
-			{
-				romanjiType = "romanji-wrong";
-				ratioAfter.Item1++;
-			}
-			guesses = "animate";
+		int i = mc.GameC.EitherOrModel.CorrectIndex;
+		color[i] = mc.GameC.LookUp.Color(mc.GameC.EitherOrModel.CorrectSyllable);
 
-			await Task.Delay(1500);
-
-			guesses = "guesses";
-
-			mc.GameC.EitherOrModel.NextMove(syllable);
-			color[i] = (baseColor, baseColor);
-			romanjiType = "romanji";
-
-			IsChecking = false;
+		ratioBefore = ratioAfter;
+		if (mc.GameC.EitherOrModel.IsCorrect(syllable)) {
+			romanjiType = "romanji-correct";
+			ratioAfter.Item2++;
 		}
+		else {
+			romanjiType = "romanji-wrong";
+			ratioAfter.Item1++;
+		}
+		guesses = "animate";
+
+		await Task.Delay(1500);
+
+		guesses = "guesses";
+
+		mc.GameC.EitherOrModel.NextMove(syllable);
+		color[i] = (baseColor, baseColor);
+		romanjiType = "romanji";
+
+		IsChecking = false;
 	}
 }
 
@@ -87,7 +85,6 @@
 
 @code {
 	private async void HandleKeypress(KeyboardEventArgs input) {
-		Console.WriteLine(input.ToString());
 		switch (input.Key) {
 			case "ArrowLeft":
 			case "a": { await checkClick(mc.GameC.EitherOrModel.GuessesPair[0]); break; }
@@ -95,7 +92,7 @@
 			case "ArrowRight": 
 			case "d": { await checkClick(mc.GameC.EitherOrModel.GuessesPair[1]); break; }
 
-			case "r": { OnReset();                                               break; }
+			case "q": { OnReset();                                               break; }
 
 			default: return;
 		}
