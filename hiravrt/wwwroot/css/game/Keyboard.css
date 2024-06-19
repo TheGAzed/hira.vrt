@@ -11,7 +11,7 @@
 	text-shadow: 0 0 4px #1b1b1b;
 }
 
-section#KEYBOARDSECTION, div#bottomlower, div#toplower, div#upperkeyboard {
+section#KEYBOARDSECTION, div#upperkeyboard {
 	display: flex;
 }
 
@@ -35,11 +35,8 @@ div#lowerkeyboard {
 	justify-content: center;
 }
 
-div#toplower {
-	justify-content: space-between;
-}
-
-div#bottomlower {
+div.lower {
+	display: flex;
 	justify-content: center;
 	grid-template-columns: repeat(5, 1fr);
 	gap: 0.5em;
@@ -80,29 +77,23 @@ button.active, button.unset {
 
 button.unset {
 	cursor: default;
-	opacity: 0.5;
+	opacity: 0.25;
 	filter: saturate(0);
 }
 
 button.empty {
 	opacity: 0;
+	cursor: default;
 }
 
 button.toggle {
-	border-color: #1B1B1B;
-	background: #FFF;
-	color: #1B1B1B;
+	border-color: #2B2B2B;
+	background: #2B2B2B;
+	color: #fff;
 }
 
 button.KEYBOARDBUTTON:active, button.active:active, button.toggle:active {
 	transform: scale(0.95);
-}
-
-hr.LINE {
-	width: 100%;
-	height: 0%;
-	border-style: solid;
-	margin: unset;
 }
 
 article.SUBPAGE {

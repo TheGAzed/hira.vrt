@@ -32,9 +32,11 @@
 		{ "YA", SyllableState.UNSET }, { "YU", SyllableState.UNSET }, { "YO", SyllableState.UNSET },
 
 		{ "K", SyllableState.UNSET }, { "S", SyllableState.UNSET }, { "T", SyllableState.UNSET }, { "N", SyllableState.UNSET }, { "H", SyllableState.UNSET },
-		{ "M", SyllableState.UNSET }, { "Y", SyllableState.UNSET }, { "R", SyllableState.UNSET }, { "W", SyllableState.UNSET },
+		{ "M", SyllableState.UNSET }, { "Y", SyllableState.UNSET }, { "R", SyllableState.UNSET }, { "W", SyllableState.UNSET }, { "C", SyllableState.UNSET },
+		{ "F", SyllableState.UNSET },
 
 		{ "G", SyllableState.UNSET }, { "Z", SyllableState.UNSET }, { "D", SyllableState.UNSET }, { "B", SyllableState.UNSET }, { "P", SyllableState.UNSET },
+		{ "J", SyllableState.UNSET },
 	};
 
 	private HashSet<string> digraphVowels   = new() { "YA", "YU", "YO", };
@@ -42,6 +44,17 @@
 
 	private HashSet<string> diacriticConsonants    = new() { "G", "Z", "D", "B", "P", "J", };
 	private HashSet<string> nonDiacriticConsonants = new() { "K", "S", "T", "N", "H", "M", "Y", "R", "W", "C", "F" };
+
+	private HashSet<string> SyllableSet = new();
+
+	private string HiraganaGridRegex = "([AIUEO])|([KSTNHMRWCFY])(YA|YU|YO|[AIUEO])";
+
+	public Keyboard() {
+		SyllableSet.UnionWith(digraphVowels);
+		SyllableSet.UnionWith(monographVowels);
+		SyllableSet.UnionWith(diacriticConsonants);
+		SyllableSet.UnionWith(nonDiacriticConsonants);
+	}
 
 	private void ResetProgressBar() {
 		int wrong = mc.GameC.EitherOrModel.WrongGuessesCount;
@@ -249,10 +262,10 @@
 			}
 		</div>
 
-		<hr class="LINE">
+		<hr>
 
 		@if (isDiacritic) {
-			<div id="toplower">
+			<div class="lower" id='first-lower-row'>
 				<button class="toggle" @onclick="handleDiacriticToggle">D:</button>
 
 				<button class='@getButtonType("G")' @onclick='async () => await checkClick("G")'>G</button>
@@ -262,7 +275,7 @@
 				<button class='@getButtonType("B")' @onclick='async () => await checkClick("B")'>B</button>
 			</div>
 
-			<div id="bottomlower">
+			<div class="lower" id='second-lower-row'>
 				<button class="empty"></button>
 				<button class='@getButtonType("P")' @onclick='async () => await checkClick("P")'>P</button>
 				<button class="unset">M</button>
@@ -270,8 +283,17 @@
 				<button class="unset">R</button>
 				<button class="unset">W</button>
 			</div>
+
+			<div class="lower" id='third-lower-row'>
+				<button class="empty"></button>
+				<button class="empty"></button>
+				<button class='unset'>C</button>
+				<button class='unset'>F</button>
+				<button class='@getButtonType("J")' @onclick='async () => await checkClick("J")'>J</button>
+				<button class="empty"></button>
+			</div>
 		} else {
-			<div id="toplower">
+			<div class="lower" id='first-lower-row'>
 				<button class="toggle" @onclick="handleDiacriticToggle">d:</button>
 
 				<button class='@getButtonType("K")' @onclick='async () => await checkClick("K")'>K</button>
@@ -281,9 +303,9 @@
 				<button class='@getButtonType("H")' @onclick='async () => await checkClick("H")'>H</button>
 			</div>
 
-			<div id="bottomlower">
+			<div class="lower" id='second-lower-row'>
 				<button class="empty"></button>
-				<button class="empty"></button>
+				<button class="unset">P</button>
 				<button class='@getButtonType("M")' @onclick='async () => await checkClick("M")'>M</button>
 
 				@if (isDigraph) {
@@ -295,7 +317,16 @@
 					<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
 					<button class='@getButtonType("W")' @onclick='async () => await checkClick("W")'>W</button>
 				}
-			</div>			
+			</div>
+
+			<div class="lower" id='third-lower-row'>
+				<button class="empty"></button>
+				<button class="empty"></button>
+				<button class='@getButtonType("C")' @onclick='async () => await checkClick("C")'>C</button>
+				<button class='@getButtonType("F")' @onclick='async () => await checkClick("F")'>F</button>
+				<button class="unset">J</button>
+				<button class="empty"></button>
+			</div>
 		}
 	</section>
 </article>

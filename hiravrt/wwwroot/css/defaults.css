@@ -129,6 +129,13 @@ form {
 	row-gap: 0.5em;
 }
 
+hr {
+	width: 100%;
+	height: 0%;
+	border-style: solid;
+	margin: unset;
+}
+
 @media screen and (max-width: 950px) {
 	article {
 		grid-template-columns: 15em 3.5em 15em;
