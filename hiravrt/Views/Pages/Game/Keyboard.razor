@@ -3,7 +3,8 @@
 @using hiravrt.Controllers
 @using hiravrt.Controllers.Nav
 @using hiravrt.Models.Game
-@using System.Text.RegularExpressions;
+@using System.Text.RegularExpressions
+@using System.Text
 
 @rendermode InteractiveServer
 @inject MainController mc
@@ -15,6 +16,10 @@
 
 @code {
 	enum SyllableState { UNSET, CORRECT, INTERMEDIATE, WRONG, }
+
+	enum KeyboardType  { GRID_LATIN, TRUE_LATIN, }
+	private KeyboardType currentKeyboard = KeyboardType.GRID_LATIN;
+
 	private bool isDigraph = false;
 	private bool isDiacritic = false;
 
@@ -63,12 +68,6 @@
 		ratioBefore = ratioAfter = (wrong, correct);
 	}
 
-	private void ResetSyllableStates() {
-		foreach (string s in SyllableStates.Keys) {
-			SyllableStates[s] = SyllableState.UNSET;
-		}
-	}
-
 	protected override void OnInitialized() {
 		base.OnInitialized();
 		ResetProgressBar();
@@ -87,7 +86,13 @@
 		isDiacritic = !isDiacritic;
 	}
 
-	async Task checkClick(string syllable) {
+	private void ResetSyllableStates() {
+		foreach (string s in SyllableStates.Keys) {
+			SyllableStates[s] = SyllableState.UNSET;
+		}
+	}
+
+	protected async Task checkClick(string syllable) {
 		if (!SyllableStates.ContainsKey(syllable)) throw new ArgumentException(syllable + " is not a valid syllable.");
 		if (IsChecking) return;
 
@@ -129,7 +134,7 @@
 		IsChecking = false;
 	}
 
-	private async void HandleKeypress(KeyboardEventArgs input) {
+	protected async void HandleKeypress(KeyboardEventArgs input) {
 		string setInput = input.Key.ToUpper();
 
 		if (monographVowels.Contains(setInput)) {
@@ -152,9 +157,8 @@
 			StateHasChanged();
 			return;
 		}
-
-		if (input.Key == "q") OnReset();
 	}
+
 }
 
 @{
@@ -176,6 +180,10 @@
 	string updateWidthCorrect((int, int) ratio) {
 		if (ratio.Item1 + ratio.Item2 == 0) return "0%";
 		return (100.0 / (ratio.Item1 + ratio.Item2) * ratio.Item2).ToString().Replace(",", ".") + "%";
+	}
+
+	string getKeyboardTypeState(KeyboardType type) {
+		return type == currentKeyboard ? "on" : "off";
 	}
 }
 
@@ -242,91 +250,150 @@
 
 		<p lang="ja" id="KEYBOARDP" style="font-family: @(mc.SettingsC.fontsModel.FontIDFontName[mc.SettingsC.fontsModel.CurrentFont])">@mc.GameC.KeyboardModel.CorrectSyllable</p>
 
-		<div id="upperkeyboard">
-			@if (isDigraph) {
-				<button class="toggle" @onclick="handleGraphToggle">G:</button>
+		<nav id="keyboard-types">
+			<a class="keyboard-types-section-@(getKeyboardTypeState(KeyboardType.GRID_LATIN))" @onclick="() => currentKeyboard = KeyboardType.GRID_LATIN">GRID</a>
+			<a class="keyboard-types-section-@(getKeyboardTypeState(KeyboardType.TRUE_LATIN))" @onclick="() => currentKeyboard = KeyboardType.TRUE_LATIN">TRUE</a>
+		</nav>
 
-				<button class='@(getButtonType("YA"))' @onclick='async () => await checkClick("YA")'>YA</button>
-				<button class="unset">I</button>
-				<button class='@(getButtonType("YU"))' @onclick='async () => await checkClick("YU")'>YU</button>
-				<button class="unset">E</button>
-				<button class='@(getButtonType("YO"))' @onclick='async () => await checkClick("YO")'>YO</button>
-			} else {
-				<button class="toggle" @onclick="handleGraphToggle">g:</button>
+        <div id="upperkeyboard">
+            @if (isDigraph) {
+                <button class="toggle" @onclick="handleGraphToggle">G:</button>
 
-				<button class='@(getButtonType("A"))' @onclick='async () => await checkClick("A")'>A</button>
-				<button class='@(getButtonType("I"))' @onclick='async () => await checkClick("I")'>I</button>
-				<button class='@(getButtonType("U"))' @onclick='async () => await checkClick("U")'>U</button>
-				<button class='@(getButtonType("E"))' @onclick='async () => await checkClick("E")'>E</button>
-				<button class='@(getButtonType("O"))' @onclick='async () => await checkClick("O")'>O</button>				
-			}
-		</div>
+                <button class='@(getButtonType("YA"))' @onclick='async () => await checkClick("YA")'>YA</button>
+                <button class="unset">I</button>
+                <button class='@(getButtonType("YU"))' @onclick='async () => await checkClick("YU")'>YU</button>
+                <button class="unset">E</button>
+                <button class='@(getButtonType("YO"))' @onclick='async () => await checkClick("YO")'>YO</button>
+            } else {
+                <button class="toggle" @onclick="handleGraphToggle">g:</button>
 
-		<hr>
+                <button class='@(getButtonType("A"))' @onclick='async () => await checkClick("A")'>A</button>
+                <button class='@(getButtonType("I"))' @onclick='async () => await checkClick("I")'>I</button>
+                <button class='@(getButtonType("U"))' @onclick='async () => await checkClick("U")'>U</button>
+                <button class='@(getButtonType("E"))' @onclick='async () => await checkClick("E")'>E</button>
+                <button class='@(getButtonType("O"))' @onclick='async () => await checkClick("O")'>O</button>
+            }
+        </div>
 
-		@if (isDiacritic) {
-			<div class="lower" id='first-lower-row'>
-				<button class="toggle" @onclick="handleDiacriticToggle">D:</button>
+        <hr>
 
-				<button class='@getButtonType("G")' @onclick='async () => await checkClick("G")'>G</button>
-				<button class='@getButtonType("Z")' @onclick='async () => await checkClick("Z")'>Z</button>
-				<button class='@getButtonType("D")' @onclick='async () => await checkClick("D")'>D</button>
-				<button class="unset">N</button>
-				<button class='@getButtonType("B")' @onclick='async () => await checkClick("B")'>B</button>
-			</div>
+		@switch (currentKeyboard) {
+			case KeyboardType.GRID_LATIN : {
+				@if (isDiacritic) {
+					<div class="lower" id='first-lower-row'>
+						<button class="toggle" @onclick="handleDiacriticToggle">D:</button>
 
-			<div class="lower" id='second-lower-row'>
-				<button class="empty"></button>
-				<button class='@getButtonType("P")' @onclick='async () => await checkClick("P")'>P</button>
-				<button class="unset">M</button>
-				<button class="unset">Y</button>
-				<button class="unset">R</button>
-				<button class="unset">W</button>
-			</div>
+						<button class='@getButtonType("G")' @onclick='async () => await checkClick("G")'>G</button>
+						<button class='@getButtonType("Z")' @onclick='async () => await checkClick("Z")'>Z</button>
+						<button class='@getButtonType("D")' @onclick='async () => await checkClick("D")'>D</button>
+						<button class="unset">N</button>
+						<button class='@getButtonType("B")' @onclick='async () => await checkClick("B")'>B</button>
+					</div>
 
-			<div class="lower" id='third-lower-row'>
-				<button class="empty"></button>
-				<button class="empty"></button>
-				<button class='unset'>C</button>
-				<button class='unset'>F</button>
-				<button class='@getButtonType("J")' @onclick='async () => await checkClick("J")'>J</button>
-				<button class="empty"></button>
-			</div>
-		} else {
-			<div class="lower" id='first-lower-row'>
-				<button class="toggle" @onclick="handleDiacriticToggle">d:</button>
-
-				<button class='@getButtonType("K")' @onclick='async () => await checkClick("K")'>K</button>
-				<button class='@getButtonType("S")' @onclick='async () => await checkClick("S")'>S</button>
-				<button class='@getButtonType("T")' @onclick='async () => await checkClick("T")'>T</button>
-				<button class='@getButtonType("N")' @onclick='async () => await checkClick("N")'>N</button>
-				<button class='@getButtonType("H")' @onclick='async () => await checkClick("H")'>H</button>
-			</div>
-
-			<div class="lower" id='second-lower-row'>
-				<button class="empty"></button>
-				<button class="unset">P</button>
-				<button class='@getButtonType("M")' @onclick='async () => await checkClick("M")'>M</button>
-
-				@if (isDigraph) {
-					<button class="unset">Y</button>
-					<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
-					<button class="unset">W</button>
+					<div class="lower" id='second-lower-row'>
+						<button class="empty"></button>
+						<button class='@getButtonType("P")' @onclick='async () => await checkClick("P")'>P</button>
+						<button class="unset">M</button>
+						<button class="unset">Y</button>
+						<button class="unset">R</button>
+						<button class="unset">W</button>
+					</div>
 				} else {
-					<button class='@getButtonType("Y")' @onclick='async () => await checkClick("Y")'>Y</button>
-					<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
-					<button class='@getButtonType("W")' @onclick='async () => await checkClick("W")'>W</button>
-				}
-			</div>
+					<div class="lower" id='first-lower-row'>
+						<button class="toggle" @onclick="handleDiacriticToggle">d:</button>
 
-			<div class="lower" id='third-lower-row'>
-				<button class="empty"></button>
-				<button class="empty"></button>
-				<button class='@getButtonType("C")' @onclick='async () => await checkClick("C")'>C</button>
-				<button class='@getButtonType("F")' @onclick='async () => await checkClick("F")'>F</button>
-				<button class="unset">J</button>
-				<button class="empty"></button>
-			</div>
+						<button class='@getButtonType("K")' @onclick='async () => await checkClick("K")'>K</button>
+						<button class='@getButtonType("S")' @onclick='async () => await checkClick("S")'>S</button>
+						<button class='@getButtonType("T")' @onclick='async () => await checkClick("T")'>T</button>
+						<button class='@getButtonType("N")' @onclick='async () => await checkClick("N")'>N</button>
+						<button class='@getButtonType("H")' @onclick='async () => await checkClick("H")'>H</button>
+					</div>
+
+					<div class="lower" id='second-lower-row'>
+						<button class="empty"></button>
+						<button class="unset">P</button>
+						<button class='@getButtonType("M")' @onclick='async () => await checkClick("M")'>M</button>
+
+						@if (isDigraph) {
+							<button class="unset">Y</button>
+							<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
+							<button class="unset">W</button>
+						} else {
+							<button class='@getButtonType("Y")' @onclick='async () => await checkClick("Y")'>Y</button>
+							<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
+							<button class='@getButtonType("W")' @onclick='async () => await checkClick("W")'>W</button>
+						}
+					</div>
+				}
+				break;
+			}
+			case KeyboardType.TRUE_LATIN: {
+				@if (isDiacritic) {
+					<div class="lower" id='first-lower-row'>
+						<button class="toggle" @onclick="handleDiacriticToggle">D:</button>
+
+						<button class='@getButtonType("G")' @onclick='async () => await checkClick("G")'>G</button>
+						<button class='@getButtonType("Z")' @onclick='async () => await checkClick("Z")'>Z</button>
+						<button class='@getButtonType("D")' @onclick='async () => await checkClick("D")'>D</button>
+						<button class="unset">N</button>
+						<button class='@getButtonType("B")' @onclick='async () => await checkClick("B")'>B</button>
+					</div>
+
+					<div class="lower" id='second-lower-row'>
+						<button class="empty"></button>
+						<button class='@getButtonType("P")' @onclick='async () => await checkClick("P")'>P</button>
+						<button class="unset">M</button>
+						<button class="unset">Y</button>
+						<button class="unset">R</button>
+						<button class="unset">W</button>
+					</div>
+
+					<div class="lower" id='third-lower-row'>
+						<button class="empty"></button>
+						<button class="empty"></button>
+						<button class='unset'>C</button>
+						<button class='unset'>F</button>
+						<button class='@getButtonType("J")' @onclick='async () => await checkClick("J")'>J</button>
+						<button class="empty"></button>
+					</div>
+				} else {
+					<div class="lower" id='first-lower-row'>
+						<button class="toggle" @onclick="handleDiacriticToggle">d:</button>
+
+						<button class='@getButtonType("K")' @onclick='async () => await checkClick("K")'>K</button>
+						<button class='@getButtonType("S")' @onclick='async () => await checkClick("S")'>S</button>
+						<button class='@getButtonType("T")' @onclick='async () => await checkClick("T")'>T</button>
+						<button class='@getButtonType("N")' @onclick='async () => await checkClick("N")'>N</button>
+						<button class='@getButtonType("H")' @onclick='async () => await checkClick("H")'>H</button>
+					</div>
+
+					<div class="lower" id='second-lower-row'>
+						<button class="empty"></button>
+						<button class="unset">P</button>
+						<button class='@getButtonType("M")' @onclick='async () => await checkClick("M")'>M</button>
+
+						@if (isDigraph) {
+							<button class="unset">Y</button>
+							<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
+							<button class="unset">W</button>
+						} else {
+							<button class='@getButtonType("Y")' @onclick='async () => await checkClick("Y")'>Y</button>
+							<button class='@getButtonType("R")' @onclick='async () => await checkClick("R")'>R</button>
+							<button class='@getButtonType("W")' @onclick='async () => await checkClick("W")'>W</button>
+						}
+					</div>
+
+					<div class="lower" id='third-lower-row'>
+						<button class="empty"></button>
+						<button class="empty"></button>
+						<button class='@getButtonType("C")' @onclick='async () => await checkClick("C")'>C</button>
+						<button class='@getButtonType("F")' @onclick='async () => await checkClick("F")'>F</button>
+						<button class="unset">J</button>
+						<button class="empty"></button>
+					</div>
+				}
+				break;
+			}
 		}
 	</section>
 </article>

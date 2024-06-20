@@ -168,3 +168,37 @@ article#keyboard-gamemode-sub-article:focus {
 	border: none;
 	outline: none;
 }
+
+nav#keyboard-types {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	margin-left: 2px;
+	margin-right: 2px;
+	grid-column-start: 1;
+	grid-column-end: -1;
+}
+
+a.keyboard-types-section-off, a.keyboard-types-section-on {
+	user-select: none;
+	display: grid;
+	align-content: center;
+	height: 2.5em;
+	cursor: pointer;
+	text-align: center;
+}
+
+a.keyboard-types-section-on {
+	background-color: #353535;
+	color: #D9D9D9;
+}
+
+a.keyboard-types-section-off {
+	background-color: #D9D9D9;
+	color: #353535;
+}
+
+a.keyboard-types-section-off:hover, a.keyboard-types-section-on:hover {
+	text-decoration: underline;
+}
