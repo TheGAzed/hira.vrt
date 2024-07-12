@@ -19,7 +19,7 @@
 
 	(int, int) ratioBefore = (0, 0), ratioAfter = (0, 0);
 
-	protected ElementReference gameDiv;
+	protected ElementReference gameDiv = default;
 
 	private void ResetProgressBar() {
 		int wrong = mc.GameC.EitherOrModel.WrongGuessesCount;
@@ -70,14 +70,12 @@
 }
 
 @{
-	string updateWidthWrong((int, int) ratio)
-	{
+	string updateWidthWrong((int, int) ratio) {
 		if (ratio.Item1 + ratio.Item2 == 0) return "0%";
 		return (100.0 / (ratio.Item1 + ratio.Item2) * ratio.Item1).ToString().Replace(",", ".") + "%";
 	}
 
-	string updateWidthCorrect((int, int) ratio)
-	{
+	string updateWidthCorrect((int, int) ratio) {
 		if (ratio.Item1 + ratio.Item2 == 0) return "0%";
 		return (100.0 / (ratio.Item1 + ratio.Item2) * ratio.Item2).ToString().Replace(",", ".") + "%";
 	}
@@ -103,12 +101,12 @@
 <link rel="stylesheet" href="css/game/EitherOr.css" />
 
 @if (mc.GameC.EitherOrModel.RemainingSyllables.Count < mc.GameC.EitherOrModel.MinimumGuessesCount) {
-	<Error ErrorNumber="01" ErrorDescription="NOT ENOUGH SYLLABLES TO PLAY GAME" ErrorFix="GO TO SETTINGS TO INCREASE SYLLABLE COUNT" />
+	<Error ErrorNumber="01" ErrorDescription="NOT ENOUGH SYLLABLES TO PLAY GAME" ErrorFix="GO TO SETTINGS TO INCREASE ACTIVE SYLLABLE COUNT" />
 } else {
 	<article class="article-page" id="either-or-gamemode-sub-article" tabindex="0" @onkeydown="HandleKeypress" @ref="gameDiv">
 		@code {
 			protected override async Task OnAfterRenderAsync(bool firstRender) {
-				if (firstRender) await JS.InvokeVoidAsync("SetFocusToElement", gameDiv);
+				if (firstRender && gameDiv.Id != null) await JS.InvokeVoidAsync("SetFocusToElement", gameDiv);
 			}
 		}
 
@@ -118,13 +116,8 @@
 		
 		<style>
 			@@keyframes slide-wrong {
-				from {
-					width: @(updateWidthWrong(ratioBefore));
-				}
-
-				to {
-					width: @(updateWidthWrong(ratioAfter));
-				}
+				from { width: @(updateWidthWrong(ratioBefore)); }
+				to   { width: @(updateWidthWrong(ratioAfter));  }
 			}
 
 			@@keyframes slide-correct {

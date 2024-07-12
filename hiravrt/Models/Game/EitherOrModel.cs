@@ -20,7 +20,14 @@ namespace hiravrt.Models.Game {
 			Random random = new();
 			RemainingSyllables.Remove(GuessesPair[1 - CorrectIndex]);
 
-			GuessesPair[CorrectIndex] = RemainingSyllables[random.Next(RemainingSyllables.Count)];
+			if (RemainingSyllables.Count > MinimumGuessesCount && RemainingSyllables.Contains(CorrectSyllable)) {
+				RemainingSyllables.Remove(CorrectSyllable);
+				GuessesPair[CorrectIndex] = RemainingSyllables[random.Next(RemainingSyllables.Count)];
+				RemainingSyllables.Add(CorrectSyllable);
+			} else {
+				GuessesPair[CorrectIndex] = RemainingSyllables[random.Next(RemainingSyllables.Count)];
+			}
+
 			RemainingSyllables.Add(GuessesPair[1 - CorrectIndex]);
 
 			CorrectIndex = random.Next(GuessesPair.Length);

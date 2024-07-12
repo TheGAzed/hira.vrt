@@ -40,11 +40,21 @@ namespace hiravrt.Models.Game {
 		}
 
 		protected override void UpdateGuess() {
-			int i = new Random().Next(RemainingSyllables.Count);
+			int i;
+
+			if (RemainingSyllables.Count > MinimumGuessesCount && RemainingSyllables.Contains(CorrectSyllable)) {
+				RemainingSyllables.Remove(CorrectSyllable);
+				i = new Random().Next(RemainingSyllables.Count);
+				RemainingSyllables.Add(CorrectSyllable);
+			} else {
+				i = new Random().Next(RemainingSyllables.Count);
+			}
+
 			CorrectSyllable = RemainingSyllables[i];
 			CorrectSyllableGrid = lookUp.Grid(CorrectSyllable);
 
 			if (lookUp.AlternativeGridContains(CorrectSyllable)) CorrectSyllableGridAlternative = lookUp.AlternativeGrid(CorrectSyllable);
+			else CorrectSyllableGridAlternative = "";
 		}
 
 		public override void Reset() {
