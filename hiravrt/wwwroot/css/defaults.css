@@ -5,27 +5,27 @@
 
 @font-face {
 	font-family: 'GL-NovantiquaMinamoto';
-	src: url(../font/japanese/GL-NovantiquaMinamoto/GL-NovantiquaMinamoto.ttf);
+	src: url(../font/japanese/GL-NovantiquaMinamoto/GL-NovantiquaMinamoto-Hiragana.ttf);
 }
 
 @font-face {
 	font-family: 'HachiMaruPop-Regular';
-	src: url(../font/japanese/HachiMaruPop/HachiMaruPop-Regular.ttf);
+	src: url(../font/japanese/HachiMaruPop/HachiMaruPop-Regular-Hiragana.ttf);
 }
 
 @font-face {
 	font-family: 'NikkyouSans';
-	src: url(../font/japanese/NikkyouSans/NikkyouSans-mLKax.ttf);
+	src: url(../font/japanese/NikkyouSans/NikkyouSans-mLKax-Hiragana.ttf);
 }
 
 @font-face {
 	font-family: 'ReggaeOne-Regular';
-	src: url(../font/japanese/ReggaeOne/ReggaeOne-Regular.ttf);
+	src: url(../font/japanese/ReggaeOne/ReggaeOne-Regular-Hiragana.ttf);
 }
 
 @font-face {
 	font-family: 'YujiBoku-Regular';
-	src: url(../font/japanese/YujiBoku/YujiBoku-Regular.ttf);
+	src: url(../font/japanese/YujiBoku/YujiBoku-Regular-Hiragana.ttf);
 }
 
 * {
