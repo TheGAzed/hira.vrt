@@ -52,7 +52,7 @@ img#about-section-logo {
 	width: 100%;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1050px) {
 	article#gamemode-main-article {
 		grid-template-rows: auto 1fr 3.5em 1fr;
 	}

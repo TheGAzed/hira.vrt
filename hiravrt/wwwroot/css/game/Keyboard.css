@@ -37,16 +37,15 @@ div#lowerkeyboard {
 
 div.lower {
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	grid-template-columns: repeat(5, 1fr);
-	gap: 0.5em;
 }
 
 button.correct-pick, button.active, button.unset, button.wrong-pick, button.intermediate-pick, button.toggle, button.empty {
-	width: 2.5em;
-	height: 2.5em;
-	border-radius: 0.5em;
-	border: 0.156em solid;
+	width: 2.25rem;
+	height: 2.25rem;
+	border-radius: 0.5rem;
+	border: 0.156rem solid;
 	color: #FFF;
 	text-align: center;
 	font-weight: bold;
@@ -201,4 +200,43 @@ a.keyboard-types-section-off {
 
 a.keyboard-types-section-off:hover, a.keyboard-types-section-on:hover {
 	text-decoration: underline;
+}
+
+@media screen and (max-width: 1050px) {
+	section#KEYBOARDSECTION {
+		grid-column: 1 / 4;
+	}
+
+	div#upperkeyboard {
+		gap: 0.5rem;
+	}
+
+	div#gamemode-statistics {
+		grid-column: 1 / 4;
+	}
+
+	button.correct-pick, button.active, button.unset, button.wrong-pick, button.intermediate-pick, button.toggle, button.empty {
+		flex-grow: 1;
+		height: unset;
+		aspect-ratio: 1 / 1;
+		font-size: inherit;
+	}
+
+	div.lower {
+		gap: 0.5rem;
+	}
+
+	p#KEYBOARDP {
+		aspect-ratio: 2 / 1;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	section#KEYBOARDSECTION {
+		grid-column: unset;
+	}
+
+	div#gamemode-statistics {
+		grid-column: unset;
+	}
 }

@@ -110,7 +110,7 @@ small.footer-navigation-divider {
 	user-select: none;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1050px) {
 	header#main-page-header, header#sub-page-header {
 		grid-template-columns: repeat(2, 15em);
 		row-gap: 1em;

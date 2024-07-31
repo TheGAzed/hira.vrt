@@ -136,7 +136,7 @@ hr {
 	margin: unset;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1050px) {
 	article {
 		grid-template-columns: 15em 3.5em 15em;
 	}

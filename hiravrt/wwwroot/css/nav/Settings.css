@@ -214,7 +214,7 @@ small.font-button-element-name {
 	margin-top: 0.5em;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1050px) {
 	section#first, section#second {
 		grid-column: 1 / 4;
 	}

@@ -103,7 +103,7 @@ textarea#contact-form-message-blocked, input.contact-form-data-blocked, button#c
 	cursor: default;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1050px) {
 	section#contact-location-section {
 		margin-top: 4em;
 		grid-column: span 3;

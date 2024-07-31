@@ -141,7 +141,7 @@ article#either-or-gamemode-sub-article:focus {
 	outline: none;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1050px) {
 	section #first {
 		grid-column: span 3;
 	}
