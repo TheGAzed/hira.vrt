@@ -148,7 +148,7 @@
 		</style>
 
 		<div id="gamemode-statistics">
-			<span id="gamemode-statistics-wrong-progress" title="@(mc.GameC.EitherOrModel.WrongGuessesCount) WRONG GUESSES">
+        <span id="gamemode-statistics-wrong-progress" title="WRONG GUESSES: @(mc.GameC.EitherOrModel.WrongGuessesCount)">
 				<span id="gamemode-statistics-wrong-@guesses-bar"></span>
 			</span>
 			
@@ -157,7 +157,7 @@
 				<img src="/img/icons/arrow-clockwise.svg" alt="Reset gamemode button" id="reset-icon"/>
 			</button>
 
-			<span id="gamemode-statistics-correct-progress" title="@(mc.GameC.EitherOrModel.CorrectGuessesCount) CORRECT GUESSES">
+        <span id="gamemode-statistics-correct-progress" title="CORRECT GUESSES: @(mc.GameC.EitherOrModel.CorrectGuessesCount)">
 				<span id="gamemode-statistics-correct-@guesses-bar"></span>
 			</span>
 		</div>

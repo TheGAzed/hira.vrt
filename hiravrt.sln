@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hiravrt", "hiravrt\hiravrt.csproj", "{163D175F-83AB-4227-A1A5-CEFD019305A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hiravrt.tests", "hiravrt.tests\hiravrt.tests.csproj", "{E7CA2966-A794-4CB8-853D-27F5E024C2EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tests", "tests\tests.csproj", "{E7CA2966-A794-4CB8-853D-27F5E024C2EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
